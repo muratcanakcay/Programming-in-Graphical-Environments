@@ -19,6 +19,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 // Forward declarations of functions added later for lab task 01 
 void GetTextInfoForMouseMsg(WPARAM wparam, LPARAM lparam, const TCHAR* msgName, TCHAR* buf, int bufSize);
+void GetTextInfoForMouseMsg2(HWND hWnd, WPARAM wParam, LPARAM lParam, const TCHAR* msgName, TCHAR* buf, int bufSize);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -244,7 +245,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     //        RECT rc;
     //        // get the center of the work area of the system
-    //        SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
+    //        SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0); // The SystemParametersInfo function is very useful 
+    //                                                          // when there is a need to get or set values of some system parameters
+        
     //        int centerX = (rc.left + rc.right + 1) / 2;
     //        int centerY = (rc.top + rc.bottom + 1) / 2;
     //        // get the current size of the window
@@ -272,39 +275,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
     
     case WM_LBUTTONDOWN:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONDOWN"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONDOWN"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("LBUTTONDOWN"), buf, bufSize); // using 2nd version we pass the hWnd window handler to function
         SetWindowText(hWnd, buf);
+        SetCapture(hWnd); // In the GetTextInfoForMouseMsg2, WM_xBUTTONUP message is sent only if the user released the mouse button
+                          // in the client area of the window, to be sure that this message will be sent wherever the button is
+                          // released, we use mouse capture and then release it in the BUTTONUP, below.
         break;
     case WM_LBUTTONUP:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONUP"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONUP"), buf, bufSize);
+        ReleaseCapture();  // here we release SetCapture()
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("LBUTTONUP"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     case WM_MBUTTONDOWN:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONDOWN"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONDOWN"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("MBUTTONDOWN"), buf, bufSize);
         SetWindowText(hWnd, buf);
+        SetCapture(hWnd);
         break;
     case WM_MBUTTONUP:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONUP"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONUP"), buf, bufSize);
+        ReleaseCapture();
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("MBUTTONUP"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     case WM_RBUTTONDOWN:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONDOWN"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONDOWN"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("RBUTTONDOWN"), buf, bufSize);
         SetWindowText(hWnd, buf);
-        break;
+        SetCapture(hWnd);break;
     case WM_RBUTTONUP:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONUP"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONUP"), buf, bufSize);
+        ReleaseCapture();
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("RBUTTONUP"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     case WM_LBUTTONDBLCLK:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONDBLCLICK"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("LBUTTONDBLCLICK"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("LBUTTONDBLCLICK"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     case WM_MBUTTONDBLCLK:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONDBLCLICK"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("MBUTTONDBLCLICK"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("MBUTTONDBLCLICK"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     case WM_RBUTTONDBLCLK:
-        GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONDBLCLICK"), buf, bufSize);
+        //GetTextInfoForMouseMsg(wParam, lParam, _T("RBUTTONDBLCLICK"), buf, bufSize);
+        GetTextInfoForMouseMsg2(hWnd, wParam, lParam, _T("RBUTTONDBLCLICK"), buf, bufSize);
         SetWindowText(hWnd, buf);
         break;
     // ----------------------------
@@ -394,4 +413,22 @@ void GetTextInfoForMouseMsg(WPARAM wParam, LPARAM lParam, const TCHAR* msgName, 
         _tcscat_s(buf, bufSize, _T(" MIDDLE"));
     if ((wParam == MK_RBUTTON) != 0)
         _tcscat_s(buf, bufSize, _T(" RIGHT"));
+}
+
+void GetTextInfoForMouseMsg2(HWND hWnd, WPARAM wParam, LPARAM lParam, const TCHAR* msgName, TCHAR* buf, int bufSize)
+{
+    // The 1st version works only when the user uses the mouse in the client area of the window.
+    // Position passed in the LPARAM parameter is in the client area coordinations, to transform between
+    // the client areaand screen coordinations, the ScreenToClientand ClientToScreen function can be used
+
+    // get the size of the client area
+    short x = (short)LOWORD(lParam);
+    short y = (short)HIWORD(lParam);
+    // In this case negative values for mouse coordinations can be sent, so it is very important
+    // to use signed integer type to use this value: x = (short)LOWORD(lParam); (without casting to short
+    // type big positive values would be used)
+
+    POINT pt = { x, y };
+    ClientToScreen(hWnd, &pt);    // gets the screen coordinates and stores in pt
+    _stprintf_s(buf, bufSize, _T("%s x: %d, y: %d, (sx: %d, sy: %d) vk:"), msgName, x, y, pt.x, pt.y);
 }
