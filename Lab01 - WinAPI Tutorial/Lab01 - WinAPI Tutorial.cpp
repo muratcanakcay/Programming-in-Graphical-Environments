@@ -20,7 +20,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // Forward declarations of functions added later for lab task 01 
 void GetTextInfoForMouseMsg(WPARAM wparam, LPARAM lparam, const TCHAR* msgName, TCHAR* buf, int bufSize);
 void GetTextInfoForMouseMsg2(HWND hWnd, WPARAM wParam, LPARAM lParam, const TCHAR* msgName, TCHAR* buf, int bufSize);
-
+void GetTextInfoForKeyMsg(WPARAM wParam, const TCHAR* msgName, TCHAR* buf, int bufSize);
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -154,7 +154,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     const int bufSize = 256;
-    TCHAR buf[bufSize];    
+    TCHAR buf[bufSize];  
+    static HCURSOR cursor = NULL; // needed for changing the mouse cursor
     
     switch (message)
     {
@@ -191,6 +192,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // ----------------------------
 
 
+    
+    
     // Setting the maximum and minimum possible size of the window
     //case WM_GETMINMAXINFO:
     //    {
@@ -202,6 +205,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // ----------------------------
 
 
+    
+    
     // Forcing the window to be square
     //case WM_SIZING:
     //    {
@@ -225,17 +230,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // ---------------------------- 
 
 
+    
+    
+    
     // Creating and using a timer
-    //case WM_CREATE:
-    //    // the WM_CREATE message is sent to the window procedure only once (when the
-    //    // CreateWindow or CreateWindowEx function is called); it is the first message when the handle
-    //    // of the window(HWND) is available and it is great place to do some initialization of the window
-    //    // (the window is already created but not visible)
+    // Changing mouse curser
+    case WM_CREATE:
+        // the WM_CREATE message is sent to the window procedure only once (when the
+        // CreateWindow or CreateWindowEx function is called); it is the first message when the handle
+        // of the window(HWND) is available and it is great place to do some initialization of the window
+        // (the window is already created but not visible)
 
-    //    SetTimer(hWnd, 7, 250, NULL);
-    //    break;
+        // SetTimer(hWnd, 7, 250, NULL);
+        cursor = LoadCursor(NULL, IDC_HAND);
+        break;
 
-    //case WM_TIMER:
+    
+        
+        
+        
+        //case WM_TIMER:
     //    // the following code squares and centers the window then starts growing and shrinking it as the WM_TIMER timer message arrives
     //    if (wParam == 7) // check timer id
     //    {
@@ -250,8 +264,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         
     //        int centerX = (rc.left + rc.right + 1) / 2;
     //        int centerY = (rc.top + rc.bottom + 1) / 2;
-    //        // get the current size of the window
-    //        GetWindowRect(hWnd, &rc);
+    //        GetWindowRect(hWnd, &rc);       // get the current size of the window
     //        int currentSize = max(rc.right - rc.left, rc.bottom - rc.top);
     //        // modify size of the window
     //        currentSize += stepSize;
@@ -264,13 +277,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //    }
     //    break;
     // --------------------------
+    
+    
+    
+    
+    
+    
+    // changing the mouse cursor (static HCURSOR cursor = NULL; must be declared)
+    case WM_SETCURSOR:
+    {
+        SetCursor(cursor); // SetCursor() needs an HCURSOR parameter which represents a cursor. It can be
+                           // loaded from resources or from the system using the LoadCursor function
+        break;
 
-
+        // The NULL value as the first parameter of the LoadCursor method means, that the cursor must
+        // be loaded from the system(not from resources of the application)
+        // To use a cursor from applications resources :
+        // · Add the cursor to resources(using the Resource View window in Visual Studio)
+        // · Pass the hInst variable as the first parameter for the LoadCursor function, e.g.LoadCursor(hInst, IDC_MYCURSOR)
+    }    
+    
+    
+    
+    
     // Using mouse messages
-    // for this step GetTextInfoForMouseMessage() function is added below (and declared at the top of the file) - check it out
+    // for this step GetTextInfoForMouseMsg() function is added  - check it out below
 
     // The WM_xBUTTONDBLCLK message is sent when the user use the double click.To get the
-    // notication, the CS_DBLCLKS style must be applied to WNDCLASSEX::style in calling the
+    // notification, the CS_DBLCLKS style must be applied to WNDCLASSEX::style in calling the
     // RegisterClassEx function :
     // wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
     
@@ -328,8 +362,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     // ----------------------------
 
+    
+    
+    
+    
+    // Moving the window by dragging by any point of the window (in this simplest form it overrides mouse messages, menu bar etc.)
+    //case WM_NCHITTEST:
+    //    return HTCAPTION;
+    // ------------------------
 
 
+
+
+    // Using keyboard messages
+    // for this step GetTextInfoForKeyMsg() function is added  - check it out below
+    case WM_KEYDOWN:
+        GetTextInfoForKeyMsg(wParam, _T("KEYDOWN"), buf, bufSize);
+        SetWindowText(hWnd, buf);
+        break;
+    case WM_KEYUP:
+        GetTextInfoForKeyMsg(wParam, _T("KEYUP"), buf, bufSize);
+        SetWindowText(hWnd, buf);
+        break;
+    // Virtual key codes are constant values which identify keys on the keyboard
+    // (see https ://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes)
+    // When the character is important instead of the virtual key code, the WM_CHAR message can be used (kinda overrides KEYDOWN-KEYUP):
+    case WM_CHAR:
+        _stprintf_s(buf, bufSize, _T("WM_CHAR: %c"), (TCHAR)wParam);
+        SetWindowText(hWnd, buf);
+        break;
+    //-----------------------------
     
     case WM_COMMAND:
         {
@@ -397,6 +459,13 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 
+
+
+
+
+
+// function definitions
+
 void GetTextInfoForMouseMsg(WPARAM wParam, LPARAM lParam, const TCHAR* msgName, TCHAR* buf, int bufSize)
 {
     // get the size of the client area
@@ -431,4 +500,11 @@ void GetTextInfoForMouseMsg2(HWND hWnd, WPARAM wParam, LPARAM lParam, const TCHA
     POINT pt = { x, y };
     ClientToScreen(hWnd, &pt);    // gets the screen coordinates and stores in pt
     _stprintf_s(buf, bufSize, _T("%s x: %d, y: %d, (sx: %d, sy: %d) vk:"), msgName, x, y, pt.x, pt.y);
+}
+
+void GetTextInfoForKeyMsg(WPARAM wParam, const TCHAR* msgName, TCHAR* buf, int bufSize)
+{
+    static int counter = 0;
+    counter++;
+    _stprintf_s(buf, bufSize, _T("%s key : %d ( counter : %d)"), msgName, wParam, counter);
 }
