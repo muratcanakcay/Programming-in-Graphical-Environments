@@ -3,8 +3,20 @@
 
 #include "framework.h"
 #include "Part 2 - Drawing.h"
-
 #define MAX_LOADSTRING 100
+
+// These are added during the implementation of the lab task
+# include <list>
+using namespace std;
+static list <POINT> pointsList;
+
+static HDC offDC = NULL;
+static HBITMAP offOldBitmap = NULL;
+static HBITMAP offBitmap = NULL;
+
+// ----------------------------------------------------------
+
+
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -146,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     /* DRAWING TEXT */
     
     // The simplest way to draw a text:
+    
     //case WM_PAINT:
     //    {
     //        PAINTSTRUCT ps;
@@ -160,6 +173,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     // More options are available when the DrawText() function is used :
     // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawtext
+    
     //case WM_PAINT:
     //    {
     //        PAINTSTRUCT ps;
@@ -177,6 +191,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     // Using pens
     // The HPEN is a handle to a pen and represents a pen in drawing using GDI
+    
     //case WM_PAINT:
     //{
     //    //� GDI always uses current objects(one pen, one brush, one font, etc.) to draw, the object can be
@@ -202,6 +217,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     // Using brushes
     // Brushes are similar to pens, they are used when something must be filled, e.g. a rectangle:
+    
     //case WM_PAINT:
     //{
     //    PAINTSTRUCT ps;
@@ -218,52 +234,273 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //    EndPaint(hWnd, &ps);
     //}
     //break;
+    //------------------------------------------------------------------------------------------------------------------
+    
+    
+    
+    
+    
     
     /* USING FONTS */
+    
+    //case WM_PAINT:
+    //{
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    TCHAR s[] = _T("Hello World!");
+    //    HFONT font = CreateFont(
+    //        -MulDiv(24, GetDeviceCaps(hdc, LOGPIXELSY), 72),    // height
+    //        0,                                                  // Width
+    //        0,                                                  // Escapament
+    //        0,                                                  // Orientation
+    //        FW_BOLD,                                            // Weight
+    //        true,                                              // Italic (false == FALSE  == 0)
+    //        FALSE,                                              // Underline
+    //        0,                                                  // StrikeOut
+    //        EASTEUROPE_CHARSET,                                 // CharSet
+    //        OUT_DEFAULT_PRECIS,                                 // OutPrecision
+    //        CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+    //        DEFAULT_QUALITY,                                    // Quality
+    //        DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+    //        _T("Verdana"));                                     // Facename
+    //    
+    //    HFONT oldfont = (HFONT)SelectObject(hdc, font);
+    //    RECT rc;
+    //    GetClientRect(hWnd, &rc);
+    //    
+    //    DrawText(hdc, s, (int)_tcslen(s), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //    SelectObject(hdc, oldfont);
+    //    DeleteObject(font);
+    //    EndPaint(hWnd, &ps);
+    //}
+    //break;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    /* USING BITMAPS */
+    // Add a bitmap to resources (right click on the project in the Solution Explorer window in Visual
+    // Studio, Add / Resource, and choose Bitmap in the dialog box)
+    // * Draw something on the bitmap (there is a simple image editor built in Visual Studio)
+    // * Save the bitmap(note, that a.bmp file is created)
+    // * Check an identier of the bitmap in the Resource View window(it should be IDB_BITMAP1 by default)
+    
+    // � There is no function for drawing a bitmap on a device context, another device context must be  used
+    // � To create a memory device context use the CreateCompatibleDC function.Each created
+    // device context must be destroyed using the DeleteDC function
+    // � The BitBlt function copies a bitmap from one device context to another one, the StretchBlt
+    // function allows to resize the bitmap
+    
+    //case WM_PAINT:
+    //{
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    TCHAR s[] = _T("Hello World!");
+    //    
+    //    HBITMAP bitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
+    //    HDC memDC = CreateCompatibleDC(hdc);
+    //    HBITMAP oldbitmap = (HBITMAP)SelectObject(memDC, bitmap);
+    //    BitBlt(hdc, 0, 0, 48, 48, memDC, 0, 0, SRCCOPY);
+    //    StretchBlt(hdc, 200, 100, 200, 100, memDC, 0, 0, 48, 48, SRCCOPY);
+    //    SelectObject(hdc, oldbitmap);
+    //    DeleteObject(bitmap);
+    //    DeleteDC(memDC);
+    //    EndPaint(hWnd, &ps);
+    //}
+    //break;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    /* DRAWING IN RESPONSE TO OTHER MESSAGES THAN MS_PAINT */
+    // * The BeginPaint() and EndPaint() functions can be used only in response for the WM_PAINT !!!!!
+    // In all other cases the GetDC() and ReleaseDC() functions must be used !!!!!
+    // * When the window is refreshed (e.g.after changing its size), only the code for the WM_PAINT
+    // message is called, this is the reason why the content is cleared
+    
+    //case WM_LBUTTONDOWN:
+    //{
+    //    HDC hdc = GetDC(hWnd);
+    //    HBRUSH brush = CreateSolidBrush(RGB(0, 0, 200));
+    //    HBRUSH oldbrush = (HBRUSH)SelectObject(hdc, brush);
+
+    //    short x = (short)LOWORD(lParam);
+    //    short y = (short)HIWORD(lParam);
+    //    const int rad = 50;
+
+    //    Ellipse(hdc, x - rad, y - rad, x + rad, y + rad);
+    //    SelectObject(hdc, oldbrush);
+    //    DeleteObject(brush);
+    //    ReleaseDC(hWnd, hdc);
+    //}
+    //break;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+    /* INVALIDATING AND UPDATING THE WINDOW */
+    //  A better solution of previous example(with storing clicked points in the list)
+    //  The following are added to the top of this file. The static pointsList will be used to store the clicked points.
+    //-----  #include <list>
+    //-----  using namespace std;
+    //-----  static list <POINT> pointsList;
+
+    //case WM_LBUTTONDOWN:
+    //{
+    //    POINT pt;
+    //    pt.x = (short)LOWORD(lParam);
+    //    pt.y = (short)HIWORD(lParam);
+    //    pointsList.push_back(pt);
+    //    InvalidateRect(hWnd, NULL, TRUE);
+    //    //  *The InvalidateRect function sets the specied rectangle(or full client area when the NULL value
+    //    //  is used) as a region that must be redrawnand inserts the WM_PAINT message to the message queue
+    //    //  * To force the window to redraw as soon as possible, call the UpdateWindow functions immediately
+    //    //  after calling the InvalidateRect function
+    //}
+    //break;
+    
+    //case WM_PAINT:
+    //{
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    HBRUSH brush = CreateSolidBrush(RGB(0, 0, 160));
+    //    HBRUSH oldbrush = (HBRUSH)SelectObject(hdc, brush); // QUESTION: when "&brush" is passed instead of "brush", the circles are not filled. why????
+    //    
+    //    list<POINT>::const_iterator iter = pointsList.begin();
+    //    while (iter != pointsList.end())
+    //    {
+    //        POINT pt = *iter;
+    //        const int rad = 50;
+    //        Ellipse(hdc, pt.x - rad, pt.y - rad, pt.x + rad, pt.y + rad);
+    //        iter++;
+    //    }
+
+    //    SelectObject(hdc, oldbrush);
+    //    DeleteObject(brush);
+    //    EndPaint(hWnd, &ps);
+    //}
+    //break;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    /* FLICKER FREE DRAWING */
+    // The following implementation flickers when resizing window (may be not noticable)
+    //case WM_PAINT:
+    //{
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    RECT rc;
+    //    GetClientRect(hWnd, &rc);
+    //    HBRUSH oldbrush = (HBRUSH )SelectObject(hdc, (HBRUSH)GetStockObject(GRAY_BRUSH));
+    //    
+    //    Rectangle(hdc, 0, 0, rc.right, rc.bottom);
+    //    SelectObject(hdc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+    //    const int margin = 50;
+    //    Rectangle(hdc, margin, margin, rc.right - margin, rc.bottom - margin);
+    //    SelectObject(hdc, oldbrush);
+    //    EndPaint(hWnd, &ps);
+    //}
+    //break;
+    
+    // There are two reasons of flckering, the rst one is the default background of the window.To disable
+    // drawing the background, set the NULL value for the background brush or use the WM_ERASEBKGND message :
+    //case WM_ERASEBKGND:    
+    //    return 1;
+
+    // The second reason of flickering is drawing figures one after another(firstly the grey rectangle is drawn
+    // and secondly the black one).For two rectangle it is easy to modify the code to avoid such covering, but
+    // in general the only way to avoid flickering is off screen drawing(i.e.drawing using a memory bitmap) :
+
+    // these static variables are added to the top of the page: 
+    // static HDC offDC = NULL;
+    // static HBITMAP offOldBitmap = NULL;
+    // static HBITMAP offBitmap = NULL;
+
+    case WM_CREATE:
+    {
+        HDC hdc = GetDC(hWnd);
+        offDC = CreateCompatibleDC(hdc);
+        ReleaseDC(hWnd, hdc);
+    }
+    break;
+
+    case WM_SIZE:
+    {
+        int clientWidth = LOWORD(lParam);
+        int clientHeight = HIWORD(lParam);
+        HDC hdc = GetDC(hWnd);
+        if (offOldBitmap != NULL)
+            SelectObject(offDC, offOldBitmap);
+        if (offBitmap != -NULL)
+            DeleteObject(offBitmap);
+
+        offBitmap = CreateCompatibleBitmap(hdc, clientWidth, clientHeight);
+        offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
+        ReleaseDC(hWnd, hdc);
+    }
+    break;
+
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        TCHAR s[] = _T("Hello World!");
-        HFONT font = CreateFont(
-            -MulDiv(24, GetDeviceCaps(hdc, LOGPIXELSY), 72),    // height
-            0,                                                  // Width
-            0,                                                  // Escapament
-            0,                                                  // Orientation
-            FW_BOLD,                                            // Weight
-            false,                                              // Italic (false == FALSE  == 0)
-            FALSE,                                              // Underline
-            0,                                                  // StrikeOut
-            EASTEUROPE_CHARSET,                                 // CharSet
-            OUT_DEFAULT_PRECIS,                                 // OutPrecision
-            CLIP_DEFAULT_PRECIS,                                // ClipPrecision
-            DEFAULT_QUALITY,                                    // Quality
-            DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
-            _T("Verdana"));                                     // Facename
-        
-        HFONT oldfont = (HFONT)SelectObject(hdc, font);
         RECT rc;
         GetClientRect(hWnd, &rc);
-        
-        DrawText(hdc, s, (int)_tcslen(s), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-
-        SelectObject(hdc, oldfont);
-        DeleteObject(font);
+        HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, (HBRUSH)GetStockObject(GRAY_BRUSH));
+        Rectangle(offDC, 0, 0, rc.right, rc.bottom);
+        SelectObject(offDC, (HBRUSH)GetStockObject(BLACK_BRUSH));
+        const int margin = 50;
+        Rectangle(offDC, margin, margin, rc.right - margin, rc.bottom - margin);
+        SelectObject(offDC, oldbrush);
+        BitBlt(hdc, 0, 0, rc.right, rc.bottom, offDC, 0, 0, SRCCOPY);
         EndPaint(hWnd, &ps);
     }
     break;
 
+    case WM_ERASEBKGND:
+        return 1;
 
+    case WM_DESTROY: // you must comment out the WM_DESTROY definition below to avoid duplicate!!
+    {
+        if (offOldBitmap != NULL)
+            SelectObject(offDC, offOldBitmap);
+        if(offDC != NULL)
+            DeleteDC(offDC);
+        if (offBitmap != NULL)
+            DeleteObject(offBitmap);
 
-
-
-
-
-
-
-    case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    }
+    
+    //  *Explanations:
+    //    � In response for the WM_CREATE message, a memory device context is created (it has no
+    //    dependency on the size of the window, so there is no need to recreate it during responding for
+    //    the WM_SIZE message)
+    //    � In response for the WM_SIZE message, a memory bitmap is created (so whenever the window
+    //    changes its size, the bitmap is recreated - that's why resizing of the window is much slower for
+    //    the above code)
+    //    (a) If such slow resizing is unacceptable, a bitmap with the biggest possible size (use desktop's
+    //    size) should be created in response for the WM_CREATE message
+    //    � In the WM_PAINT message everything is painted on the memory device context and at the
+    //    end copied to the screen device context using the BitBlt function
+    //  * This solution is not perfect - there is no response for changing the image depth of the display(in
+    //  bits per pixel).The WM_DISPLAYCHANGE message should be used.
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    // This WM_DESTROY must be uncommented if WM_DESTROY in the last example is commented out.
+
+    //case WM_DESTROY:
+    //    PostQuitMessage(0);
+    //    break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
