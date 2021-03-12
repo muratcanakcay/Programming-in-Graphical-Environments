@@ -21,6 +21,9 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 void GetTextInfoForMouseMsg(WPARAM wparam, LPARAM lparam, const TCHAR* msgName, TCHAR* buf, int bufSize);
 void GetTextInfoForMouseMsg2(HWND hWnd, WPARAM wParam, LPARAM lParam, const TCHAR* msgName, TCHAR* buf, int bufSize);
 void GetTextInfoForKeyMsg(WPARAM wParam, const TCHAR* msgName, TCHAR* buf, int bufSize);
+
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -120,7 +123,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    
    // Make the window semitransparent
    // Set WS_EX_LAYERED on this window
-   // QUESTION ---------- what's exactly happening in set and get?????
+   // QUESTION ---------- what's exactly happening in set and get????? Answered in Lec03
    // SetWindowLongA(hWnd, GWL_EXSTYLE, GetWindowLongA(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED); // <---- careful with paranthesis!! 
    // Make it 50% alpha
    //SetLayeredWindowAttributes(hWnd, 0, (255 * 50) / 100, LWA_ALPHA);  // <---- careful with paranthesis!!  255 * (50 / 100) = 0 !!! 
