@@ -377,10 +377,10 @@ void UpdateWalls()
 	for (int i = 0; i < wall_count; i++)
 	{
 		walls[i].x -= 4;
-		GetWindowRect(walls[i].hUp, &rc);
-		MapWindowPoints(HWND_DESKTOP, GetParent(walls[i].hUp), (LPPOINT)&rc, 2);
-
-		MoveWindow(walls[i].hUp, walls[i].x, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
+		
+		GetWindowRect(walls[i].hUp, &rc);															// returns in screen coordinates
+		MapWindowPoints(HWND_DESKTOP, GetParent(walls[i].hUp), (LPPOINT)&rc, 2);					// convert screen coordinates to window coordinates
+		MoveWindow(walls[i].hUp, walls[i].x, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE); // move wall to new coordinates
 
 		GetWindowRect(walls[i].hDown, &rc);
 		MapWindowPoints(HWND_DESKTOP, GetParent(walls[i].hDown), (LPPOINT)&rc, 2);
