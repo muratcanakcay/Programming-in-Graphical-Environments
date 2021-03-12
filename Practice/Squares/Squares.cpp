@@ -11,6 +11,8 @@
 #define N_SQUARES 3
 
 
+bool tracking = false;
+
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -135,7 +137,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      400, 400, rc.right - rc.left, rc.bottom-rc.top, nullptr, nullptr, hInstance, nullptr);
+      500, 200, rc.right - rc.left, rc.bottom-rc.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -188,6 +190,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    //case WM_CREATE:
+    //{
+    //    TRACKMOUSEEVENT me;
+    //    me.hwndTrack = hWnd;
+    //    me.dwHoverTime = 1000;
+    //    TrackMouseEvent(&me);
+    //}
+    //case WM_MOUSEHOVER:
+    //{
+    //    SetWindowText(hWnd, L"MOUSE"); 
+    //}
+    
+    
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -224,10 +239,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    RECT rc;
+    
+
     switch (message)
     {
-    case WM_NCHITTEST:
-        return HTTRANSPARENT;
+    case WM_CREATE:
+    {
+        
+    }
+    case WM_MOUSEMOVE:
+        {
+        if (!tracking)
+        {
+            TRACKMOUSEEVENT tme;
+            tme.cbSize = sizeof(TRACKMOUSEEVENT);
+            tme.dwFlags = TME_HOVER | TME_LEAVE; //Type of events to track & trigger.
+            tme.hwndTrack = hWnd;
+            tme.dwHoverTime = 1;
+            TrackMouseEvent(&tme);
+            tracking = true;
+        }
+        }
+        break;
+
+    case WM_MOUSEHOVER:
+    {
+        GetWindowRect(hWnd, &rc);
+        MapWindowPoints(HWND_DESKTOP, GetParent(hWnd), (LPPOINT)&rc, 2);
+        MoveWindow(hWnd, rc.left - 2, rc.top - 2, rc.right - rc.left + 4, rc.bottom - rc.top + 4, true);
+        //InvalidateRect(hWnd, NULL, TRUE);
+    }break;
+
+    case WM_MOUSELEAVE:
+    {
+        GetWindowRect(hWnd, &rc);
+        MapWindowPoints(HWND_DESKTOP, GetParent(hWnd), (LPPOINT)&rc, 2);
+        MoveWindow(hWnd, rc.left + 2, rc.top + 2, rc.right - rc.left - 4, rc.bottom - rc.top - 4, true);
+        //InvalidateRect(hWnd, NULL, TRUE);
+        tracking = false;
+    }break;
+
+    //case WM_NCHITTEST:
+    //    return HTTRANSPARENT;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
