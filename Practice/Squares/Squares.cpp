@@ -4,11 +4,13 @@
 #include "framework.h"
 #include "Squares.h"
 
+
 #define MAX_LOADSTRING 100
 
 #define S_SIZE 100
 #define S_MARGIN 10
-#define N_SQUARES 3
+#define N_SQUARES 7
+
 
 
 bool tracking = false;
@@ -25,6 +27,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK    WndProcSq(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+DWORD CheckItem(UINT hItem, HMENU hmenu);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -35,6 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Place code here.
+    
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -144,6 +148,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
+   
+
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -215,6 +221,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+            case ID_FILE_1:
+            {
+                CheckItem(ID_FILE_1, GetMenu(hWnd));
+            } break;
+            case ID_FILE_2:
+            {
+                CheckItem(ID_FILE_2, GetMenu(hWnd));
+            } break;
+            case ID_FILE_3:
+            {
+                CheckItem(ID_FILE_3, GetMenu(hWnd));
+            } break;
+
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -309,4 +328,15 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+DWORD CheckItem(UINT hItem, HMENU hmenu)
+{
+    //First uncheck all
+    CheckMenuItem(hmenu, ID_FILE_1, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_FILE_2, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_FILE_3, MF_BYCOMMAND | MF_UNCHECKED);
+    //then check the hItem
+    return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
 }
