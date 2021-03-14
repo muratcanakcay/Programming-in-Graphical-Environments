@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<h4>Windows API - lab part</h4>
+	<h2>Fruit Ninja</h2>
+	<ul>
+		<li><a href="FruitNinja.exe">Example application</a></li>
+		<li>Task description:
+			<ul>
+			<li>Your task is to create clone of popular mobile game known as Fruit Ninja.</li>
+			<li>Lab part focus on window functionality and layout.</li>
+			<li><h3><b>Attention:</b> Please <u>do not</u> use GDI in this part of task. All objects should be WinAPI <u>windows</u>.</h3></li>
+			</ul>
+		</li>
+		<li>Functionality:
+			<ul>
+			<li>Main window:
+				<ul>
+					<li>set app title: "FruitNinja"</li>
+					<li>set icon: "fruit_ninja.ico" (should be displayed on taskbar too)</li>
+					<li>set cursor: "knife.cur"</li>
+					<li>fixed size, based on board size, prevent a size and position changing</li>
+					<li>disabled minimalize and maximalize options</li>
+					<li>at the start window appears in the middle of the screen</li>
+					<li>set to be always on top of all applications</li>
+					<li>the window should change to semitransparent after 3 second without cursor moving over the application</li>
+				</ul>
+			</li>
+			<li>Game board:
+				<ul>
+					<li>chessboard 6x8 square fields of size 50px (all fields should be WinApi windows)</li>
+				</ul>
+			</li>
+			</ul>
+		</li>
+		<li>Additional requirements:
+			<ul>
+				<li>on the taskbar there is only one window</li>
+				<li>combination Alt + F4 closes the application</li>
+				<li>show system menu when you click Alt + Spacebar, or right-click on a window in the taskbar</li>
+			</ul>
+		</li>
+		<li>Tips:
+			<ul>
+				<li>CreateSolidBrush</li>
+				<li>AdjustWindowRect</li>
+				<li>WM_GETMINMAXINFO</li>
+				<li>WM_WINDOWPOSCHANGING</li>
+				<li>WM_CTLCOLORSTATIC</li>
+				<li>GetSystemMetrics</li>
+				<li>GetWindowLong</li>
+				<li>GetWindowRect</li>
+				<li>MoveWindow</li>
+				<li>AdjustWindowRect</li>
+				<li>WM_MOUSEMOVE</li>
+				<li>WM_NCMOUSEMOVE</li>
+				<li>SetTimer</li>
+				<li>WM_TIMER</li>
+			</ul>
+		</li>
+		<li><i>Note: In all doubtful and untold aspects application should behave like example app.</i></li>
+	</ul>
+	<ul>
+		<li>Scoring:
+		<ul>
+			<li>title, icon, cursor: 1.5p</li>
+			<li>disabled minimalize and maximalize, top most window: 1p</li> 
+			<li>fixed position of window (middle of the screen): 2.5p</li>
+			<li>fixed size of window, based on board size (client rect: 300x400px): 1p</li>
+			<li>chessboard created from child windows: 3p</li>
+			<li>semitransparent window after 3 second without cursor moving over the application: 3p</li>
+			<li><i>Note: It is not possible to obtain points for incomplete functionality.</i></li>
+		</ul>
+		</li>
+	</ul>
+</body>
+</html>
