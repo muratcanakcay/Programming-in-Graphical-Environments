@@ -430,7 +430,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     break;
 
-    case WM_SIZE:
+   /* case WM_SIZE:
     {
         int clientWidth = LOWORD(lParam);
         int clientHeight = HIWORD(lParam);
@@ -444,7 +444,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
         ReleaseDC(hWnd, hdc);
     }
-    break;
+    break;*/
 
     case WM_PAINT:
     {
