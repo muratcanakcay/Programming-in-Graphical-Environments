@@ -10,16 +10,15 @@
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
-WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
+WCHAR szTitle[MAX_LOADSTRING];                  // title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-int nWindowWidth;
-int nWindowHeight;
-POINT WindowPos;
-int nBoardWidth;
-int nBoardHeight;
-int pbarheight = 20;
+int nWindowWidth;                               // main windows height
+int nWindowHeight;                              // main window width
+POINT WindowPos;                                // main window position        
+int nBoardHeight;                               // board height
+int nBoardWidth;                                // board width 
+int pbarheight = 20;                            // progress bar height
 static HCURSOR cursor = NULL;
-
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -35,7 +34,6 @@ void DrawBoard(HWND hWnd, HDC hdc);
 DWORD CheckItem(UINT hItem, HMENU hmenu);
 void InitializeGame(HWND hWnd);
 void ChangeBoardSize(HWND hWnd, int wmId);
-
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -293,8 +291,6 @@ void DrawBoard(HWND hWnd, HDC hdc)
     DeleteObject(bbrush);
 }
 
-
-
 DWORD CheckItem(UINT hItem, HMENU hmenu)
 {
     //First uncheck all
@@ -307,20 +303,17 @@ DWORD CheckItem(UINT hItem, HMENU hmenu)
 
 void InitializeGame(HWND hWnd)
 {
-    RECT rc;
-    GetClientRect(hWnd, &rc);
-    switch (rc.bottom)
+    switch (nBoardHeight)
     {
-    case 300:
-        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
-        break;
-    case 500:
-        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
-        break;
-    case 600:
-        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
-        break;
-
+        case 300:
+            CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
+            break;
+        case 500:
+            CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
+            break;
+        case 600:
+            CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
+            break;
     }
 
     SetTimer(hWnd, 7, 3000, NULL); // Transparancy timer
@@ -354,12 +347,14 @@ void ChangeBoardSize(HWND hWnd, int wmId)
 
     SetWindowPosition();
     MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
+
+    // NewGame();
 }
 
 void InitBoardDimensions()
 {
     // initializa board dimensions
-    if (false) {} // TODO: read last board dimensions from file and pass into rc
+    if (false) {} // TODO: read last board dimensions from .ini file (if it exists)
     else
     {
         nBoardHeight = 300;
@@ -369,14 +364,15 @@ void InitBoardDimensions()
 
 void SetWindowPosition()
 {
+    // Set the Size and Position of the main window
     RECT rc;
     rc.top = rc.left = 0;
     rc.bottom = nBoardHeight;
     rc.right = nBoardWidth;
 
     AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
+    
     nWindowWidth = rc.right - rc.left;
     nWindowHeight = rc.bottom - rc.top;
-
     WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
 }
