@@ -132,6 +132,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         x, y, wwidth, wheight, nullptr, nullptr, hInstance, nullptr);
 
     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+    SetLayeredWindowAttributes(hWnd, 0, (255 * 100) / 100, LWA_ALPHA);
 
     if (!hWnd)
     {
@@ -152,7 +154,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     switch (message)
     {
-    case WM_WINDOWPOSCHANGING:
+    case WM_CREATE:
+    {
+        SetTimer(hWnd, 7, 3000, NULL); // Transparancy timer        
+    }
+    break;
+
+    case WM_TIMER: // Make window transparent (TODO: perhaps add second timer to smooth it)
+    {
+        if (wParam == 7)
+        {
+            SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+            UpdateWindow(hWnd);
+        }
+    }
+    break;
+
+    case WM_NCMOUSEMOVE:
+    {
+        SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+        SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
+    }
+    break;
+
+    case WM_MOUSEMOVE:
+    {
+        SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+        SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
+    }
+    break;
+
+    case WM_WINDOWPOSCHANGING: // Prevent repositioning
     {
         int x = (ScreenX - wwidth) / 2;
         int y = (ScreenY - wheight) / 2;
