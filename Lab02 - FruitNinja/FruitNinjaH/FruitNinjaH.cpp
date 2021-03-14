@@ -11,9 +11,10 @@
 #define MEDIUM_WIDTH 600
 #define BIG_WIDTH 800
 #define BIG_HEIGHT 600
+#define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
 #define GAME_DURATION 30  // (seconds)
-#define REFRESH_RATE 50  // (miliseconds)
+#define REFRESH_RATE 20  // (Hz)
 #define ScreenX GetSystemMetrics(SM_CXSCREEN)
 #define ScreenY GetSystemMetrics(SM_CYSCREEN)
 
@@ -26,7 +27,6 @@ int nWindowHeight;                              // main window width
 POINT WindowPos;                                // main window position        
 int nBoardHeight;                               // board height
 int nBoardWidth;                                // board width 
-int nProgressBarHeight = 20;                    // progress bar height
 static int nGameTicks = 0;                             // game ticks
 
 // FOR DEBUGGING
@@ -186,6 +186,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             else if (wParam == 9)                // game timer
             {
                 nGameTicks++;
+                const RECT rc = { 0, nBoardHeight, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
+                InvalidateRect(hWnd, &rc, FALSE);
+                
                 //if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
             }
             
@@ -242,7 +245,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // TODO: separate bitmaps for all stuff?
             {
                 int clientWidth = nBoardWidth;
-                int clientHeight = nBoardHeight + nProgressBarHeight;
+                int clientHeight = nBoardHeight + PROGRESS_BAR_HEIGHT;
                 //HDC hdc = GetDC(hWnd);
                 if (offOldBitmap != NULL)
                     SelectObject(offDC, offOldBitmap);
@@ -259,6 +262,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             DrawProgressBar(hWnd, hdc, offDC);
             
             EndPaint(hWnd, &ps);
+
+            
         } break;
 
         case WM_ERASEBKGND:
@@ -351,30 +356,29 @@ void DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
     HBRUSH gbrush = CreateSolidBrush(RGB(11, 184, 17));    
     
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, wbrush);
-    //Rectangle(offDC, 0, nBoardHeight, nBoardWidth/2, nBoardHeight + nProgressBarHeight);
+    //Rectangle(offDC, 0, nBoardHeight, nBoardWidth/2, nBoardHeight + PROGRESS_BAR_HEIGHT);
     
     static int counter = 0;
 
     counter++;
 
-    /*_stprintf_s(buf, bufSize, _T("%d"), nGameTicks);
+    _stprintf_s(buf, bufSize, _T("%d"), nGameTicks);
     OutputDebugString(buf);
-    SetWindowText(hWnd, buf);*/   
+    SetWindowText(hWnd, buf);   
     
     //stretchblt
     
-    Rectangle(offDC, (nBoardWidth * counter) / (GAME_DURATION * 1000 / REFRESH_RATE), nBoardHeight, nBoardWidth, nBoardHeight + nProgressBarHeight);
+    Rectangle(offDC, (nBoardWidth * counter) / (GAME_DURATION * REFRESH_RATE), nBoardHeight, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
     
     SelectObject(offDC, gbrush);
-    Rectangle(offDC, 0, nBoardHeight, (nBoardWidth * nGameTicks) / (GAME_DURATION * 1000 / REFRESH_RATE), nBoardHeight + nProgressBarHeight);
+    Rectangle(offDC, 0, nBoardHeight, (nBoardWidth * nGameTicks) / (GAME_DURATION * REFRESH_RATE), nBoardHeight + PROGRESS_BAR_HEIGHT);
     
-    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight+nProgressBarHeight, offDC, 0, 0, SRCCOPY); 
+    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight+PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY); 
     SelectObject(offDC, oldbrush);
     DeleteObject(gbrush);
     
-    const RECT rc = { 0, nBoardHeight, nBoardWidth, nBoardHeight + nProgressBarHeight };
-    InvalidateRect(hWnd, &rc, FALSE);
-    UpdateWindow(hWnd);
+    
+    
 }
 
 DWORD CheckItem(UINT hItem, HMENU hmenu)
@@ -450,7 +454,7 @@ void SetWindowPosition()
     // Set the Size and Position of the main window
     RECT rc;
     rc.top = rc.left = 0;
-    rc.bottom = nBoardHeight + nProgressBarHeight;
+    rc.bottom = nBoardHeight + PROGRESS_BAR_HEIGHT;
     rc.right = nBoardWidth;
 
     AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
@@ -462,5 +466,5 @@ void SetWindowPosition()
 void StartNewGame(HWND hWnd)
 {
     SetTimer(hWnd, 7, 3000, NULL);              // Transparancy timer
-    SetTimer(hWnd, 9, REFRESH_RATE, NULL);      // Game timer - 20Hz - Game over at nGameTicks = 600    
+    SetTimer(hWnd, 9, 1000 / REFRESH_RATE, NULL);      // Game timer - 20 Hz => 50ms => Game over at nGameTicks = 600    
 }
