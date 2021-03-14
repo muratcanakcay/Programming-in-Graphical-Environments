@@ -5,6 +5,15 @@
 #include "FruitNinjaH.h"
 
 #define MAX_LOADSTRING 100
+#define SMALL_HEIGHT 300
+#define SMALL_WIDTH 400
+#define MEDIUM_HEIGHT 500
+#define MEDIUM_WIDTH 600
+#define BIG_WIDTH 800
+#define BIG_HEIGHT 600
+#define SQUARE_SIZE 50
+#define GAME_DURATION 30  // (seconds)
+#define REFRESH_RATE 50  // (miliseconds)
 #define ScreenX GetSystemMetrics(SM_CXSCREEN)
 #define ScreenY GetSystemMetrics(SM_CYSCREEN)
 
@@ -17,8 +26,17 @@ int nWindowHeight;                              // main window width
 POINT WindowPos;                                // main window position        
 int nBoardHeight;                               // board height
 int nBoardWidth;                                // board width 
-int pbarheight = 20;                            // progress bar height
+int nProgressBarHeight = 20;                    // progress bar height
+static int nGameTicks = 0;                             // game ticks
+
+// FOR DEBUGGING
+const int bufSize = 256;
+TCHAR buf[bufSize];
+
 static HCURSOR cursor = NULL;
+static HDC offDC = NULL;
+static HBITMAP offOldBitmap = NULL;
+static HBITMAP offBitmap = NULL;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -30,7 +48,9 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 void InitBoardDimensions();
 void SetWindowPosition();
-void DrawBoard(HWND hWnd, HDC hdc);
+void DrawBoard(HWND hWnd, HDC hdc, HDC offDC);
+void DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC);
+void StartNewGame(HWND hWnd);
 DWORD CheckItem(UINT hItem, HMENU hmenu);
 void InitializeGame(HWND hWnd);
 void ChangeBoardSize(HWND hWnd, int wmId);
@@ -140,47 +160,54 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    // FOR DEBUGGING
-    const int bufSize = 256;
-    TCHAR buf[bufSize];
+    
     
     switch (message)
     {
         case WM_CREATE:
         {
+            HDC hdc = GetDC(hWnd);
+            offDC = CreateCompatibleDC(hdc);
+            ReleaseDC(hWnd, hdc); 
+            
+            // set the board dimensions
+            // start the timers
             InitializeGame(hWnd);
 
         } break;
 
-        case WM_TIMER: // Make window transparent (TODO: perhaps add second timer to smooth it)
+        case WM_TIMER: 
         {
-            if (wParam == 7)
+            if (wParam == 7)           // transparency timer (TODO: perhaps add second timer to smooth it)
             {
-                SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
-                UpdateWindow(hWnd);
+            SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+            UpdateWindow(hWnd);
             }
-        } break;
+            else if (wParam == 9)                // game timer
+            {
+                nGameTicks++;
+                //if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
+            }
+            
 
+        } break;
         case WM_NCMOUSEMOVE:
         {
             SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
             SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
         } break;
-
         case WM_MOUSEMOVE:
         {
             SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
             SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
         } break;
-
-        case WM_WINDOWPOSCHANGING: // Prevent repositioning
-        {
-            int x = (ScreenX - nWindowWidth) / 2;
-            int y = (ScreenY - nWindowHeight) / 2;
-            ((WINDOWPOS*)lParam)->x = x;
-            ((WINDOWPOS*)lParam)->y = y;
-        } break;    
-
+        //case WM_WINDOWPOSCHANGING: // Prevent repositioning
+        //{
+        //    int x = (ScreenX - nWindowWidth) / 2;
+        //    int y = (ScreenY - nWindowHeight) / 2;
+        //    ((WINDOWPOS*)lParam)->x = x;
+        //    ((WINDOWPOS*)lParam)->y = y;
+        //} break;    
         case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -207,17 +234,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     return DefWindowProc(hWnd, message, wParam, lParam);
             }
         } break;
-    
         case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            DrawBoard(hWnd, hdc);
+            
+            // TODO: separate bitmaps for all stuff?
+            {
+                int clientWidth = nBoardWidth;
+                int clientHeight = nBoardHeight + nProgressBarHeight;
+                //HDC hdc = GetDC(hWnd);
+                if (offOldBitmap != NULL)
+                    SelectObject(offDC, offOldBitmap);
+                if (offBitmap != -NULL)
+                    DeleteObject(offBitmap);
+
+                offBitmap = CreateCompatibleBitmap(hdc, clientWidth, clientHeight);
+                offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
+                //ReleaseDC(hWnd, hdc);
+            }
+            
+            
+            DrawBoard(hWnd, hdc, offDC);
+            DrawProgressBar(hWnd, hdc, offDC);
+            
             EndPaint(hWnd, &ps);
         } break;
 
+        case WM_ERASEBKGND:
+            return 1;
+
         case WM_DESTROY:
         {
+            if (offOldBitmap != NULL)
+                SelectObject(offDC, offOldBitmap);
+            if (offDC != NULL)
+                DeleteDC(offDC);
+            if (offBitmap != NULL)
+                DeleteObject(offBitmap); 
+            
             PostQuitMessage(0);
         } break;
     
@@ -234,6 +289,9 @@ LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
     {
 
     case WM_DESTROY:
+        
+        
+        
         PostQuitMessage(0);
         break;
     default:
@@ -264,31 +322,59 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 
-void DrawBoard(HWND hWnd, HDC hdc)
+void DrawBoard(HWND hWnd, HDC hdc, HDC offDC)
 {
-    HBRUSH wbrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    HBRUSH bbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    HBRUSH oldbrush = (HBRUSH)SelectObject(hdc, bbrush);
-
-    RECT rc;
-    GetClientRect(hWnd, &rc);
-    int nColumns = rc.right / 50;
-    int nRows = rc.bottom / 50;
+    HBRUSH bbrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    HBRUSH wbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, bbrush);
+    
+    int nColumns = nBoardWidth / SQUARE_SIZE;
+    int nRows = nBoardHeight / SQUARE_SIZE;
 
     for (int r = 0; r < nRows; r++)
     {
         for (int c = 0; c < nColumns; c++)
         {
-            if ((c + r) % 2 == 0) SelectObject(hdc, bbrush);
-            else SelectObject(hdc, wbrush);
+            if ((c + r) % 2 == 0) SelectObject(offDC, bbrush);
+            else SelectObject(offDC, wbrush);
 
-            Rectangle(hdc, rc.left + c * 50, rc.top + r * 50, rc.left + (c + 1) * 50, rc.top + (r + 1) * 50);
+            Rectangle(offDC, c * SQUARE_SIZE, r * SQUARE_SIZE, (c + 1) * SQUARE_SIZE, (r + 1) * SQUARE_SIZE);
         }
     }
 
-    SelectObject(hdc, oldbrush);
-    DeleteObject(wbrush);
-    DeleteObject(bbrush);
+    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight, offDC, 0, 0, SRCCOPY);
+    SelectObject(offDC, oldbrush);
+}
+void DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
+{
+    HBRUSH wbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    HBRUSH gbrush = CreateSolidBrush(RGB(11, 184, 17));    
+    
+    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, wbrush);
+    //Rectangle(offDC, 0, nBoardHeight, nBoardWidth/2, nBoardHeight + nProgressBarHeight);
+    
+    static int counter = 0;
+
+    counter++;
+
+    /*_stprintf_s(buf, bufSize, _T("%d"), nGameTicks);
+    OutputDebugString(buf);
+    SetWindowText(hWnd, buf);*/   
+    
+    //stretchblt
+    
+    Rectangle(offDC, (nBoardWidth * counter) / (GAME_DURATION * 1000 / REFRESH_RATE), nBoardHeight, nBoardWidth, nBoardHeight + nProgressBarHeight);
+    
+    SelectObject(offDC, gbrush);
+    Rectangle(offDC, 0, nBoardHeight, (nBoardWidth * nGameTicks) / (GAME_DURATION * 1000 / REFRESH_RATE), nBoardHeight + nProgressBarHeight);
+    
+    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight+nProgressBarHeight, offDC, 0, 0, SRCCOPY); 
+    SelectObject(offDC, oldbrush);
+    DeleteObject(gbrush);
+    
+    const RECT rc = { 0, nBoardHeight, nBoardWidth, nBoardHeight + nProgressBarHeight };
+    InvalidateRect(hWnd, &rc, FALSE);
+    UpdateWindow(hWnd);
 }
 
 DWORD CheckItem(UINT hItem, HMENU hmenu)
@@ -300,25 +386,24 @@ DWORD CheckItem(UINT hItem, HMENU hmenu)
     //then check the hItem
     return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
 }
-
 void InitializeGame(HWND hWnd)
 {
-    switch (nBoardHeight)
+    int rows = nBoardHeight / SQUARE_SIZE;
+    switch (rows)
     {
-        case 300:
+        case 6:
             CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
             break;
-        case 500:
+        case 10:
             CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
             break;
-        case 600:
+        case 12:
             CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
             break;
     }
 
-    SetTimer(hWnd, 7, 3000, NULL); // Transparancy timer
+    StartNewGame(hWnd);
 }
-
 void ChangeBoardSize(HWND hWnd, int wmId)
 {
     switch (wmId)
@@ -326,22 +411,22 @@ void ChangeBoardSize(HWND hWnd, int wmId)
         case ID_BOARD_SMALL:
         {
             CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
-            nBoardHeight = 300;
-            nBoardWidth = 400;
+            nBoardHeight = SMALL_HEIGHT;
+            nBoardWidth = SMALL_WIDTH;
         }break;
 
         case ID_BOARD_MEDIUM:
         {
             CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
-            nBoardHeight = 500;
-            nBoardWidth = 600;
+            nBoardHeight = MEDIUM_HEIGHT;
+            nBoardWidth = MEDIUM_WIDTH;
         }break;
 
         case ID_BOARD_BIG:
         {
             CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
-            nBoardHeight = 600;
-            nBoardWidth = 800;
+            nBoardHeight = BIG_HEIGHT;
+            nBoardWidth = BIG_WIDTH;
         }break;
     }
 
@@ -350,24 +435,22 @@ void ChangeBoardSize(HWND hWnd, int wmId)
 
     // NewGame();
 }
-
 void InitBoardDimensions()
 {
     // initializa board dimensions
     if (false) {} // TODO: read last board dimensions from .ini file (if it exists)
     else
     {
-        nBoardHeight = 300;
-        nBoardWidth = 400;
+        nBoardHeight = SMALL_HEIGHT;
+        nBoardWidth = SMALL_WIDTH;
     }
 }
-
 void SetWindowPosition()
 {
     // Set the Size and Position of the main window
     RECT rc;
     rc.top = rc.left = 0;
-    rc.bottom = nBoardHeight;
+    rc.bottom = nBoardHeight + nProgressBarHeight;
     rc.right = nBoardWidth;
 
     AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
@@ -375,4 +458,9 @@ void SetWindowPosition()
     nWindowWidth = rc.right - rc.left;
     nWindowHeight = rc.bottom - rc.top;
     WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
+}
+void StartNewGame(HWND hWnd)
+{
+    SetTimer(hWnd, 7, 3000, NULL);              // Transparancy timer
+    SetTimer(hWnd, 9, REFRESH_RATE, NULL);      // Game timer - 20Hz - Game over at nGameTicks = 600    
 }
