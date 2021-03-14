@@ -12,12 +12,14 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-int wwidth;
-int wheight;
-int bwidth;
-int bheight;
+int nWindowWidth;
+int nWindowHeight;
+POINT WindowPos;
+int nBoardWidth;
+int nBoardHeight;
 int pbarheight = 20;
 static HCURSOR cursor = NULL;
+
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -27,7 +29,12 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 //LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+void InitBoardDimensions();
+void SetWindowPosition();
 void DrawBoard(HWND hWnd, HDC hdc);
+DWORD CheckItem(UINT hItem, HMENU hmenu);
+void InitializeGame(HWND hWnd);
+void ChangeBoardSize(HWND hWnd, int wmId);
 
 
 
@@ -111,25 +118,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance; // Store instance handle in our global variable
-    RECT rc;
-
     
-    if (false) {} // TODO: read last board dimensions from file and pass into rc
-    else
-    {
-        rc.bottom = 300;
-        rc.right = 400;
-    }
-    rc.top = rc.left = 0;
-    
-    AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
-    wwidth = rc.right - rc.left;
-    wheight = rc.bottom - rc.top;
+    InitBoardDimensions();
+    SetWindowPosition();
 
-    int x = (ScreenX - wwidth) / 2;
-    int y = (ScreenY - wheight) / 2;
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU | WS_MAXIMIZEBOX,
-        x, y, wwidth, wheight, nullptr, nullptr, hInstance, nullptr);
+        WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
 
     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -154,77 +148,85 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     switch (message)
     {
-    case WM_CREATE:
-    {
-        SetTimer(hWnd, 7, 3000, NULL); // Transparancy timer        
-    }
-    break;
-
-    case WM_TIMER: // Make window transparent (TODO: perhaps add second timer to smooth it)
-    {
-        if (wParam == 7)
+        case WM_CREATE:
         {
-            SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
-            UpdateWindow(hWnd);
-        }
-    }
-    break;
+            InitializeGame(hWnd);
 
-    case WM_NCMOUSEMOVE:
-    {
-        SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
-        SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
-    }
-    break;
+        } break;
 
-    case WM_MOUSEMOVE:
-    {
-        SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
-        SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
-    }
-    break;
-
-    case WM_WINDOWPOSCHANGING: // Prevent repositioning
-    {
-        int x = (ScreenX - wwidth) / 2;
-        int y = (ScreenY - wheight) / 2;
-        ((WINDOWPOS*)lParam)->x = x;
-        ((WINDOWPOS*)lParam)->y = y;
-    }
-    break;    
-
-    case WM_COMMAND:
-    {
-        int wmId = LOWORD(wParam);
-        // Parse the menu selections:
-        switch (wmId)
+        case WM_TIMER: // Make window transparent (TODO: perhaps add second timer to smooth it)
         {
-        case IDM_ABOUT:
-            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-            break;
-        case IDM_EXIT:
-            DestroyWindow(hWnd);
-            break;
+            if (wParam == 7)
+            {
+                SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+                UpdateWindow(hWnd);
+            }
+        } break;
+
+        case WM_NCMOUSEMOVE:
+        {
+            SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+            SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
+        } break;
+
+        case WM_MOUSEMOVE:
+        {
+            SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+            SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer        
+        } break;
+
+        case WM_WINDOWPOSCHANGING: // Prevent repositioning
+        {
+            int x = (ScreenX - nWindowWidth) / 2;
+            int y = (ScreenY - nWindowHeight) / 2;
+            ((WINDOWPOS*)lParam)->x = x;
+            ((WINDOWPOS*)lParam)->y = y;
+        } break;    
+
+        case WM_COMMAND:
+        {
+            int wmId = LOWORD(wParam);
+            // Parse the menu selections:
+            switch (wmId)
+            {
+                case IDM_ABOUT:
+                {    
+                    DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                } break;
+                case ID_BOARD_SMALL:
+                case ID_BOARD_MEDIUM:
+                case ID_BOARD_BIG:
+                {
+                    ChangeBoardSize(hWnd, wmId);
+                } break;
+        
+
+                case IDM_EXIT:
+                {  
+                    DestroyWindow(hWnd);
+                } break;
+                default:
+                    return DefWindowProc(hWnd, message, wParam, lParam);
+            }
+        } break;
+    
+        case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hWnd, &ps);
+            DrawBoard(hWnd, hdc);
+            EndPaint(hWnd, &ps);
+        } break;
+
+        case WM_DESTROY:
+        {
+            PostQuitMessage(0);
+        } break;
+    
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
-        }
     }
-    break;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-        DrawBoard(hWnd, hdc);
-        EndPaint(hWnd, &ps);
-    }
-    break;
 
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
     return 0;
 }
 
@@ -291,3 +293,90 @@ void DrawBoard(HWND hWnd, HDC hdc)
     DeleteObject(bbrush);
 }
 
+
+
+DWORD CheckItem(UINT hItem, HMENU hmenu)
+{
+    //First uncheck all
+    CheckMenuItem(hmenu, ID_BOARD_SMALL, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_BOARD_MEDIUM, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_BOARD_BIG, MF_BYCOMMAND | MF_UNCHECKED);
+    //then check the hItem
+    return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
+}
+
+void InitializeGame(HWND hWnd)
+{
+    RECT rc;
+    GetClientRect(hWnd, &rc);
+    switch (rc.bottom)
+    {
+    case 300:
+        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
+        break;
+    case 500:
+        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
+        break;
+    case 600:
+        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
+        break;
+
+    }
+
+    SetTimer(hWnd, 7, 3000, NULL); // Transparancy timer
+}
+
+void ChangeBoardSize(HWND hWnd, int wmId)
+{
+    switch (wmId)
+    {
+        case ID_BOARD_SMALL:
+        {
+            CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
+            nBoardHeight = 300;
+            nBoardWidth = 400;
+        }break;
+
+        case ID_BOARD_MEDIUM:
+        {
+            CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
+            nBoardHeight = 500;
+            nBoardWidth = 600;
+        }break;
+
+        case ID_BOARD_BIG:
+        {
+            CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
+            nBoardHeight = 600;
+            nBoardWidth = 800;
+        }break;
+    }
+
+    SetWindowPosition();
+    MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
+}
+
+void InitBoardDimensions()
+{
+    // initializa board dimensions
+    if (false) {} // TODO: read last board dimensions from file and pass into rc
+    else
+    {
+        nBoardHeight = 300;
+        nBoardWidth = 400;
+    }
+}
+
+void SetWindowPosition()
+{
+    RECT rc;
+    rc.top = rc.left = 0;
+    rc.bottom = nBoardHeight;
+    rc.right = nBoardWidth;
+
+    AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
+    nWindowWidth = rc.right - rc.left;
+    nWindowHeight = rc.bottom - rc.top;
+
+    WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
+}
