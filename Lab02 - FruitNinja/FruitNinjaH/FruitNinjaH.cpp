@@ -15,8 +15,12 @@
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
 #define GAME_DURATION 30  // (seconds)
-#define REFRESH_RATE 20  // (Hz)
-#define BALL_SIZE 30
+#define REFRESH_RATE 100  // (Hz)
+#define BALL_SIZE_L 50
+#define BALL_SIZE_M 15
+#define BALL_SIZE_S 5
+#define TRANSPARENCY_TIMER 7
+#define GAME_TIMER 9
 #define ScreenX GetSystemMetrics(SM_CXSCREEN)
 #define ScreenY GetSystemMetrics(SM_CYSCREEN)
 
@@ -26,8 +30,9 @@ WCHAR szTitle[MAX_LOADSTRING];                  // title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 struct Ball_t {
-    POINT center;
-    POINT velocity;
+    POINT position;
+    INT dx;
+    double dy;
     COLORREF color;
 };
 
@@ -39,6 +44,8 @@ INT nBoardHeight;                               // board height
 INT nBoardWidth;                                // board width 
 static INT nGameTicks = 0;                             // game ticks
 BOOL MouseTracking = FALSE;
+
+
 
 
 static HCURSOR cursor = NULL;
@@ -66,7 +73,7 @@ VOID StartNewGame(HWND hWnd);
 DWORD CheckItem(UINT hItem, HMENU hmenu);
 VOID InitializeGame(HWND hWnd);
 VOID ChangeBoardSize(HWND hWnd, INT wmId);
-VOID DrawCircle(HWND hWnd, HDC hdc, HDC offDC);
+VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC);
 
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -149,9 +156,23 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
 {
     hInst = hInstance; // Store instance handle in our global variable
-    
+
     InitBoardDimensions();
     SetWindowPosition();
+
+    
+
+    Ball_t ball;
+    ball.position = { 140, nBoardHeight / 2 };
+    ball.dx = 0;
+    ball.dy = -500.0;
+    ball.color = RGB(0, 128, 255);
+    balls.push_back(ball);
+    ball.position = { 40, nBoardHeight / 3 };
+    ball.dx = 0;
+    ball.dy = -300.0;
+    ball.color = RGB(255, 0, 55);
+    balls.push_back(ball);
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU | WS_MAXIMIZEBOX,
         WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
@@ -168,6 +189,8 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
+
+
     return TRUE;
 }
 
@@ -181,25 +204,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             HDC hdc = GetDC(hWnd);
             offDC = CreateCompatibleDC(hdc);
-            ReleaseDC(hWnd, hdc); 
+            ReleaseDC(hWnd, hdc);
             
             // set the board dimensions
             // start the timers
             InitializeGame(hWnd);
-
         } break;
 
         case WM_TIMER: 
         {
-            if (wParam == 7)                        // transparency timer (TODO: perhaps add second timer to smooth it)
+            if (wParam == TRANSPARENCY_TIMER)                        // transparency timer (TODO: perhaps add second timer to smooth it)
             {
             SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
             }
-            else if (wParam == 9)                   // game timer
+            else if (wParam == GAME_TIMER)                          // game timer
             {
                 nGameTicks++;
-                const RECT rc = { 0, nBoardHeight, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
+                const RECT rc = { 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
                 InvalidateRect(hWnd, &rc, FALSE);
+
                 
                 //if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
             }
@@ -279,8 +302,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             
             DrawBoard(hWnd, hdc, offDC);
-            DrawProgressBar(hWnd, hdc, offDC);
-            DrawCircle(hWnd, hdc, offDC);
+            
+            DrawProgressBar(hWnd, hdc, offDC);            
+            DrawBalls(hWnd, hdc, offDC);
+            
+            
+            BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
             
             EndPaint(hWnd, &ps);
 
@@ -368,7 +395,6 @@ VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC)
         }
     }
 
-    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight, offDC, 0, 0, SRCCOPY);
     SelectObject(offDC, oldbrush);
 }
 VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
@@ -387,14 +413,13 @@ VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
     SelectObject(offDC, gpen);
     Rectangle(offDC, 0, nBoardHeight-1, (nBoardWidth * nGameTicks) / (GAME_DURATION * REFRESH_RATE), nBoardHeight + PROGRESS_BAR_HEIGHT);
     
-    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight+PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY); 
     SelectObject(offDC, oldbrush);
     SelectObject(offDC, oldpen);
     DeleteObject(gbrush);
     DeleteObject(gpen);
 }
 
-VOID DrawCircle(HWND hWnd, HDC hdc, HDC offDC)
+VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
 {
     HBRUSH bbrush = CreateSolidBrush(RGB(0, 184, 200));
     HPEN bpen = CreatePen(PS_SOLID, 1, RGB(0, 184, 200));
@@ -402,11 +427,32 @@ VOID DrawCircle(HWND hWnd, HDC hdc, HDC offDC)
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, bbrush);
     HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
 
-    POINT V = { -200, 0 };
     INT G = 2;
-    Ellipse(offDC, 140 + V.y, nBoardHeight + PROGRESS_BAR_HEIGHT + V.x + (G * nGameTicks), 160 + V.y, nBoardHeight + PROGRESS_BAR_HEIGHT + 20 + V.x + (G * nGameTicks));
+    
+    std::list<Ball_t>::iterator it = balls.begin();
+    while(it != balls.end())
+    {
+        Ball_t ball = *it;
 
-    BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
+        HBRUSH bbrush = CreateSolidBrush(ball.color);
+        HPEN bpen = CreatePen(PS_SOLID, 1, ball.color);
+
+        HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, bbrush);
+        HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
+
+        Ellipse(offDC
+            /*left*/, ball.position.x + ball.dx
+            /*top*/, ball.position.y + (INT)(ball.dy * nGameTicks / 500)
+            /*right*/, ball.position.x + BALL_SIZE_L + ball.dx
+            /*bottom*/, ball.position.y + BALL_SIZE_L + (INT)(ball.dy * nGameTicks / 500)
+        );
+
+        it->dy = (ball.dy * 100 + nGameTicks) / 100;
+        //if (balls.begin()->dy >= 300) balls.begin()->dy = 300;
+
+        it++;
+    }
+
     SelectObject(offDC, oldbrush);
     SelectObject(offDC, oldpen);
     DeleteObject(bbrush);
@@ -468,8 +514,10 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
 
     SetWindowPosition();
     MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
+    
 
-    // NewGame();
+    balls.clear(); // move this to StartNewGame() after implementing SpawnBall()
+    StartNewGame(hWnd);
 }
 VOID InitBoardDimensions()
 {
@@ -497,6 +545,7 @@ VOID SetWindowPosition()
 }
 VOID StartNewGame(HWND hWnd)
 {
-    SetTimer(hWnd, 7, 3000, NULL);              // Transparancy timer
-    SetTimer(hWnd, 9, 1000 / REFRESH_RATE, NULL);      // Game timer - 20 Hz => 50ms => Game over at nGameTicks = 600    
+    nGameTicks = 0;
+    SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);              // Transparancy timer
+    SetTimer(hWnd, GAME_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 20 Hz => 50ms => Game over at nGameTicks = 600    
 }
