@@ -7,6 +7,7 @@
 #include <ctime>
 #include <map>
 #include <string>
+#include <fstream>
 
 #define MAX_LOADSTRING 100
 #define SMALL_HEIGHT 300
@@ -67,7 +68,7 @@ std::map<int, COLORREF> colorSet {
 static HCURSOR cursor = NULL;
 static HDC offDC = NULL;
 static HBITMAP offOldBitmap = NULL;
- HBITMAP offBitmap = NULL;
+HBITMAP offBitmap = NULL;
 
 // FOR DEBUGGING
 CONST INT bufSize = 256;
@@ -75,12 +76,9 @@ TCHAR buf[bufSize];
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
-//ATOM MyRegisterBlackSquareClass(HINSTANCE hInstance);
-//ATOM MyRegisterWhiteSquareClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, INT);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-//LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
 VOID InitBoardDimensions();
 VOID SetWindowPosition();
 VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC);
@@ -92,6 +90,7 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId);
 VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC);
 VOID SpawnBall(INT ballSize);
 VOID TrackMouse(HWND hWnd);
+VOID ExitSequence();
 
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -102,16 +101,10 @@ INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
-
-    // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_FRUITNINJAH, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
-   /* MyRegisterWhiteSquareClass(hInstance);
-    MyRegisterBlackSquareClass(hInstance);*/
 
-    // Perform application initialization:
     if (!InitInstance(hInstance, nCmdShow))
     {
         return FALSE;
@@ -134,12 +127,6 @@ INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (INT)msg.wParam;
 }
 
-
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
@@ -161,16 +148,6 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
-//
-//   FUNCTION: InitInstance(HINSTANCE, INT)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
 BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
 {
     hInst = hInstance; // Store instance handle in our global variable
@@ -198,8 +175,6 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    
-    
     switch (message)
     {
         case WM_CREATE:
@@ -258,10 +233,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // Parse the menu selections:
             switch (wmId)
             {
-                case IDM_ABOUT:
-                {    
-                    DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                } break;
                 case ID_BOARD_SMALL:
                 case ID_BOARD_MEDIUM:
                 case ID_BOARD_BIG:
@@ -269,11 +240,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     ChangeBoardSize(hWnd, wmId);
                 } break;
         
-
                 case IDM_EXIT:
                 {  
                     DestroyWindow(hWnd);
                 } break;
+                
                 default:
                     return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -314,7 +285,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DeleteDC(offDC);
             if (offBitmap != NULL)
                 DeleteObject(offBitmap);
-            
+
+            ExitSequence();
             PostQuitMessage(0);
         } break;    
         default:
@@ -323,46 +295,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     return 0;
 }
-
-// TODO: REMOVE THIS IF UNUSED
-LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {
-
-    case WM_DESTROY:
-        
-        
-        
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
-}
-
-
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
-}
-
 
 VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC)
 {
@@ -445,7 +377,7 @@ VOID SpawnBall(INT ballSize)
     Ball_t ball;
     ball.position = { rand() % nBoardWidth, nBoardHeight };
     ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * (rand() % 60 + 100);
-    ball.dy = -(rand() % 100 + 100) * (nBoardHeight / 50);
+    ball.dy = -(rand() % 100 + 100) * (nBoardHeight / 50);   // launch velocity needs optimization for big boards
     ball.color = colorSet[rand() % 6];
     ball.spawnTime = nGameTicks;
     ball.size = ballSize;
@@ -520,8 +452,42 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
 VOID InitBoardDimensions()
 {
     // initializa board dimensions
-    if (false) {} // TODO: read last board dimensions from .ini file (if it exists)
-    else
+    
+    BOOL nofile = TRUE;
+    
+    std::ifstream infile("FruitNinja.ini", std::ios::beg);
+    if(infile.is_open())
+    {
+        std::string line;
+        std::getline(infile, line);        
+        
+        if (line.compare(std::string{ "[GAME]" }) == 0)
+        {
+            std::getline(infile, line);
+
+            if (line.compare(0, 5, std::string("SIZE=")) == 0)
+            {
+                if (line[5] == '2')
+                {
+                    nBoardHeight = BIG_HEIGHT;
+                    nBoardWidth = BIG_WIDTH;
+                    nBoardSize = BIG;
+                    nofile = FALSE;
+                }
+                else if (line[5] == '1')
+                {
+                    nBoardHeight = MEDIUM_HEIGHT;
+                    nBoardWidth = MEDIUM_WIDTH;
+                    nBoardSize = MEDIUM;
+                    nofile = FALSE;
+                }
+            }
+        }
+        
+        infile.close();
+    }
+        
+    if (nofile)
     {
         nBoardHeight = SMALL_HEIGHT;
         nBoardWidth = SMALL_WIDTH;
@@ -563,4 +529,15 @@ VOID TrackMouse(HWND hWnd)
 
     SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
     KillTimer(hWnd, 7);
+}
+
+VOID ExitSequence() 
+{
+    std::ofstream outfile("FruitNinja.ini", std::ios::trunc);
+    if (outfile.is_open())
+    {
+        outfile << "[GAME]\n";
+        outfile << "SIZE=" << nBoardSize;
+        outfile.close();
+    }
 }
