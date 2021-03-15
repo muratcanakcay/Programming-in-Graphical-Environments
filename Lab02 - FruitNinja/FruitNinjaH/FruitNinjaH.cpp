@@ -4,6 +4,9 @@
 #include "framework.h"
 #include "FruitNinjaH.h"
 #include <list>
+#include <ctime>
+#include <map>
+#include <string>
 
 #define MAX_LOADSTRING 100
 #define SMALL_HEIGHT 300
@@ -14,13 +17,18 @@
 #define BIG_HEIGHT 600
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
-#define GAME_DURATION 30  // (seconds)
-#define REFRESH_RATE 100  // (Hz)
-#define BALL_SIZE_L 50
-#define BALL_SIZE_M 15
-#define BALL_SIZE_S 5
+#define GAME_DURATION 30         // (seconds)
+#define REFRESH_RATE 200        // (Hz)
+#define BALL_SIZE_L 60
+#define BALL_SIZE_M 30
+#define BALL_SIZE_S 12
+#define SMALL 0
+#define MEDIUM 1
+#define BIG 2
 #define TRANSPARENCY_TIMER 7
 #define GAME_TIMER 9
+#define SPAWN_TIMER 10
+#define SPAWN_RATE 1            // (seconds between ball spawns)
 #define ScreenX GetSystemMetrics(SM_CXSCREEN)
 #define ScreenY GetSystemMetrics(SM_CYSCREEN)
 
@@ -32,8 +40,10 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 struct Ball_t {
     POINT position;
     INT dx;
-    double dy;
+    INT dy;
     COLORREF color;
+    INT spawnTime;
+    INT size;
 };
 
 std::list<Ball_t> balls;                        // list of balls
@@ -42,11 +52,17 @@ INT nWindowHeight;                              // main window width
 POINT WindowPos;                                // main window position        
 INT nBoardHeight;                               // board height
 INT nBoardWidth;                                // board width 
+INT nBoardSize;
 static INT nGameTicks = 0;                             // game ticks
 BOOL MouseTracking = FALSE;
-
-
-
+std::map<int, COLORREF> colorSet { 
+    {0, RGB(250, 0, 200)},
+    {1, RGB(200, 250, 0)},
+    {2, RGB(0, 0, 255)},
+    {3, RGB(60, 200, 25)},
+    {4, RGB(255, 0, 0)},
+    {5, RGB(255, 0, 255)}
+};
 
 static HCURSOR cursor = NULL;
 static HDC offDC = NULL;
@@ -74,6 +90,8 @@ DWORD CheckItem(UINT hItem, HMENU hmenu);
 VOID InitializeGame(HWND hWnd);
 VOID ChangeBoardSize(HWND hWnd, INT wmId);
 VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC);
+VOID SpawnBall(INT ballSize);
+VOID TrackMouse(HWND hWnd);
 
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -160,20 +178,6 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
     InitBoardDimensions();
     SetWindowPosition();
 
-    
-
-    Ball_t ball;
-    ball.position = { 140, nBoardHeight / 2 };
-    ball.dx = 0;
-    ball.dy = -500.0;
-    ball.color = RGB(0, 128, 255);
-    balls.push_back(ball);
-    ball.position = { 40, nBoardHeight / 3 };
-    ball.dx = 0;
-    ball.dy = -300.0;
-    ball.color = RGB(255, 0, 55);
-    balls.push_back(ball);
-
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU | WS_MAXIMIZEBOX,
         WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
 
@@ -188,8 +192,6 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
-
-
 
     return TRUE;
 }
@@ -211,38 +213,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             InitializeGame(hWnd);
         } break;
 
-        case WM_TIMER: 
+        case WM_TIMER:
         {
-            if (wParam == TRANSPARENCY_TIMER)                        // transparency timer (TODO: perhaps add second timer to smooth it)
-            {
-            SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
-            }
-            else if (wParam == GAME_TIMER)                          // game timer
+            if (wParam == GAME_TIMER)                                // game timer
             {
                 nGameTicks++;
                 const RECT rc = { 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
                 InvalidateRect(hWnd, &rc, FALSE);
 
-                
-                //if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
+
+                if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
+
+            }
+            else if (wParam == TRANSPARENCY_TIMER)                  // transparency timer (TODO: perhaps add second timer to smooth it)
+            {
+                SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+            }
+            else if (wParam == SPAWN_TIMER)                         // ball spawn timer
+            {
+                SpawnBall(BALL_SIZE_L);
             }
         } break;
         case WM_NCMOUSEMOVE:
         case WM_MOUSEMOVE:
         {
             if (!MouseTracking)
-            {
-                TRACKMOUSEEVENT tme;
-                tme.cbSize = sizeof(TRACKMOUSEEVENT);
-                tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
-                tme.hwndTrack = hWnd;
-                tme.dwHoverTime = 1;
-                TrackMouseEvent(&tme);
-                MouseTracking = true;
-
-                SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
-                KillTimer(hWnd, 7);
-            }
+                TrackMouse(hWnd);
         } break;
         case WM_MOUSELEAVE:
         {
@@ -302,21 +298,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             
             DrawBoard(hWnd, hdc, offDC);
-            
-            DrawProgressBar(hWnd, hdc, offDC);            
             DrawBalls(hWnd, hdc, offDC);
-            
+            DrawProgressBar(hWnd, hdc, offDC);
             
             BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
-            
             EndPaint(hWnd, &ps);
-
-            
         } break;
-
         case WM_ERASEBKGND:
             return 1;
-
         case WM_DESTROY:
         {
             if (offOldBitmap != NULL)
@@ -327,8 +316,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DeleteObject(offBitmap);
             
             PostQuitMessage(0);
-        } break;
-    
+        } break;    
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
     }
@@ -336,6 +324,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
+// TODO: REMOVE THIS IF UNUSED
 LRESULT CALLBACK WndProcSq(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -418,17 +407,8 @@ VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
     DeleteObject(gbrush);
     DeleteObject(gpen);
 }
-
 VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
 {
-    HBRUSH bbrush = CreateSolidBrush(RGB(0, 184, 200));
-    HPEN bpen = CreatePen(PS_SOLID, 1, RGB(0, 184, 200));
-
-    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, bbrush);
-    HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
-
-    INT G = 2;
-    
     std::list<Ball_t>::iterator it = balls.begin();
     while(it != balls.end())
     {
@@ -440,24 +420,39 @@ VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
         HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, bbrush);
         HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
 
+        INT ballLife = nGameTicks - ball.spawnTime;
+
         Ellipse(offDC
-            /*left*/, ball.position.x + ball.dx
-            /*top*/, ball.position.y + (INT)(ball.dy * nGameTicks / 500)
-            /*right*/, ball.position.x + BALL_SIZE_L + ball.dx
-            /*bottom*/, ball.position.y + BALL_SIZE_L + (INT)(ball.dy * nGameTicks / 500)
+            /*left*/, ball.position.x + (INT)(ball.dx * ballLife / 500)
+            /*top*/, ball.position.y + (INT)(ball.dy * ballLife / 500)
+            /*right*/, ball.position.x + ball.size + (INT)(ball.dx * ballLife / 500)
+            /*bottom*/, ball.position.y + ball.size + (INT)(ball.dy * ballLife / 500)
         );
 
-        it->dy = (ball.dy * 100 + nGameTicks) / 100;
-        //if (balls.begin()->dy >= 300) balls.begin()->dy = 300;
+        // gravity
+        it->dy = ((ball.dy * 100) + ballLife) / 100;
+
+        SelectObject(offDC, oldbrush);
+        SelectObject(offDC, oldpen);
+        DeleteObject(bbrush);
+        DeleteObject(bpen);
 
         it++;
     }
-
-    SelectObject(offDC, oldbrush);
-    SelectObject(offDC, oldpen);
-    DeleteObject(bbrush);
-    DeleteObject(bpen);
 }
+VOID SpawnBall(INT ballSize)
+{
+    Ball_t ball;
+    ball.position = { rand() % nBoardWidth, nBoardHeight };
+    ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * (rand() % 60 + 100);
+    ball.dy = -(rand() % 100 + 100) * (nBoardHeight / 50);
+    ball.color = colorSet[rand() % 6];
+    ball.spawnTime = nGameTicks;
+    ball.size = ballSize;
+    
+    balls.push_back(ball);    
+}
+
 
 DWORD CheckItem(UINT hItem, HMENU hmenu)
 {
@@ -495,6 +490,7 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
             CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
             nBoardHeight = SMALL_HEIGHT;
             nBoardWidth = SMALL_WIDTH;
+            nBoardSize = SMALL;
         }break;
 
         case ID_BOARD_MEDIUM:
@@ -502,6 +498,7 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
             CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
             nBoardHeight = MEDIUM_HEIGHT;
             nBoardWidth = MEDIUM_WIDTH;
+            nBoardSize = MEDIUM;
         }break;
 
         case ID_BOARD_BIG:
@@ -509,6 +506,7 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
             CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
             nBoardHeight = BIG_HEIGHT;
             nBoardWidth = BIG_WIDTH;
+            nBoardSize = BIG;
         }break;
     }
 
@@ -527,6 +525,7 @@ VOID InitBoardDimensions()
     {
         nBoardHeight = SMALL_HEIGHT;
         nBoardWidth = SMALL_WIDTH;
+        nBoardSize = SMALL;
     }
 }
 VOID SetWindowPosition()
@@ -546,6 +545,22 @@ VOID SetWindowPosition()
 VOID StartNewGame(HWND hWnd)
 {
     nGameTicks = 0;
-    SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);              // Transparancy timer
+    SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);             // Transparancy timer
     SetTimer(hWnd, GAME_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 20 Hz => 50ms => Game over at nGameTicks = 600    
+    SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);       // Ball spawn timer
+    std::srand((unsigned int)std::time(nullptr));
+}
+
+VOID TrackMouse(HWND hWnd)
+{
+    TRACKMOUSEEVENT tme;
+    tme.cbSize = sizeof(TRACKMOUSEEVENT);
+    tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
+    tme.hwndTrack = hWnd;
+    tme.dwHoverTime = 1;
+    TrackMouseEvent(&tme);
+    MouseTracking = true;
+
+    SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+    KillTimer(hWnd, 7);
 }
