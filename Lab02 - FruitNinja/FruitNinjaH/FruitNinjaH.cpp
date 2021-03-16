@@ -1,5 +1,7 @@
 #include "framework.h"
 #include "FruitNinjaH.h"
+#include "Windows.h"
+#include "math.h"
 #include <list>
 #include <ctime>
 #include <map>
@@ -43,10 +45,11 @@ struct Ball_t {
     INT size;
 };
 
-std::list<Ball_t> balls;                        // list of balls
+std::list<Ball_t*> balls;                        // list of balls
 INT nWindowWidth;                               // main windows height
 INT nWindowHeight;                              // main window width
-POINT WindowPos;                                // main window position        
+POINT ptWindowPos;                              // main window position        
+POINT ptCursorPos;                              // mouse cursor position
 INT nBoardHeight;                               // board height
 INT nBoardWidth;                                // board width 
 INT nBoardSize;                                 // board size
@@ -54,6 +57,7 @@ INT nGameScore;                                 // game score
 INT nGameTicks = 0;                             // game ticks
 BOOL MouseTracking = FALSE;
 BOOL GameRunning = FALSE;
+
 std::map<int, COLORREF> colorSet { 
     {0, RGB(250, 0, 200)},
     {1, RGB(200, 250, 0)},
@@ -149,10 +153,10 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
     hInst = hInstance; // Store instance handle in our global variable
 
     InitBoardDimensions();
-    SetWindowPosition();
+    GetWindowPosition();
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU | WS_MAXIMIZEBOX,
-        WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
+        ptWindowPos.x, ptWindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
 
     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -187,6 +191,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
                 RECT rc;
                 GetClientRect(hWnd, &rc);
+
                 InvalidateRect(hWnd, &rc, FALSE);
 
                 if (++nGameTicks == GAME_DURATION * REFRESH_RATE)
@@ -218,8 +223,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //{
         //    INT x = (ScreenX - nWindowWidth) / 2;
         //    INT y = (ScreenY - nWindowHeight) / 2;
-        //    ((WINDOWPOS*)lParam)->x = x;
-        //    ((WINDOWPOS*)lParam)->y = y;
+        //    ((ptWindowPos*)lParam)->x = x;
+        //    ((ptWindowPos*)lParam)->y = y;
         //} break;    
         case WM_COMMAND:
         {
@@ -235,6 +240,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 case ID_BOARD_SMALL:
                 case ID_BOARD_MEDIUM:
                 case ID_BOARD_BIG:
+                case ID_FILE_NEWGAME:
                 {
                     ChangeBoardSize(hWnd, wmId);
                 } break;
@@ -271,6 +277,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             DrawScore(hWnd, offDC);
             DrawBalls(hWnd, offDC);
             DrawProgressBar(hWnd, offDC);
+
             BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
             
             if(!GameRunning)
@@ -414,7 +421,7 @@ VOID DrawProgressBar(HWND hWnd, HDC offDC)
 }
 VOID DrawBalls(HWND hWnd, HDC offDC)
 {
-    std::list<Ball_t>::iterator it = balls.begin();
+    std::list<Ball_t*>::iterator it = balls.begin();
     while(it != balls.end())
     {
         // remove balls that fall below the bottom
@@ -537,6 +544,19 @@ DWORD CheckItem(UINT hItem, HMENU hmenu)
     //then check the hItem
     return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
 }
+VOID TrackMouse(HWND hWnd)
+{
+    TRACKMOUSEEVENT tme;
+    tme.cbSize = sizeof(TRACKMOUSEEVENT);
+    tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
+    tme.hwndTrack = hWnd;
+    tme.dwHoverTime = 1;
+    TrackMouseEvent(&tme);
+    MouseTracking = true;
+
+    SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency
+    KillTimer(hWnd, 7);
+}
 VOID InitializeGame(HWND hWnd)
 {
     INT rows = nBoardHeight / SQUARE_SIZE;
@@ -584,19 +604,15 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId)
         }break;
     }
 
-    SetWindowPosition();
-    MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
-    
-
-    balls.clear(); // move this to StartNewGame() after implementing SpawnBall()
+    GetWindowPosition();
+    MoveWindow(hWnd, ptWindowPos.x, ptWindowPos.y, nWindowWidth, nWindowHeight, TRUE);
     StartNewGame(hWnd);
 }
 VOID InitBoardDimensions()
 {
-    // initializa board dimensions
-    
     BOOL nofile = TRUE;
     
+    // initializa board dimensions from .ini file if exists
     std::ifstream infile("FruitNinja.ini", std::ios::beg);
     if(infile.is_open())
     {
@@ -628,7 +644,8 @@ VOID InitBoardDimensions()
         
         infile.close();
     }
-        
+    
+    // use default size 
     if (nofile)
     {
         nBoardHeight = SMALL_HEIGHT;
@@ -636,7 +653,7 @@ VOID InitBoardDimensions()
         nBoardSize = SMALL;
     }
 }
-VOID SetWindowPosition()
+VOID GetWindowPosition()
 {
     // Set the Size and Position of the main window according to board size
     RECT rc;
@@ -648,7 +665,7 @@ VOID SetWindowPosition()
     
     nWindowWidth = rc.right - rc.left;
     nWindowHeight = rc.bottom - rc.top;
-    WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
+    ptWindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
 }
 VOID StartNewGame(HWND hWnd)
 {
@@ -669,16 +686,14 @@ VOID EndGame(HWND hWnd)
 }
 VOID TrackMouse(HWND hWnd)
 {
-    TRACKMOUSEEVENT tme;
-    tme.cbSize = sizeof(TRACKMOUSEEVENT);
-    tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
-    tme.hwndTrack = hWnd;
-    tme.dwHoverTime = 1;
-    TrackMouseEvent(&tme);
-    MouseTracking = true;
+    GameStarted = FALSE; 
+    KillTimer(hWnd, SPAWN_TIMER);
+    KillTimer(hWnd, GAME_TIMER);
+    
+    SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
 
-    SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
-    KillTimer(hWnd, 7);
+    const RECT rc = { 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
+    InvalidateRect(hWnd, &rc, FALSE);
 }
 VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
 {
@@ -698,9 +713,6 @@ VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
     DeleteObject(gbrush);
 
     SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
-
-    // TODO: Print Score on screen
-
 }
 VOID SaveSizeToFile() 
 {
@@ -710,5 +722,36 @@ VOID SaveSizeToFile()
         outfile << "[GAME]\n";
         outfile << "SIZE=" << nBoardSize;
         outfile.close();
+    }
+}
+VOID CheckCollisions(HWND hWnd)
+{
+    POINT cursorPos;
+    GetCursorPos(&cursorPos); 
+    ScreenToClient(hWnd, &cursorPos); 
+    
+    std::list<Ball_t*>::iterator it = balls.begin();
+    
+    int i = 0;
+
+    while (it != balls.end())
+    {
+        int r = (*it)->size / 2;
+        int dx = (cursorPos.x - (*it)->position.x - r);
+        int dy = (cursorPos.y - (*it)->position.y - r);
+        int d = (dx * dx) + (dy * dy);
+        
+        i++;
+        wchar_t s[256];
+        swprintf_s(s, 256,
+            L" Ball %d position: (%d, %d) Mouse position (%d, %d)\n", i, (*it)->position.x, (*it)->position.y, cursorPos.x, cursorPos.y);
+        OutputDebugString(s);
+
+        if (d <= (r * r))
+        {
+            (*it)->color = RGB(255, 255, 255);
+        }
+
+        it++;
     }
 }
