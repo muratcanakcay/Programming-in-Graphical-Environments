@@ -18,7 +18,7 @@
 #define BIG_HEIGHT 600
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
-#define GAME_DURATION 1         // (seconds)
+#define GAME_DURATION 300         // (seconds)
 #define REFRESH_RATE 200         // (Hz)
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
@@ -92,7 +92,7 @@ VOID SpawnBall(INT ballSize);
 VOID TrackMouse(HWND hWnd);
 VOID EndGame(HWND hWnd);
 VOID ExitSequence();
-
+VOID CheckCollisions(HWND hWnd);
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -194,6 +194,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (wParam == GAME_TIMER)                                // game timer
             {
                 nGameTicks++;
+                
+                CheckCollisions(hWnd);
+                
                 const RECT rc = { 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
                 InvalidateRect(hWnd, &rc, FALSE);
 
@@ -358,6 +361,10 @@ VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
 
         INT ballLife = nGameTicks - ball.spawnTime;
 
+        
+        it->position.x += ball.dx / 500;
+        it->position.y += ball.dy / 500;
+        
         Ellipse(offDC
             /*left*/, ball.position.x + (INT)(ball.dx * ballLife / 500)
             /*top*/, ball.position.y + (INT)(ball.dy * ballLife / 500)
@@ -381,7 +388,7 @@ VOID SpawnBall(INT ballSize)
     Ball_t ball;
     ball.position = { rand() % nBoardWidth, nBoardHeight };
     ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * (rand() % 60 + 100);
-    ball.dy = -(rand() % 100 + 100) * (nBoardHeight / 50);   // launch velocity needs optimization for big boards
+    ball.dy = -(rand() % 100 + 500);// *(nBoardHeight / 50);   // launch velocity needs optimization for big boards
     ball.color = colorSet[rand() % 6];
     ball.spawnTime = nGameTicks;
     ball.size = ballSize;
@@ -551,5 +558,40 @@ VOID ExitSequence()
         outfile << "[GAME]\n";
         outfile << "SIZE=" << nBoardSize;
         outfile.close();
+    }
+}
+
+VOID CheckCollisions(HWND hWnd)
+{
+    POINT cursorPos;
+    GetCursorPos(&cursorPos);
+    ScreenToClient(hWnd, &cursorPos);
+
+    std::list<Ball_t>::iterator it = balls.begin();
+
+    int i = 0;
+
+    while (it != balls.end())
+    {
+        int r = (*it).size / 2;
+
+
+        POINT bl = {};
+        int dx = (cursorPos.x - (*it).position.x - r);
+        int dy = (cursorPos.y - (*it).position.y - r);
+        int d = (dx * dx) + (dy * dy);
+
+        i++;
+        wchar_t s[256];
+        swprintf_s(s, 256,
+            L" Ball %d position: (%d, %d) Mouse position (%d, %d)\n", i, (*it).position.x, (*it).position.y, cursorPos.x, cursorPos.y);
+        OutputDebugString(s);
+
+        if (d <= (r * r))
+        {
+            (*it).color = RGB(255, 255, 255);
+        }
+
+        it++;
     }
 }
