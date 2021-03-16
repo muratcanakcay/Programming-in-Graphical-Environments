@@ -370,8 +370,8 @@ VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
 
         INT ballLife = nGameTicks - ball->spawnTime;
 
-        ball->position.x += (INT)(ball->dx / (REFRESH_RATE));
-        ball->position.y += (INT)(ball->dy / (REFRESH_RATE));
+        ball->position.x += (INT)(ball->dx / (REFRESH_RATE / 10));
+        ball->position.y += (INT)(ball->dy / (REFRESH_RATE / 10));
         
         Ellipse(offDC
             /*left*/, ball->position.x
@@ -381,8 +381,8 @@ VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
         );
 
         // gravity
-        int G = 10;
-        ball->dy += G;
+        int G = 1;
+        ball->dy += G ;
 
         SelectObject(offDC, oldbrush);
         SelectObject(offDC, oldpen);
@@ -400,7 +400,8 @@ VOID SpawnBall(INT ballSize)
     ball->position = { rand() % nBoardWidth, nBoardHeight / 2 };
     
     ball->dx = (ball->position.x < nBoardWidth / 2 ? 1 : -1) * (rand() % 3 + 5);
-    ball->dy = -(rand() % 50 + 50) * (nBoardHeight / 50);   // launch velocity needs optimization for big boards
+    //ball->dy = -(rand() % 50 + 50) * (nBoardHeight / 50);   // launch velocity needs optimization for big boards
+    ball->dy = -90;
     ball->color = colorSet[rand() % 6];
     ball->spawnTime = nGameTicks;
     ball->size = ballSize;
