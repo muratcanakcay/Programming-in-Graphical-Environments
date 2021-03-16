@@ -1,6 +1,3 @@
-// FRUITNINJAH.cpp : Defines the entry point for the application.
-//
-
 #include "framework.h"
 #include "FruitNinjaH.h"
 #include <list>
@@ -19,7 +16,7 @@
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
 #define GAME_DURATION 300         // (seconds)
-#define REFRESH_RATE 200         // (Hz)
+#define REFRESH_RATE 200          // (Hz)
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
 #define BALL_SIZE_S 12
@@ -29,7 +26,7 @@
 #define TRANSPARENCY_TIMER 7
 #define GAME_TIMER 9
 #define SPAWN_TIMER 10
-#define SPAWN_RATE 1            // (seconds between ball spawns)
+#define SPAWN_RATE 1              // (seconds between ball spawns)
 #define ScreenX GetSystemMetrics(SM_CXSCREEN)
 #define ScreenY GetSystemMetrics(SM_CYSCREEN)
 
@@ -53,9 +50,11 @@ INT nWindowHeight;                              // main window width
 POINT WindowPos;                                // main window position        
 INT nBoardHeight;                               // board height
 INT nBoardWidth;                                // board width 
-INT nBoardSize;
-static INT nGameTicks = 0;                             // game ticks
+INT nBoardSize;                                 // board size
+INT nGameScore;                                  // game score
+INT nGameTicks = 0;                             // game ticks
 BOOL MouseTracking = FALSE;
+BOOL GameRunning = FALSE;
 std::map<int, COLORREF> colorSet { 
     {0, RGB(250, 0, 200)},
     {1, RGB(200, 250, 0)},
@@ -70,28 +69,25 @@ static HDC offDC = NULL;
 static HBITMAP offOldBitmap = NULL;
 HBITMAP offBitmap = NULL;
 
-// FOR DEBUGGING
-CONST INT bufSize = 256;
-TCHAR buf[bufSize];
-
-// Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, INT);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 VOID InitBoardDimensions();
 VOID SetWindowPosition();
-VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC);
-VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC);
+VOID DrawBoard(HWND hWnd, HDC offDC);
+VOID DrawScore(HWND hWnd, HDC offDC);
+VOID DrawProgressBar(HWND hWnd, HDC offDC);
+VOID DrawBalls(HWND hWnd, HDC offDC);
+VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC);
 VOID StartNewGame(HWND hWnd);
 DWORD CheckItem(UINT hItem, HMENU hmenu);
 VOID InitializeGame(HWND hWnd);
 VOID ChangeBoardSize(HWND hWnd, INT wmId);
-VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC);
 VOID SpawnBall(INT ballSize);
 VOID TrackMouse(HWND hWnd);
 VOID EndGame(HWND hWnd);
-VOID ExitSequence();
+VOID SaveSizeToFile();
 VOID CheckCollisions(HWND hWnd);
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -184,8 +180,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             offDC = CreateCompatibleDC(hdc);
             ReleaseDC(hWnd, hdc);
             
-            // set the board dimensions
-            // start the timers
             InitializeGame(hWnd);
         } break;
 
@@ -194,18 +188,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (wParam == GAME_TIMER)                                // game timer
             {
                 nGameTicks++;
-                
                 CheckCollisions(hWnd);
-                
-                const RECT rc = { 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT };
+
+                RECT rc;
+                GetClientRect(hWnd, &rc);
                 InvalidateRect(hWnd, &rc, FALSE);
 
-
                 if (nGameTicks == GAME_DURATION * REFRESH_RATE)
-                {
                     EndGame(hWnd);
-                }; 
-
             }
             else if (wParam == TRANSPARENCY_TIMER)                  // transparency timer (TODO: perhaps add second timer to smooth it)
             {
@@ -275,11 +265,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
             }
             
-            DrawBoard(hWnd, hdc, offDC);
-            DrawBalls(hWnd, hdc, offDC);
-            DrawProgressBar(hWnd, hdc, offDC);
-            
+            DrawBoard(hWnd, offDC);
+            DrawScore(hWnd, offDC);
+            DrawBalls(hWnd, offDC);
+            DrawProgressBar(hWnd, offDC);
             BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
+            
+            if(!GameRunning)
+                DrawEndScreen(hWnd, hdc, offDC);
+
             EndPaint(hWnd, &ps);
         } break;
         case WM_ERASEBKGND:
@@ -293,7 +287,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (offBitmap != NULL)
                 DeleteObject(offBitmap);
 
-            ExitSequence();
+            SaveSizeToFile();
             PostQuitMessage(0);
         } break;    
         default:
@@ -303,7 +297,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC)
+VOID DrawBoard(HWND hWnd, HDC offDC)
 {
     HBRUSH bbrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
     HBRUSH wbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
@@ -325,12 +319,82 @@ VOID DrawBoard(HWND hWnd, HDC hdc, HDC offDC)
 
     SelectObject(offDC, oldbrush);
 }
-VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
+VOID DrawScore(HWND hWnd, HDC offDC)
+{
+    COLORREF oldcolor = SetTextColor(offDC, RGB(255, 0, 0));
+    HFONT font = CreateFont(
+                -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),    // Height
+                0,                                                  // Width
+                0,                                                  // Escapament
+                0,                                                  // Orientation
+                FW_BOLD,                                            // Weight
+                FALSE,                                              // Italic 
+                FALSE,                                              // Underline
+                FALSE,                                              // StrikeOut
+                EASTEUROPE_CHARSET,                                 // CharSet
+                OUT_DEFAULT_PRECIS,                                 // OutPrecision
+                CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+                DEFAULT_QUALITY,                                    // Quality
+                DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+                _T("Verdana"));                                     // Facename
+            
+    HFONT oldfont = (HFONT)SelectObject(offDC, font);
+
+    TCHAR s[256];
+    _stprintf_s(s, 256, _T("%d"), nGameScore);
+    
+    RECT rc;
+    GetClientRect(hWnd, &rc);
+    rc.top += 5;
+    rc.right -= 3;
+
+    DrawText(offDC, s, (int)_tcslen(s), &rc, DT_TOP | DT_RIGHT);    
+
+    SetTextColor(offDC, oldcolor);
+    SelectObject(offDC, oldfont);
+    DeleteObject(font);
+}
+VOID DrawEndScore(HWND hWnd, HDC offDC)
+{
+    COLORREF oldcolor = SetTextColor(offDC, RGB(11, 25, 220));
+    HFONT font = CreateFont(
+        -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),    // Height
+        0,                                                  // Width
+        0,                                                  // Escapament
+        0,                                                  // Orientation
+        FW_BOLD,                                            // Weight
+        FALSE,                                              // Italic 
+        FALSE,                                              // Underline
+        FALSE,                                              // StrikeOut
+        EASTEUROPE_CHARSET,                                 // CharSet
+        OUT_DEFAULT_PRECIS,                                 // OutPrecision
+        CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+        DEFAULT_QUALITY,                                    // Quality
+        DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+        _T("Verdana"));                                     // Facename
+
+    HFONT oldfont = (HFONT)SelectObject(offDC, font);
+
+    TCHAR s[256];
+    _stprintf_s(s, 256, _T("%d"), nGameScore);
+
+    RECT rc;
+    GetClientRect(hWnd, &rc);
+    rc.top += 10;
+    rc.right -= 10;
+
+    DrawText(offDC, s, (int)_tcslen(s), &rc, DT_TOP | DT_RIGHT);
+
+    SetTextColor(offDC, oldcolor);
+    SelectObject(offDC, oldfont);
+    DeleteObject(font);
+}
+VOID DrawProgressBar(HWND hWnd, HDC offDC)
 {
     HBRUSH wbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    HBRUSH gbrush = CreateSolidBrush(RGB(11, 184, 17));    
+    HBRUSH gbrush = CreateSolidBrush(RGB(11, 25, 220));    
     HPEN wpen = (HPEN)GetStockObject(WHITE_PEN);
-    HPEN gpen = CreatePen(PS_SOLID, 1, RGB(11, 184, 17));
+    HPEN gpen = CreatePen(PS_SOLID, 1, RGB(11, 25, 110));
     
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, wbrush);
     HPEN oldpen = (HPEN)SelectObject(offDC, wpen);
@@ -346,7 +410,7 @@ VOID DrawProgressBar(HWND hWnd, HDC hdc, HDC offDC)
     DeleteObject(gbrush);
     DeleteObject(gpen);
 }
-VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC)
+VOID DrawBalls(HWND hWnd, HDC offDC)
 {
     std::list<Ball_t>::iterator it = balls.begin();
     while(it != balls.end())
@@ -395,7 +459,40 @@ VOID SpawnBall(INT ballSize)
     
     balls.push_back(ball);    
 }
+VOID CheckCollisions(HWND hWnd)
+{
+    POINT cursorPos;
+    GetCursorPos(&cursorPos);
+    ScreenToClient(hWnd, &cursorPos);
 
+    std::list<Ball_t>::iterator it = balls.begin();
+
+    int i = 0;
+
+    while (it != balls.end())
+    {
+        int r = (*it).size / 2;
+
+
+        POINT bl = {};
+        int dx = (cursorPos.x - (*it).position.x - r);
+        int dy = (cursorPos.y - (*it).position.y - r);
+        int d = (dx * dx) + (dy * dy);
+
+        i++;
+        wchar_t s[256];
+        swprintf_s(s, 256,
+            L" Ball %d position: (%d, %d) Mouse position (%d, %d)\n", i, (*it).position.x, (*it).position.y, cursorPos.x, cursorPos.y);
+        OutputDebugString(s);
+
+        if (d <= (r * r))
+        {
+            (*it).color = RGB(255, 255, 255);
+        }
+
+        it++;
+    }
+}
 
 DWORD CheckItem(UINT hItem, HMENU hmenu)
 {
@@ -526,8 +623,15 @@ VOID StartNewGame(HWND hWnd)
     SetTimer(hWnd, GAME_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
     SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);       // Ball spawn timer
     std::srand((unsigned int)std::time(nullptr));
+    GameRunning = TRUE;
 }
-
+VOID EndGame(HWND hWnd)
+{
+    KillTimer(hWnd, SPAWN_TIMER);
+    KillTimer(hWnd, GAME_TIMER);
+    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 20) / 100, LWA_ALPHA);
+    GameRunning = FALSE;
+}
 VOID TrackMouse(HWND hWnd)
 {
     TRACKMOUSEEVENT tme;
@@ -541,16 +645,29 @@ VOID TrackMouse(HWND hWnd)
     SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
     KillTimer(hWnd, 7);
 }
-VOID EndGame(HWND hWnd)
+VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
 {
-    KillTimer(hWnd, SPAWN_TIMER);
-    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 20) / 100, LWA_ALPHA);
+    HBRUSH gbrush = CreateSolidBrush(RGB(0, 0, 255));
+    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, gbrush);
+
+    BLENDFUNCTION bf;
+    bf.AlphaFormat = 0;
+    bf.BlendOp = AC_SRC_OVER;
+    bf.SourceConstantAlpha = 100;
+    bf.BlendFlags = 0;
+
+    Rectangle(offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
+    GdiAlphaBlend(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, bf);
+
+    SelectObject(offDC, oldbrush);
+    DeleteObject(gbrush);
+
+    SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
 
     // TODO: Print Score on screen
-    
-}
 
-VOID ExitSequence() 
+}
+VOID SaveSizeToFile() 
 {
     std::ofstream outfile("FruitNinja.ini", std::ios::trunc);
     if (outfile.is_open())
@@ -558,40 +675,5 @@ VOID ExitSequence()
         outfile << "[GAME]\n";
         outfile << "SIZE=" << nBoardSize;
         outfile.close();
-    }
-}
-
-VOID CheckCollisions(HWND hWnd)
-{
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    ScreenToClient(hWnd, &cursorPos);
-
-    std::list<Ball_t>::iterator it = balls.begin();
-
-    int i = 0;
-
-    while (it != balls.end())
-    {
-        int r = (*it).size / 2;
-
-
-        POINT bl = {};
-        int dx = (cursorPos.x - (*it).position.x - r);
-        int dy = (cursorPos.y - (*it).position.y - r);
-        int d = (dx * dx) + (dy * dy);
-
-        i++;
-        wchar_t s[256];
-        swprintf_s(s, 256,
-            L" Ball %d position: (%d, %d) Mouse position (%d, %d)\n", i, (*it).position.x, (*it).position.y, cursorPos.x, cursorPos.y);
-        OutputDebugString(s);
-
-        if (d <= (r * r))
-        {
-            (*it).color = RGB(255, 255, 255);
-        }
-
-        it++;
     }
 }
