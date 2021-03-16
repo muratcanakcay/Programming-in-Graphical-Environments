@@ -18,8 +18,8 @@
 #define BIG_HEIGHT 600
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
-#define GAME_DURATION 30         // (seconds)
-#define REFRESH_RATE 200        // (Hz)
+#define GAME_DURATION 1         // (seconds)
+#define REFRESH_RATE 200         // (Hz)
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
 #define BALL_SIZE_S 12
@@ -90,6 +90,7 @@ VOID ChangeBoardSize(HWND hWnd, INT wmId);
 VOID DrawBalls(HWND hWnd, HDC hdc, HDC offDC);
 VOID SpawnBall(INT ballSize);
 VOID TrackMouse(HWND hWnd);
+VOID EndGame(HWND hWnd);
 VOID ExitSequence();
 
 
@@ -197,7 +198,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 InvalidateRect(hWnd, &rc, FALSE);
 
 
-                if (nGameTicks == GAME_DURATION * 1000 / REFRESH_RATE) {}; // TODO: game over
+                if (nGameTicks == GAME_DURATION * REFRESH_RATE)
+                {
+                    EndGame(hWnd);
+                }; 
 
             }
             else if (wParam == TRANSPARENCY_TIMER)                  // transparency timer (TODO: perhaps add second timer to smooth it)
@@ -512,7 +516,7 @@ VOID StartNewGame(HWND hWnd)
 {
     nGameTicks = 0;
     SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);             // Transparancy timer
-    SetTimer(hWnd, GAME_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 20 Hz => 50ms => Game over at nGameTicks = 600    
+    SetTimer(hWnd, GAME_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
     SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);       // Ball spawn timer
     std::srand((unsigned int)std::time(nullptr));
 }
@@ -529,6 +533,14 @@ VOID TrackMouse(HWND hWnd)
 
     SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
     KillTimer(hWnd, 7);
+}
+VOID EndGame(HWND hWnd)
+{
+    KillTimer(hWnd, SPAWN_TIMER);
+    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 20) / 100, LWA_ALPHA);
+
+    // TODO: Print Score on screen
+    
 }
 
 VOID ExitSequence() 
