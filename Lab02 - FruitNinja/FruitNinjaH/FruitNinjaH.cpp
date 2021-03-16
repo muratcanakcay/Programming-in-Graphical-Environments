@@ -15,7 +15,7 @@
 #define BIG_HEIGHT 600
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
-#define GAME_DURATION 30          // (seconds)
+#define GAME_DURATION 1          // (seconds)
 #define REFRESH_RATE 50           // (Hz)
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
@@ -79,6 +79,7 @@ VOID DrawScore(HWND hWnd, HDC offDC);
 VOID DrawProgressBar(HWND hWnd, HDC offDC);
 VOID DrawBalls(HWND hWnd, HDC offDC);
 VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC);
+VOID DrawEndScore(HWND hWnd, HDC offDC);
 VOID StartNewGame(HWND hWnd);
 DWORD CheckItem(UINT hItem, HMENU hmenu);
 VOID InitializeGame(HWND hWnd);
@@ -151,7 +152,7 @@ BOOL InitInstance(HINSTANCE hInstance, INT nCmdShow)
     InitBoardDimensions();
     SetWindowPosition();
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU | WS_MAXIMIZEBOX,
+    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_SYSMENU,
         WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, nullptr, nullptr, hInstance, nullptr);
 
     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -180,6 +181,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             ReleaseDC(hWnd, hdc);
             
             InitializeGame(hWnd);
+            StartNewGame(hWnd);
         } break;
         case WM_TIMER:
         {
@@ -214,13 +216,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             SetTimer(hWnd, 7, 3000, NULL);                       // Reset transparancy timer
             MouseTracking = false;
         } break;
-        //case WM_WINDOWPOSCHANGING: // Prevent repositioning
-        //{
-        //    INT x = (ScreenX - nWindowWidth) / 2;
-        //    INT y = (ScreenY - nWindowHeight) / 2;
-        //    ((WINDOWPOS*)lParam)->x = x;
-        //    ((WINDOWPOS*)lParam)->y = y;
-        //} break;    
+        case WM_WINDOWPOSCHANGING: // Prevent repositioning
+        {
+            INT x = (ScreenX - nWindowWidth) / 2;
+            INT y = (ScreenY - nWindowHeight) / 2;
+            ((WINDOWPOS*)lParam)->x = x;
+            ((WINDOWPOS*)lParam)->y = y;
+        } break;    
         case WM_COMMAND:
         {
             INT wmId = LOWORD(wParam);
@@ -273,8 +275,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             DrawProgressBar(hWnd, offDC);
             BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
             
-            if(!GameRunning)
+            if (!GameRunning)
+            {
+                DrawEndScore(hWnd, offDC);
+                BitBlt(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, SRCCOPY);
                 DrawEndScreen(hWnd, hdc, offDC);
+            }
 
             EndPaint(hWnd, &ps);
         } break;
@@ -325,7 +331,7 @@ VOID DrawScore(HWND hWnd, HDC offDC)
 {
     COLORREF oldcolor = SetTextColor(offDC, RGB(255, 0, 0));
     HFONT font = CreateFont(
-                -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),    // Height
+                -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),  // Height
                 0,                                                  // Width
                 0,                                                  // Escapament
                 0,                                                  // Orientation
@@ -350,42 +356,9 @@ VOID DrawScore(HWND hWnd, HDC offDC)
     rc.top += 5;
     rc.right -= 3;
 
+    SetBkMode(offDC, TRANSPARENT);
     DrawText(offDC, s, (int)_tcslen(s), &rc, DT_TOP | DT_RIGHT);    
-
-    SetTextColor(offDC, oldcolor);
-    SelectObject(offDC, oldfont);
-    DeleteObject(font);
-}
-VOID DrawEndScore(HWND hWnd, HDC offDC)
-{
-    COLORREF oldcolor = SetTextColor(offDC, RGB(11, 25, 220));
-    HFONT font = CreateFont(
-        -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),    // Height
-        0,                                                  // Width
-        0,                                                  // Escapament
-        0,                                                  // Orientation
-        FW_BOLD,                                            // Weight
-        FALSE,                                              // Italic 
-        FALSE,                                              // Underline
-        FALSE,                                              // StrikeOut
-        EASTEUROPE_CHARSET,                                 // CharSet
-        OUT_DEFAULT_PRECIS,                                 // OutPrecision
-        CLIP_DEFAULT_PRECIS,                                // ClipPrecision
-        DEFAULT_QUALITY,                                    // Quality
-        DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
-        _T("Verdana"));                                     // Facename
-
-    HFONT oldfont = (HFONT)SelectObject(offDC, font);
-
-    TCHAR s[256];
-    _stprintf_s(s, 256, _T("%d"), nGameScore);
-
-    RECT rc;
-    GetClientRect(hWnd, &rc);
-    rc.top += 10;
-    rc.right -= 10;
-
-    DrawText(offDC, s, (int)_tcslen(s), &rc, DT_TOP | DT_RIGHT);
+    SetBkMode(offDC, OPAQUE);
 
     SetTextColor(offDC, oldcolor);
     SelectObject(offDC, oldfont);
@@ -399,8 +372,7 @@ VOID DrawProgressBar(HWND hWnd, HDC offDC)
     HPEN gpen = CreatePen(PS_SOLID, 1, RGB(11, 25, 110));
     
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, wbrush);
-    HPEN oldpen = (HPEN)SelectObject(offDC, wpen);
-    
+    HPEN oldpen = (HPEN)SelectObject(offDC, wpen);    
     Rectangle(offDC, (nBoardWidth * nGameTicks) / (GAME_DURATION * REFRESH_RATE), nBoardHeight-1, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
     
     SelectObject(offDC, gbrush);
@@ -414,6 +386,7 @@ VOID DrawProgressBar(HWND hWnd, HDC offDC)
 }
 VOID DrawBalls(HWND hWnd, HDC offDC)
 {
+    //iterate through the ball list
     std::list<Ball_t>::iterator it = balls.begin();
     while(it != balls.end())
     {
@@ -452,6 +425,65 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
 
         it++;
     }
+}
+VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
+{
+    HBRUSH gbrush = CreateSolidBrush(RGB(0, 0, 255));
+    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, gbrush);
+
+    BLENDFUNCTION bf;
+    bf.AlphaFormat = 0;
+    bf.BlendOp = AC_SRC_OVER;
+    bf.SourceConstantAlpha = 130;
+    bf.BlendFlags = 0;
+
+    Rectangle(offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
+    GdiAlphaBlend(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, bf);
+
+    SelectObject(offDC, oldbrush);
+    DeleteObject(gbrush);
+
+    SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+}
+VOID DrawEndScore(HWND hWnd, HDC offDC)
+{
+    COLORREF oldcolor = SetTextColor(offDC, RGB(255, 0, 0));
+    INT fontsize = nBoardSize == SMALL ? 8 : nBoardSize == MEDIUM ? 12 : 16;
+    
+    HFONT font = CreateFont(
+        -MulDiv(fontsize, GetDeviceCaps(offDC, LOGPIXELSY), 36),    // Height
+        0,                                                  // Width
+        0,                                                  // Escapament
+        0,                                                  // Orientation
+        FW_BOLD,                                            // Weight
+        FALSE,                                              // Italic 
+        FALSE,                                              // Underline
+        FALSE,                                              // StrikeOut
+        EASTEUROPE_CHARSET,                                 // CharSet
+        OUT_DEFAULT_PRECIS,                                 // OutPrecision
+        CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+        DEFAULT_QUALITY,                                    // Quality
+        DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+        _T("Verdana"));                                     // Facename
+
+    HFONT oldfont = (HFONT)SelectObject(offDC, font);
+
+    TCHAR s[256];
+    _stprintf_s(s, 256, _T("YOU SCORED %d POINTS!"), nGameScore);
+
+    RECT rc;
+    GetClientRect(hWnd, &rc);
+    rc.top -= 100;
+
+    SetBkMode(offDC, TRANSPARENT);
+
+    DrawText(offDC, s, (int)_tcslen(s), &rc, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+
+    SetBkMode(offDC, OPAQUE);
+
+    SetTextColor(offDC, oldcolor);
+    SelectObject(offDC, oldfont);
+    DeleteObject(font);
 }
 VOID SpawnBall(INT ballSize, POINT pos, COLORREF color)
 {
@@ -539,21 +571,18 @@ DWORD CheckItem(UINT hItem, HMENU hmenu)
 }
 VOID InitializeGame(HWND hWnd)
 {
-    INT rows = nBoardHeight / SQUARE_SIZE;
-    switch (rows)
+    switch (nBoardSize)
     {
-        case 6:
+        case SMALL:
             CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
             break;
-        case 10:
+        case MEDIUM:
             CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
             break;
-        case 12:
+        case BIG:
             CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
             break;
     }
-
-    StartNewGame(hWnd);
 }
 VOID ChangeBoardSize(HWND hWnd, INT wmId)
 {
@@ -679,28 +708,6 @@ VOID TrackMouse(HWND hWnd)
 
     SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
     KillTimer(hWnd, 7);
-}
-VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
-{
-    HBRUSH gbrush = CreateSolidBrush(RGB(0, 0, 255));
-    HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, gbrush);
-
-    BLENDFUNCTION bf;
-    bf.AlphaFormat = 0;
-    bf.BlendOp = AC_SRC_OVER;
-    bf.SourceConstantAlpha = 100;
-    bf.BlendFlags = 0;
-
-    Rectangle(offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
-    GdiAlphaBlend(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, bf);
-
-    SelectObject(offDC, oldbrush);
-    DeleteObject(gbrush);
-
-    SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
-
-    // TODO: Print Score on screen
-
 }
 VOID SaveSizeToFile() 
 {
