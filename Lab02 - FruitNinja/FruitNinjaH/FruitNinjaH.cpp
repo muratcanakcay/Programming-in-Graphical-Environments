@@ -15,7 +15,7 @@
 #define BIG_HEIGHT 600
 #define PROGRESS_BAR_HEIGHT 20
 #define SQUARE_SIZE 50
-#define GAME_DURATION 300         // (seconds)
+#define GAME_DURATION 30          // (seconds)
 #define REFRESH_RATE 50           // (Hz)
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
@@ -51,7 +51,6 @@ INT nBoardHeight;                               // board height
 INT nBoardWidth;                                // board width 
 INT nBoardSize;                                 // board size
 INT nGameScore;                                 // game score
-INT nNoOfBalls;                                 // number of balls in play
 INT nGameTicks = 0;                             // game ticks
 BOOL MouseTracking = FALSE;
 BOOL GameRunning = FALSE;
@@ -182,7 +181,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             
             InitializeGame(hWnd);
         } break;
-
         case WM_TIMER:
         {
             if (wParam == REFRESH_TIMER)                                // refresh timer
@@ -229,6 +227,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // Parse the menu selections:
             switch (wmId)
             {
+                case ID_GAME_NEWGAME:
+                {
+                    ChangeBoardSize(hWnd, nBoardSize);
+                } break;
+
                 case ID_BOARD_SMALL:
                 case ID_BOARD_MEDIUM:
                 case ID_BOARD_BIG:
@@ -295,6 +298,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     return 0;
 }
+
 VOID DrawBoard(HWND hWnd, HDC offDC)
 {
     HBRUSH bbrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
@@ -417,7 +421,6 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
         if ((*it).position.y > nBoardHeight + 50)
         {
             it = balls.erase(it);
-            nNoOfBalls--;
             continue;
         }
 
@@ -470,8 +473,7 @@ VOID SpawnBall(INT ballSize, POINT pos, COLORREF color)
         ball.color = color;
         ball.size = ballSize;
     }
-    
-    nNoOfBalls++;
+
     balls.push_back(ball);    
 }
 VOID CheckCollisions(HWND hWnd)
@@ -526,7 +528,6 @@ VOID CheckCollisions(HWND hWnd)
     }
 
 }
-
 DWORD CheckItem(UINT hItem, HMENU hmenu)
 {
     //First uncheck all
@@ -652,10 +653,11 @@ VOID SetWindowPosition()
 VOID StartNewGame(HWND hWnd)
 {
     nGameTicks = 0;
+    nGameScore = 0;
     SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);             // Transparancy timer
-    SetTimer(hWnd, REFRESH_TIMER, 1000 / REFRESH_RATE, NULL);      // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
+    SetTimer(hWnd, REFRESH_TIMER, 1000 / REFRESH_RATE, NULL);   // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
     SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);       // Ball spawn timer
-    std::srand((unsigned int)std::time(nullptr));
+    std::srand((unsigned int)std::time(nullptr));               
     GameRunning = TRUE;
 }
 VOID EndGame(HWND hWnd)
