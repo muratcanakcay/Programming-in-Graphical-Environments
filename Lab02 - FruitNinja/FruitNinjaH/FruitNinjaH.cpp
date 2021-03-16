@@ -37,8 +37,8 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 struct Ball_t {
     POINT position;
-    INT dx;
-    INT dy;
+    double dx;
+    double dy;
     COLORREF color;
     INT spawnTime;
     INT size;
@@ -410,6 +410,8 @@ VOID DrawProgressBar(HWND hWnd, HDC offDC)
     DeleteObject(gbrush);
     DeleteObject(gpen);
 }
+
+
 VOID DrawBalls(HWND hWnd, HDC offDC)
 {
     std::list<Ball_t>::iterator it = balls.begin();
@@ -424,20 +426,21 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
         HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
 
         INT ballLife = nGameTicks - ball.spawnTime;
-
         
-        it->position.x += ball.dx / 500;
-        it->position.y += ball.dy / 500;
+        it->position.x += ball.dx;
+        it->position.y += ball.dy;
         
         Ellipse(offDC
-            /*left*/, ball.position.x + (INT)(ball.dx * ballLife / 500)
-            /*top*/, ball.position.y + (INT)(ball.dy * ballLife / 500)
-            /*right*/, ball.position.x + ball.size + (INT)(ball.dx * ballLife / 500)
-            /*bottom*/, ball.position.y + ball.size + (INT)(ball.dy * ballLife / 500)
+            /*left*/,   ball.position.x                     //+ (INT)(ball.dx * ballLife / 500)
+            /*top*/,    ball.position.y                     //+ (INT)(ball.dy * ballLife / 500)
+            /*right*/,  ball.position.x + ball.size         //+ (INT)(ball.dx * ballLife / 500)
+            /*bottom*/, ball.position.y + ball.size         //+ (INT)(ball.dy * ballLife / 500)
         );
 
         // gravity
-        it->dy = ((ball.dy * 100) + ballLife) / 100;
+        //it->dy = ((ball.dy * 100) + ballLife) / 100;
+        
+        it->dy += 0.05;
 
         SelectObject(offDC, oldbrush);
         SelectObject(offDC, oldpen);
@@ -451,8 +454,8 @@ VOID SpawnBall(INT ballSize)
 {
     Ball_t ball;
     ball.position = { rand() % nBoardWidth, nBoardHeight };
-    ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * (rand() % 60 + 100);
-    ball.dy = -(rand() % 100 + 500);// *(nBoardHeight / 50);   // launch velocity needs optimization for big boards
+    ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * ((double)(rand() % 3) + 1) / 2;
+    ball.dy = - ( ((double)(rand() % 3) + 10) / 2) ;   // launch velocity needs optimization for big boards
     ball.color = colorSet[rand() % 6];
     ball.spawnTime = nGameTicks;
     ball.size = ballSize;
