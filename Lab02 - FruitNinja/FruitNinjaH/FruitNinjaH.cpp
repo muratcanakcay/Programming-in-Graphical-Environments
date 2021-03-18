@@ -89,6 +89,7 @@ VOID TrackMouse(HWND hWnd);
 VOID EndGame(HWND hWnd);
 VOID SaveSizeToFile();
 VOID CheckCollisions(HWND hWnd);
+VOID PrepareBitmap(HDC hdc);
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -196,7 +197,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             else if (wParam == TRANSPARENCY_TIMER)                  // transparency timer (TODO: perhaps add second timer to smooth it)
             {
-                SetLayeredWindowAttributes(hWnd, 0, (255 * 20) / 100, LWA_ALPHA);
+                SetLayeredWindowAttributes(hWnd, 0, (255 * 40) / 100, LWA_ALPHA);
             }
             else if (wParam == SPAWN_TIMER)                         // ball spawn timer
             {
@@ -255,20 +256,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             
-            // bitmap
-            {
-                INT clientWidth = nBoardWidth;
-                INT clientHeight = nBoardHeight + PROGRESS_BAR_HEIGHT;
-                
-                if (offOldBitmap != NULL)
-                    SelectObject(offDC, offOldBitmap);
-                if (offBitmap != -NULL)
-                    DeleteObject(offBitmap);
-
-                offBitmap = CreateCompatibleBitmap(hdc, clientWidth, clientHeight);
-                offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
-            }
-            
+            PrepareBitmap(hdc);
             DrawBoard(hWnd, offDC);
             DrawScore(hWnd, offDC);
             DrawBalls(hWnd, offDC);
@@ -329,23 +317,26 @@ VOID DrawBoard(HWND hWnd, HDC offDC)
 }
 VOID DrawScore(HWND hWnd, HDC offDC)
 {
-    COLORREF oldcolor = SetTextColor(offDC, RGB(255, 0, 0));
-    HFONT font = CreateFont(
-                -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),  // Height
-                0,                                                  // Width
-                0,                                                  // Escapament
-                0,                                                  // Orientation
-                FW_BOLD,                                            // Weight
-                FALSE,                                              // Italic 
-                FALSE,                                              // Underline
-                FALSE,                                              // StrikeOut
-                EASTEUROPE_CHARSET,                                 // CharSet
-                OUT_DEFAULT_PRECIS,                                 // OutPrecision
-                CLIP_DEFAULT_PRECIS,                                // ClipPrecision
-                DEFAULT_QUALITY,                                    // Quality
-                DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
-                _T("Verdana"));                                     // Facename
-            
+    COLORREF oldcolor = SetTextColor(offDC, RGB(11, 184, 17));
+    
+    HFONT font;
+    {
+        font = CreateFont(
+            -MulDiv(24, GetDeviceCaps(offDC, LOGPIXELSY), 72),  // Height
+            0,                                                  // Width
+            0,                                                  // Escapament
+            0,                                                  // Orientation
+            FW_BOLD,                                            // Weight
+            FALSE,                                              // Italic 
+            FALSE,                                              // Underline
+            FALSE,                                              // StrikeOut
+            EASTEUROPE_CHARSET,                                 // CharSet
+            OUT_DEFAULT_PRECIS,                                 // OutPrecision
+            CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+            DEFAULT_QUALITY,                                    // Quality
+            DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+            _T("Verdana"));                                     // Facename
+    }
     HFONT oldfont = (HFONT)SelectObject(offDC, font);
 
     TCHAR s[256];
@@ -367,9 +358,9 @@ VOID DrawScore(HWND hWnd, HDC offDC)
 VOID DrawProgressBar(HWND hWnd, HDC offDC)
 {
     HBRUSH wbrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    HBRUSH gbrush = CreateSolidBrush(RGB(11, 25, 220));    
+    HBRUSH gbrush = CreateSolidBrush(RGB(11, 184, 17));
     HPEN wpen = (HPEN)GetStockObject(WHITE_PEN);
-    HPEN gpen = CreatePen(PS_SOLID, 1, RGB(11, 25, 110));
+    HPEN gpen = CreatePen(PS_SOLID, 1, RGB(11, 184, 17));
     
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, wbrush);
     HPEN oldpen = (HPEN)SelectObject(offDC, wpen);    
@@ -428,7 +419,7 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
 }
 VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
 {
-    HBRUSH gbrush = CreateSolidBrush(RGB(0, 0, 255));
+    HBRUSH gbrush = CreateSolidBrush(RGB(11, 184, 17));
     HBRUSH oldbrush = (HBRUSH)SelectObject(offDC, gbrush);
 
     BLENDFUNCTION bf;
@@ -439,7 +430,7 @@ VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
 
     Rectangle(offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
     GdiAlphaBlend(hdc, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, offDC, 0, 0, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT, bf);
-
+    
     SelectObject(offDC, oldbrush);
     DeleteObject(gbrush);
 
@@ -450,35 +441,35 @@ VOID DrawEndScore(HWND hWnd, HDC offDC)
     COLORREF oldcolor = SetTextColor(offDC, RGB(255, 0, 0));
     INT fontsize = nBoardSize == SMALL ? 8 : nBoardSize == MEDIUM ? 12 : 16;
     
-    HFONT font = CreateFont(
-        -MulDiv(fontsize, GetDeviceCaps(offDC, LOGPIXELSY), 36),    // Height
-        0,                                                  // Width
-        0,                                                  // Escapament
-        0,                                                  // Orientation
-        FW_BOLD,                                            // Weight
-        FALSE,                                              // Italic 
-        FALSE,                                              // Underline
-        FALSE,                                              // StrikeOut
-        EASTEUROPE_CHARSET,                                 // CharSet
-        OUT_DEFAULT_PRECIS,                                 // OutPrecision
-        CLIP_DEFAULT_PRECIS,                                // ClipPrecision
-        DEFAULT_QUALITY,                                    // Quality
-        DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
-        _T("Verdana"));                                     // Facename
-
+    HFONT font;
+    { 
+        font = CreateFont(
+            -MulDiv(fontsize, GetDeviceCaps(offDC, LOGPIXELSY), 36),    // Height
+            0,                                                  // Width
+            0,                                                  // Escapament
+            0,                                                  // Orientation
+            FW_BOLD,                                            // Weight
+            FALSE,                                              // Italic 
+            FALSE,                                              // Underline
+            FALSE,                                              // StrikeOut
+            EASTEUROPE_CHARSET,                                 // CharSet
+            OUT_DEFAULT_PRECIS,                                 // OutPrecision
+            CLIP_DEFAULT_PRECIS,                                // ClipPrecision
+            DEFAULT_QUALITY,                                    // Quality
+            DEFAULT_PITCH | FF_SWISS,                           // PitchAndFamily
+            _T("Verdana"));                                     // Facename
+    }
     HFONT oldfont = (HFONT)SelectObject(offDC, font);
 
     TCHAR s[256];
-    _stprintf_s(s, 256, _T("YOU SCORED %d POINTS!"), nGameScore);
+    _stprintf_s(s, 256, _T("YOUR SCORE:\n %d"), nGameScore);
 
     RECT rc;
     GetClientRect(hWnd, &rc);
-    rc.top -= 100;
+    rc.top = rc.bottom * 0.4;
 
     SetBkMode(offDC, TRANSPARENT);
-
-    DrawText(offDC, s, (int)_tcslen(s), &rc, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-
+    DrawText(offDC, s, (int)_tcslen(s), &rc,  DT_CENTER );
     SetBkMode(offDC, OPAQUE);
 
     SetTextColor(offDC, oldcolor);
@@ -553,12 +544,11 @@ VOID CheckCollisions(HWND hWnd)
     if (spawn)
     {
         //spawn new ball(s)
-        INT spawnCount = rand() % 3 + 4;
+        INT spawnCount = rand() % 4 + 2;
         
         while (spawnCount--)
             SpawnBall(size, pos, color);
     }
-
 }
 DWORD CheckItem(UINT hItem, HMENU hmenu)
 {
@@ -693,7 +683,7 @@ VOID EndGame(HWND hWnd)
 {
     KillTimer(hWnd, SPAWN_TIMER);
     KillTimer(hWnd, REFRESH_TIMER);
-    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 20) / 100, LWA_ALPHA);
+    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 40) / 100, LWA_ALPHA);
     GameRunning = FALSE;
 }
 VOID TrackMouse(HWND hWnd)
@@ -718,4 +708,14 @@ VOID SaveSizeToFile()
         outfile << "SIZE=" << nBoardSize;
         outfile.close();
     }
+}
+VOID PrepareBitmap(HDC hdc)
+{
+    if (offOldBitmap != NULL)
+        SelectObject(offDC, offOldBitmap);
+    if (offBitmap != -NULL)
+        DeleteObject(offBitmap);
+
+    offBitmap = CreateCompatibleBitmap(hdc, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
+    offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
 }
