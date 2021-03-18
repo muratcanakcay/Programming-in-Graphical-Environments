@@ -1,11 +1,17 @@
 #include "framework.h"
 #include "FruitNinjaH.h"
+#include <windows.h>
+#include <mmsystem.h>
 #include <list>
 #include <ctime>
 #include <map>
 #include <string>
 #include <fstream>
 #include <vector>
+
+#include <iostream>
+#include <fstream>
+#include <conio.h>
 
 #define MAX_LOADSTRING 100
 #define SMALL_HEIGHT 300
@@ -18,7 +24,7 @@
 #define SQUARE_SIZE 50
 #define GAME_DURATION 30          // (seconds)
 #define REFRESH_RATE 50           // (Hz)
-#define MAX_TRAIL_SIZE 8
+#define MAX_TRAIL_SIZE 8          // no. of points  
 #define BALL_SIZE_L 60
 #define BALL_SIZE_M 30
 #define BALL_SIZE_S 12
@@ -41,15 +47,14 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 struct Ball_t {
     POINT position;
-    INT dx;
+    double dx;
     double dy;
     COLORREF color;
     INT size;
 };
 
 std::list<Ball_t> balls;                        // list of balls
-std::list<POINT> trail;
-
+std::list<POINT> trail;                         // list of points that make up cursor trail
 INT nWindowWidth;                               // main windows height
 INT nWindowHeight;                              // main window width
 POINT WindowPos;                                // main window position        
@@ -99,6 +104,8 @@ VOID EndGame(HWND hWnd);
 VOID SaveSizeToFile();
 VOID CheckCollisions(HWND hWnd);
 VOID PrepareBitmap(HDC hdc);
+POINT GetCursorAcceleration();
+
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -212,12 +219,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             SpawnBall(BALL_SIZE_L, POINT{ 0, 0 }, RGB(0, 0, 0));
         }
-        else if (wParam == TRAIL_RECORD_TIMER)                         // trail timer for keeping a list of recent positions of the cursor tip
+        else if (wParam == TRAIL_RECORD_TIMER)                  // trail timer for keeping a list of recent positions of the cursor tip
         {
             if (trail.size() < MAX_TRAIL_SIZE)
                 RecordTrail = TRUE;
         }
-        else if (wParam == TRAIL_DELETE_TIMER)
+        else if (wParam == TRAIL_DELETE_TIMER)                  // trail timer for deleting from the list of recent positions of the cursor tip
         {
             if (trail.size() > 1)
                 trail.pop_front();
@@ -232,14 +239,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             KeepTrail(hWnd);
             RecordTrail = FALSE;
         }
-        
 
         if (!MouseTracking)
             TrackMouse(hWnd);
     } break;
     case WM_MOUSELEAVE:
     {
-        SetTimer(hWnd, 7, 3000, NULL);                       // Reset transparancy timer
+        SetTimer(hWnd, 7, 3000, NULL); // Reset transparancy timer
         MouseTracking = false;
     } break;
     case WM_WINDOWPOSCHANGING: // Prevent repositioning
@@ -319,6 +325,116 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
+VOID InitializeGame(HWND hWnd)
+{
+    switch (nBoardSize)
+    {
+    case SMALL:
+        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
+        break;
+    case MEDIUM:
+        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
+        break;
+    case BIG:
+        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
+        break;
+    }
+}
+VOID TrackMouse(HWND hWnd)
+{
+    TRACKMOUSEEVENT tme;
+    tme.cbSize = sizeof(TRACKMOUSEEVENT);
+    tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
+    tme.hwndTrack = hWnd;
+    tme.dwHoverTime = 1;
+    TrackMouseEvent(&tme);
+    MouseTracking = true;
+
+    SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
+    KillTimer(hWnd, 7);
+}
+VOID StartNewGame(HWND hWnd)
+{
+    nGameTicks = 0;
+    nGameScore = 0;
+
+    SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);                  // Transparancy timer
+    SetTimer(hWnd, REFRESH_TIMER, 1000 / REFRESH_RATE, NULL);        // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
+    SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);            // Ball spawn timer
+    SetTimer(hWnd, TRAIL_RECORD_TIMER, 1 / REFRESH_RATE, NULL);     // Cursor trail timer
+    SetTimer(hWnd, TRAIL_DELETE_TIMER, 1000 / REFRESH_RATE, NULL);   // Cursor trail timer
+    std::srand((unsigned int)std::time(nullptr));
+    GameRunning = TRUE;
+}
+VOID InitBoardDimensions()
+{
+    // initializa board dimensions
+
+    BOOL nofile = TRUE;
+
+    std::ifstream infile("FruitNinja.ini", std::ios::beg);
+    if (infile.is_open())
+    {
+        std::string line;
+        std::getline(infile, line);
+
+        if (line.compare(std::string{ "[GAME]" }) == 0)
+        {
+            std::getline(infile, line);
+
+            if (line.compare(0, 5, std::string("SIZE=")) == 0)
+            {
+                if (line[5] == '2')
+                {
+                    nBoardHeight = BIG_HEIGHT;
+                    nBoardWidth = BIG_WIDTH;
+                    nBoardSize = BIG;
+                    nofile = FALSE;
+                }
+                else if (line[5] == '1')
+                {
+                    nBoardHeight = MEDIUM_HEIGHT;
+                    nBoardWidth = MEDIUM_WIDTH;
+                    nBoardSize = MEDIUM;
+                    nofile = FALSE;
+                }
+            }
+        }
+
+        infile.close();
+    }
+
+    if (nofile)
+    {
+        nBoardHeight = SMALL_HEIGHT;
+        nBoardWidth = SMALL_WIDTH;
+        nBoardSize = SMALL;
+    }
+}
+VOID SetWindowPosition()
+{
+    // Set the Size and Position of the main window according to board size
+    RECT rc;
+    rc.top = rc.left = 0;
+    rc.bottom = nBoardHeight + PROGRESS_BAR_HEIGHT;
+    rc.right = nBoardWidth;
+
+    AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
+
+    nWindowWidth = rc.right - rc.left;
+    nWindowHeight = rc.bottom - rc.top;
+    WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
+}
+VOID PrepareBitmap(HDC hdc)
+{
+    if (offOldBitmap != NULL)
+        SelectObject(offDC, offOldBitmap);
+    if (offBitmap != -NULL)
+        DeleteObject(offBitmap);
+
+    offBitmap = CreateCompatibleBitmap(hdc, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
+    offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
+}
 VOID DrawBoard(HWND hWnd, HDC offDC)
 {
     HBRUSH bbrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
@@ -421,7 +537,7 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
         HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
 
         // update position of ball
-        it->position.x += it->dx;
+        it->position.x = (INT)(it->position.x + it->dx);
         it->position.y = (INT)(it->position.y + it->dy);
 
         // draw ball
@@ -441,6 +557,176 @@ VOID DrawBalls(HWND hWnd, HDC offDC)
         DeleteObject(bpen);
 
         it++;
+    }
+}
+VOID DrawTrail(HWND hWnd, HDC offDC)
+{
+    POINT apt[100];
+
+    int i = 0;
+    std::list<POINT>::const_iterator it = trail.begin();
+
+    int k = min(100, trail.size());
+
+    while (i < k)
+    {
+        apt[i++] = *it++;
+    }
+
+    HPEN bpen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+    HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
+
+    Polyline(offDC, apt, k);
+    SelectObject(offDC, oldpen);
+    DeleteObject(bpen);
+
+}
+POINT GetCursorAcceleration()
+{
+    POINT pt;
+    POINT startPoint;
+
+    std::list<POINT>::const_iterator it = trail.begin();
+    POINT endPoint = *it;
+    while (it != trail.end())
+    {
+        startPoint = *it++;
+    }
+
+    pt.x = startPoint.x - endPoint.x;
+    pt.y = startPoint.y - endPoint.y;
+
+    return pt;
+}
+VOID SpawnBall(INT ballSize, POINT pos, COLORREF color)
+{
+    Ball_t ball;
+
+    if (ballSize == BALL_SIZE_L)
+    {
+        ball.position = { rand() % nBoardWidth, nBoardHeight };
+        ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * ((double)(rand() % 4) + 1);
+        ball.dy = (nBoardSize == SMALL ? -0.7 : -1) * ((double)(rand() % 8) + 7);
+        ball.color = colorSet[rand() % 6];
+        ball.size = ballSize;
+    }
+    else
+    {
+        ball.position = { pos.x, pos.y };
+
+        POINT cursorAcc = GetCursorAcceleration();
+
+        ball.dx = (((double)(rand() % 3) - 1) * ((double)(rand() % 4) + 1) + cursorAcc.x / 6) / 5;
+        ball.dy = (((double)(rand() % 3) - 1) * ((double)(rand() % 4) + 1) + cursorAcc.y / 6) / 5;
+
+        ball.color = color;
+        ball.size = ballSize;
+    }
+
+    balls.push_back(ball);
+}
+VOID KeepTrail(HWND hWnd)
+{
+    POINT cursorPos;
+    GetCursorPos(&cursorPos);
+    ScreenToClient(hWnd, &cursorPos);
+
+    trail.push_back(cursorPos);
+}
+DWORD CheckItem(UINT hItem, HMENU hmenu)
+{
+    //First uncheck all
+    CheckMenuItem(hmenu, ID_BOARD_SMALL, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_BOARD_MEDIUM, MF_BYCOMMAND | MF_UNCHECKED);
+    CheckMenuItem(hmenu, ID_BOARD_BIG, MF_BYCOMMAND | MF_UNCHECKED);
+    //then check the hItem
+    return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
+}
+VOID ChangeBoardSize(HWND hWnd, INT wmId)
+{
+    switch (wmId)
+    {
+    case ID_BOARD_SMALL:
+    {
+        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
+        nBoardHeight = SMALL_HEIGHT;
+        nBoardWidth = SMALL_WIDTH;
+        nBoardSize = SMALL;
+    }break;
+
+    case ID_BOARD_MEDIUM:
+    {
+        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
+        nBoardHeight = MEDIUM_HEIGHT;
+        nBoardWidth = MEDIUM_WIDTH;
+        nBoardSize = MEDIUM;
+    }break;
+
+    case ID_BOARD_BIG:
+    {
+        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
+        nBoardHeight = BIG_HEIGHT;
+        nBoardWidth = BIG_WIDTH;
+        nBoardSize = BIG;
+    }break;
+    }
+
+    SetWindowPosition();
+    MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
+
+
+    balls.clear(); // move this to StartNewGame() after implementing SpawnBall()
+    StartNewGame(hWnd);
+}
+VOID CheckCollisions(HWND hWnd)
+{
+    BOOL spawn = false;
+    COLORREF color;
+    POINT pos;
+    INT size;
+
+    POINT cursorPos;
+    GetCursorPos(&cursorPos);
+    ScreenToClient(hWnd, &cursorPos);
+
+    std::list<Ball_t>::iterator it = balls.begin();
+    while (it != balls.end())
+    {
+        // check if cursor is cutting the ball
+        INT r = (*it).size / 2;
+        INT dx = (cursorPos.x - (*it).position.x - r);
+        INT dy = (cursorPos.y - (*it).position.y - r);
+        INT d = (dx * dx) + (dy * dy);
+
+        if (d <= (r * r))
+        {
+            // update score (1pt for Large balls / 2pt for Medium balls / 4pt for Small balls)
+            nGameScore += (*it).size == BALL_SIZE_L ? 1 : (*it).size == BALL_SIZE_M ? 2 : 4;
+
+            // new ball properties
+            color = (*it).color;
+            pos = (*it).position;
+            size = (*it).size == BALL_SIZE_L ? BALL_SIZE_M : BALL_SIZE_S;
+
+            // if ball was L or M set spawn flag
+            if ((*it).size != BALL_SIZE_S) spawn = TRUE;
+
+            // erase the ball
+            balls.erase(it);
+
+            break;
+        }
+
+        it++;
+    }
+
+    if (spawn)
+    {
+        //spawn new ball(s)
+        INT spawnCount = rand() % 4 + 2;
+
+        while (spawnCount--)
+            SpawnBall(size, pos, color);
     }
 }
 VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC)
@@ -502,198 +788,14 @@ VOID DrawEndScore(HWND hWnd, HDC offDC)
     SelectObject(offDC, oldfont);
     DeleteObject(font);
 }
-VOID SpawnBall(INT ballSize, POINT pos, COLORREF color)
+VOID EndGame(HWND hWnd)
 {
-    Ball_t ball;
-
-    if (ballSize == BALL_SIZE_L)
-    {
-        ball.position = { rand() % nBoardWidth, nBoardHeight };
-        ball.dx = (ball.position.x < nBoardWidth / 2 ? 1 : -1) * ((rand() % 4) + 1);
-        ball.dy = (nBoardSize == SMALL ? -0.7 : -1) * ((double)(rand() % 8) + 7);
-        ball.color = colorSet[rand() % 6];
-        ball.size = ballSize;
-    }
-    else
-    {
-        ball.position = { pos.x, pos.y };
-        ball.dx = (rand() % 3 - 1) * ((rand() % 4) + 1);
-        ball.dy = ((double)(rand() % 3) - 1) * ((double)(rand() % 4) + 1);
-        ball.color = color;
-        ball.size = ballSize;
-    }
-
-    balls.push_back(ball);
-}
-VOID CheckCollisions(HWND hWnd)
-{
-    BOOL spawn = false;
-    COLORREF color;
-    POINT pos;
-    INT size;
-
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    ScreenToClient(hWnd, &cursorPos);
-
-    std::list<Ball_t>::iterator it = balls.begin();
-    while (it != balls.end())
-    {
-        // check if cursor is cutting the ball
-        INT r = (*it).size / 2;
-        INT dx = (cursorPos.x - (*it).position.x - r);
-        INT dy = (cursorPos.y - (*it).position.y - r);
-        INT d = (dx * dx) + (dy * dy);
-
-        if (d <= (r * r))
-        {
-            // update score (1pt for Large balls / 2pt for Medium balls / 4pt for Small balls)
-            nGameScore += (*it).size == BALL_SIZE_L ? 1 : (*it).size == BALL_SIZE_M ? 2 : 4;
-
-            // new ball properties
-            color = (*it).color;
-            pos = (*it).position;
-            size = (*it).size == BALL_SIZE_L ? BALL_SIZE_M : BALL_SIZE_S;
-
-            // if ball was L or M set spawn flag
-            if ((*it).size != BALL_SIZE_S) spawn = TRUE;
-
-            // erase the ball
-            balls.erase(it);
-
-            break;
-        }
-
-        it++;
-    }
-
-    if (spawn)
-    {
-        //spawn new ball(s)
-        INT spawnCount = rand() % 4 + 2;
-
-        while (spawnCount--)
-            SpawnBall(size, pos, color);
-    }
-}
-DWORD CheckItem(UINT hItem, HMENU hmenu)
-{
-    //First uncheck all
-    CheckMenuItem(hmenu, ID_BOARD_SMALL, MF_BYCOMMAND | MF_UNCHECKED);
-    CheckMenuItem(hmenu, ID_BOARD_MEDIUM, MF_BYCOMMAND | MF_UNCHECKED);
-    CheckMenuItem(hmenu, ID_BOARD_BIG, MF_BYCOMMAND | MF_UNCHECKED);
-    //then check the hItem
-    return CheckMenuItem(hmenu, hItem, MF_BYCOMMAND | MF_CHECKED);
-}
-VOID InitializeGame(HWND hWnd)
-{
-    switch (nBoardSize)
-    {
-    case SMALL:
-        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
-        break;
-    case MEDIUM:
-        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
-        break;
-    case BIG:
-        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
-        break;
-    }
-}
-VOID ChangeBoardSize(HWND hWnd, INT wmId)
-{
-    switch (wmId)
-    {
-    case ID_BOARD_SMALL:
-    {
-        CheckItem(ID_BOARD_SMALL, GetMenu(hWnd));
-        nBoardHeight = SMALL_HEIGHT;
-        nBoardWidth = SMALL_WIDTH;
-        nBoardSize = SMALL;
-    }break;
-
-    case ID_BOARD_MEDIUM:
-    {
-        CheckItem(ID_BOARD_MEDIUM, GetMenu(hWnd));
-        nBoardHeight = MEDIUM_HEIGHT;
-        nBoardWidth = MEDIUM_WIDTH;
-        nBoardSize = MEDIUM;
-    }break;
-
-    case ID_BOARD_BIG:
-    {
-        CheckItem(ID_BOARD_BIG, GetMenu(hWnd));
-        nBoardHeight = BIG_HEIGHT;
-        nBoardWidth = BIG_WIDTH;
-        nBoardSize = BIG;
-    }break;
-    }
-
-    SetWindowPosition();
-    MoveWindow(hWnd, WindowPos.x, WindowPos.y, nWindowWidth, nWindowHeight, TRUE);
-
-
-    balls.clear(); // move this to StartNewGame() after implementing SpawnBall()
-    StartNewGame(hWnd);
-}
-VOID InitBoardDimensions()
-{
-    // initializa board dimensions
-
-    BOOL nofile = TRUE;
-
-    std::ifstream infile("FruitNinja.ini", std::ios::beg);
-    if (infile.is_open())
-    {
-        std::string line;
-        std::getline(infile, line);
-
-        if (line.compare(std::string{ "[GAME]" }) == 0)
-        {
-            std::getline(infile, line);
-
-            if (line.compare(0, 5, std::string("SIZE=")) == 0)
-            {
-                if (line[5] == '2')
-                {
-                    nBoardHeight = BIG_HEIGHT;
-                    nBoardWidth = BIG_WIDTH;
-                    nBoardSize = BIG;
-                    nofile = FALSE;
-                }
-                else if (line[5] == '1')
-                {
-                    nBoardHeight = MEDIUM_HEIGHT;
-                    nBoardWidth = MEDIUM_WIDTH;
-                    nBoardSize = MEDIUM;
-                    nofile = FALSE;
-                }
-            }
-        }
-
-        infile.close();
-    }
-
-    if (nofile)
-    {
-        nBoardHeight = SMALL_HEIGHT;
-        nBoardWidth = SMALL_WIDTH;
-        nBoardSize = SMALL;
-    }
-}
-VOID SetWindowPosition()
-{
-    // Set the Size and Position of the main window according to board size
-    RECT rc;
-    rc.top = rc.left = 0;
-    rc.bottom = nBoardHeight + PROGRESS_BAR_HEIGHT;
-    rc.right = nBoardWidth;
-
-    AdjustWindowRectEx(&rc, WS_BORDER | WS_CAPTION, true, 0);
-
-    nWindowWidth = rc.right - rc.left;
-    nWindowHeight = rc.bottom - rc.top;
-    WindowPos = { (ScreenX - nWindowWidth) / 2 , (ScreenY - nWindowHeight) / 2 };
+    KillTimer(hWnd, SPAWN_TIMER);
+    KillTimer(hWnd, REFRESH_TIMER);
+    KillTimer(hWnd, TRAIL_RECORD_TIMER);
+    KillTimer(hWnd, TRAIL_DELETE_TIMER);
+    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 40) / 100, LWA_ALPHA);
+    GameRunning = FALSE;
 }
 VOID SaveSizeToFile()
 {
@@ -704,80 +806,4 @@ VOID SaveSizeToFile()
         outfile << "SIZE=" << nBoardSize;
         outfile.close();
     }
-}
-VOID PrepareBitmap(HDC hdc)
-{
-    if (offOldBitmap != NULL)
-        SelectObject(offDC, offOldBitmap);
-    if (offBitmap != -NULL)
-        DeleteObject(offBitmap);
-
-    offBitmap = CreateCompatibleBitmap(hdc, nBoardWidth, nBoardHeight + PROGRESS_BAR_HEIGHT);
-    offOldBitmap = (HBITMAP)SelectObject(offDC, offBitmap);
-}
-VOID TrackMouse(HWND hWnd)
-{
-    TRACKMOUSEEVENT tme;
-    tme.cbSize = sizeof(TRACKMOUSEEVENT);
-    tme.dwFlags = TME_LEAVE; //Type of events to track & trigger.
-    tme.hwndTrack = hWnd;
-    tme.dwHoverTime = 1;
-    TrackMouseEvent(&tme);
-    MouseTracking = true;
-
-    SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA); // Remove transparency 
-    KillTimer(hWnd, 7);
-}
-VOID StartNewGame(HWND hWnd)
-{
-    nGameTicks = 0;
-    nGameScore = 0;
-    
-    SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);                  // Transparancy timer
-    SetTimer(hWnd, REFRESH_TIMER, 1000 / REFRESH_RATE, NULL);        // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
-    SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);            // Ball spawn timer
-    SetTimer(hWnd, TRAIL_RECORD_TIMER, 1 / REFRESH_RATE, NULL);     // Cursor trail timer
-    SetTimer(hWnd, TRAIL_DELETE_TIMER, 1000 / REFRESH_RATE, NULL);   // Cursor trail timer
-    std::srand((unsigned int)std::time(nullptr));
-    GameRunning = TRUE;
-}
-VOID EndGame(HWND hWnd)
-{
-    KillTimer(hWnd, SPAWN_TIMER);
-    KillTimer(hWnd, REFRESH_TIMER);
-    KillTimer(hWnd, TRAIL_RECORD_TIMER);
-    KillTimer(hWnd, TRAIL_DELETE_TIMER);
-    SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), (255 * 40) / 100, LWA_ALPHA);
-    GameRunning = FALSE;
-}
-
-VOID KeepTrail(HWND hWnd)
-{
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    ScreenToClient(hWnd, &cursorPos);
-
-    trail.push_back(cursorPos);
-}
-VOID DrawTrail(HWND hWnd, HDC offDC)
-{
-    POINT apt[100];
-    
-    int i = 0;
-    std::list<POINT>::const_iterator it = trail.begin();
-    
-    int k = min(100, trail.size());
-
-    while(i < k)
-    {
-        apt[i++] = *it++;
-    }
-
-    HPEN bpen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-    HPEN oldpen = (HPEN)SelectObject(offDC, bpen);
-
-    Polyline(offDC, apt, k);
-    SelectObject(offDC, oldpen);
-    DeleteObject(bpen);
-
 }
