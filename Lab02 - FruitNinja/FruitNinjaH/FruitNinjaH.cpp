@@ -8,10 +8,8 @@
 #include <string>
 #include <fstream>
 #include <vector>
-
-#include <iostream>
 #include <fstream>
-#include <conio.h>
+
 
 #define MAX_LOADSTRING 100
 #define SMALL_HEIGHT 300
@@ -365,6 +363,8 @@ VOID StartNewGame(HWND hWnd)
     SetTimer(hWnd, TRAIL_DELETE_TIMER, 1000 / REFRESH_RATE, NULL);   // Cursor trail timer
     std::srand((unsigned int)std::time(nullptr));
     GameRunning = TRUE;
+
+    PlaySoundW(L"music.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 }
 VOID InitBoardDimensions()
 {
