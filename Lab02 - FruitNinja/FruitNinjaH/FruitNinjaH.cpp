@@ -10,34 +10,6 @@
 #include <vector>
 #include <fstream>
 
-
-#define MAX_LOADSTRING 100
-#define SMALL_HEIGHT 300
-#define SMALL_WIDTH 400
-#define MEDIUM_HEIGHT 500
-#define MEDIUM_WIDTH 600
-#define BIG_WIDTH 800
-#define BIG_HEIGHT 600
-#define PROGRESS_BAR_HEIGHT 20
-#define SQUARE_SIZE 50
-#define GAME_DURATION 30          // (seconds)
-#define REFRESH_RATE 50           // (Hz)
-#define MAX_TRAIL_SIZE 8          // no. of points  
-#define BALL_SIZE_L 60
-#define BALL_SIZE_M 30
-#define BALL_SIZE_S 12
-#define SMALL 0
-#define MEDIUM 1
-#define BIG 2
-#define TRANSPARENCY_TIMER 7
-#define REFRESH_TIMER 9
-#define SPAWN_TIMER 10
-#define TRAIL_RECORD_TIMER 11
-#define TRAIL_DELETE_TIMER 12
-#define SPAWN_RATE 1              // (seconds between ball spawns)
-#define ScreenX GetSystemMetrics(SM_CXSCREEN)
-#define ScreenY GetSystemMetrics(SM_CYSCREEN)
-
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // title bar text
@@ -82,27 +54,6 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, INT);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
-VOID InitBoardDimensions();
-VOID SetWindowPosition();
-VOID DrawBoard(HWND hWnd, HDC offDC);
-VOID DrawScore(HWND hWnd, HDC offDC);
-VOID DrawProgressBar(HWND hWnd, HDC offDC);
-VOID DrawBalls(HWND hWnd, HDC offDC);
-VOID DrawEndScreen(HWND hWnd, HDC hdc, HDC offDC);
-VOID DrawEndScore(HWND hWnd, HDC offDC);
-VOID KeepTrail(HWND hWnd);
-VOID DrawTrail(HWND hWnd, HDC offDC);
-VOID StartNewGame(HWND hWnd);
-DWORD CheckItem(UINT hItem, HMENU hmenu);
-VOID InitializeGame(HWND hWnd);
-VOID ChangeBoardSize(HWND hWnd, INT wmId);
-VOID SpawnBall(INT ballSize, POINT pos, COLORREF color);
-VOID TrackMouse(HWND hWnd);
-VOID EndGame(HWND hWnd);
-VOID SaveSizeToFile();
-VOID CheckCollisions(HWND hWnd);
-VOID PrepareBitmap(HDC hdc);
-POINT GetCursorAcceleration();
 
 
 INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -359,7 +310,7 @@ VOID StartNewGame(HWND hWnd)
     SetTimer(hWnd, TRANSPARENCY_TIMER, 3000, NULL);                  // Transparancy timer
     SetTimer(hWnd, REFRESH_TIMER, 1000 / REFRESH_RATE, NULL);        // Game timer - 200 Hz => 5ms => Game over at nGameTicks = 6000    
     SetTimer(hWnd, SPAWN_TIMER, SPAWN_RATE * 1000, NULL);            // Ball spawn timer
-    SetTimer(hWnd, TRAIL_RECORD_TIMER, 1 / REFRESH_RATE, NULL);     // Cursor trail timer
+    SetTimer(hWnd, TRAIL_RECORD_TIMER, 1 / REFRESH_RATE, NULL);      // Cursor trail timer
     SetTimer(hWnd, TRAIL_DELETE_TIMER, 1000 / REFRESH_RATE, NULL);   // Cursor trail timer
     std::srand((unsigned int)std::time(nullptr));
     GameRunning = TRUE;

@@ -156,19 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\FruitNinjaL\Fruit_Ninja.ico" />
-    <Image Include="bitmap1.bmp" />
     <Image Include="FruitNinjaH.ico" />
     <Image Include="Fruit_Ninja.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="knife.cur" />
-    <None Include="wav1.bin" />
-    <None Include="wav2.bin" />
-    <None Include="wave1.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="popL.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
