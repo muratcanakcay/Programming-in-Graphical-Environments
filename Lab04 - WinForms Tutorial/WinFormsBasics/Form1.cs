@@ -17,5 +17,24 @@ namespace WinFormsBasics
             InitializeComponent();
         }
 
+        private void goButton_Click(object sender, EventArgs e)
+        {
+            if (this.ValidateChildren())
+                MessageBox.Show("Welcome " + nameTextBox.Text);
+        }
+
+        private void nameTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            if (nameTextBox.Text.Length == 0 || nameTextBox.Text.Length > 6)
+            {
+                nameErrorProvider.SetError(nameTextBox, "Name must contain 1 to 6 characters.");
+                e.Cancel = true;
+                return;
+            }
+
+            nameErrorProvider.SetError(nameTextBox, string.Empty);
+            e.Cancel = false;
+            return;
+        }
     }
 }
