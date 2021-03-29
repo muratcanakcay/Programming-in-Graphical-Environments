@@ -1,7 +1,7 @@
 ﻿
 namespace RoomPlanner
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,21 +30,19 @@ namespace RoomPlanner
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.createdFurnitureBox = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.addFurnitureBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.coffeeTableButton = new System.Windows.Forms.Button();
+            this.coffeeTableButton = new RoomPlanner.ToggleButton();
+            this.tableButton = new RoomPlanner.ToggleButton();
+            this.sofaButton = new RoomPlanner.ToggleButton();
+            this.bedButton = new RoomPlanner.ToggleButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableButton = new System.Windows.Forms.Button();
-            this.sofaButton = new System.Windows.Forms.Button();
-            this.bedButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -60,28 +58,12 @@ namespace RoomPlanner
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel2);
-            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Size = new System.Drawing.Size(800, 426);
             this.splitContainer1.SplitterDistance = 550;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(544, 444);
-            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
@@ -149,12 +131,54 @@ namespace RoomPlanner
             this.coffeeTableButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.coffeeTableButton.Location = new System.Drawing.Point(3, 3);
             this.coffeeTableButton.Name = "coffeeTableButton";
+            this.coffeeTableButton.Picture = null;
             this.coffeeTableButton.Size = new System.Drawing.Size(75, 75);
+            this.coffeeTableButton.State = RoomPlanner.ButtonState.off;
             this.coffeeTableButton.TabIndex = 0;
             this.coffeeTableButton.UseVisualStyleBackColor = false;
-            this.coffeeTableButton.Click += new System.EventHandler(this.coffeeTableButton_Click);
-            this.coffeeTableButton.MouseEnter += new System.EventHandler(this.coffeeTableButton_MouseEnter);
-            this.coffeeTableButton.MouseLeave += new System.EventHandler(this.coffeeTableButton_MouseLeave);
+            this.coffeeTableButton.Click += new System.EventHandler(this.SelectButton);
+            // 
+            // tableButton
+            // 
+            this.tableButton.BackColor = System.Drawing.Color.White;
+            this.tableButton.BackgroundImage = global::RoomPlanner.Properties.Resources.table;
+            this.tableButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tableButton.Location = new System.Drawing.Point(84, 3);
+            this.tableButton.Name = "tableButton";
+            this.tableButton.Picture = null;
+            this.tableButton.Size = new System.Drawing.Size(75, 75);
+            this.tableButton.State = RoomPlanner.ButtonState.off;
+            this.tableButton.TabIndex = 1;
+            this.tableButton.UseVisualStyleBackColor = false;
+            this.tableButton.Click += new System.EventHandler(this.SelectButton);
+            // 
+            // sofaButton
+            // 
+            this.sofaButton.BackColor = System.Drawing.Color.White;
+            this.sofaButton.BackgroundImage = global::RoomPlanner.Properties.Resources.sofa;
+            this.sofaButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sofaButton.Location = new System.Drawing.Point(3, 84);
+            this.sofaButton.Name = "sofaButton";
+            this.sofaButton.Picture = null;
+            this.sofaButton.Size = new System.Drawing.Size(75, 75);
+            this.sofaButton.State = RoomPlanner.ButtonState.off;
+            this.sofaButton.TabIndex = 2;
+            this.sofaButton.UseVisualStyleBackColor = false;
+            this.sofaButton.Click += new System.EventHandler(this.SelectButton);
+            // 
+            // bedButton
+            // 
+            this.bedButton.BackColor = System.Drawing.Color.White;
+            this.bedButton.BackgroundImage = global::RoomPlanner.Properties.Resources.double_bed;
+            this.bedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bedButton.Location = new System.Drawing.Point(84, 84);
+            this.bedButton.Name = "bedButton";
+            this.bedButton.Picture = null;
+            this.bedButton.Size = new System.Drawing.Size(75, 75);
+            this.bedButton.State = RoomPlanner.ButtonState.off;
+            this.bedButton.TabIndex = 3;
+            this.bedButton.UseVisualStyleBackColor = false;
+            this.bedButton.Click += new System.EventHandler(this.SelectButton);
             // 
             // menuStrip1
             // 
@@ -182,43 +206,7 @@ namespace RoomPlanner
             this.toolStripMenuItem2.Size = new System.Drawing.Size(168, 22);
             this.toolStripMenuItem2.Text = "New Blueprint";
             // 
-            // tableButton
-            // 
-            this.tableButton.BackColor = System.Drawing.Color.White;
-            this.tableButton.BackgroundImage = global::RoomPlanner.Properties.Resources.table;
-            this.tableButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tableButton.Location = new System.Drawing.Point(84, 3);
-            this.tableButton.Name = "tableButton";
-            this.tableButton.Size = new System.Drawing.Size(75, 75);
-            this.tableButton.TabIndex = 1;
-            this.tableButton.UseVisualStyleBackColor = false;
-            this.tableButton.Click += new System.EventHandler(this.tableButton_Click);
-            // 
-            // sofaButton
-            // 
-            this.sofaButton.BackColor = System.Drawing.Color.White;
-            this.sofaButton.BackgroundImage = global::RoomPlanner.Properties.Resources.sofa;
-            this.sofaButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.sofaButton.Location = new System.Drawing.Point(3, 84);
-            this.sofaButton.Name = "sofaButton";
-            this.sofaButton.Size = new System.Drawing.Size(75, 75);
-            this.sofaButton.TabIndex = 2;
-            this.sofaButton.UseVisualStyleBackColor = false;
-            this.sofaButton.Click += new System.EventHandler(this.sofaButton_Click);
-            // 
-            // bedButton
-            // 
-            this.bedButton.BackColor = System.Drawing.Color.White;
-            this.bedButton.BackgroundImage = global::RoomPlanner.Properties.Resources.double_bed;
-            this.bedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.bedButton.Location = new System.Drawing.Point(84, 84);
-            this.bedButton.Name = "bedButton";
-            this.bedButton.Size = new System.Drawing.Size(75, 75);
-            this.bedButton.TabIndex = 3;
-            this.bedButton.UseVisualStyleBackColor = false;
-            this.bedButton.Click += new System.EventHandler(this.bedButton_Click);
-            // 
-            // Form1
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -226,10 +214,9 @@ namespace RoomPlanner
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MinimumSize = new System.Drawing.Size(400, 300);
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RoomPlanner";
-            this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -250,16 +237,15 @@ namespace RoomPlanner
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox createdFurnitureBox;
         private System.Windows.Forms.GroupBox addFurnitureBox;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.Button coffeeTableButton;
-        private System.Windows.Forms.Button tableButton;
-        private System.Windows.Forms.Button sofaButton;
-        private System.Windows.Forms.Button bedButton;
+        private ToggleButton coffeeTableButton;
+        private ToggleButton tableButton;
+        private ToggleButton sofaButton;
+        private ToggleButton bedButton;
     }
 }
 
