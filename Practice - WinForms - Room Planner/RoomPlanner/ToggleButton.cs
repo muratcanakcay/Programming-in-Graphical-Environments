@@ -17,8 +17,7 @@ namespace RoomPlanner
         private ButtonState state = ButtonState.off;            
 
         // public properties
-        public Image Picture { get; set; }                      // button image
-        public ButtonState State                                // button state
+        public ButtonState State                                
         {
             get => this.state;
             set
@@ -29,12 +28,9 @@ namespace RoomPlanner
             }
         }
 
-        // c-tor  IS IT NECESSARY???
-        //ToggleButton() { }
-
-        public Point BeginPos(Point cursorPos) // calculates image's upper left corner coordinates based on mouse cursor position
+        public Point BeginPt(Point cursorPos) // calculates image's upper left corner coordinates based on mouse cursor position
         {
-            return new Point(cursorPos.X - this.Image.Width / 2, cursorPos.Y - this.Image.Height / 2);
+            return new Point(cursorPos.X - this.BackgroundImage.Width / 2, cursorPos.Y - this.BackgroundImage.Height / 2);
         }
     }
 }
