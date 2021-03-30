@@ -118,7 +118,7 @@ namespace RoomPlanner
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(234, 185);
             this.listBox.TabIndex = 0;
-            this.listBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.listBoxFormat);
+            this.listBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.ListBoxFormat);
             // 
             // addFurnitureBox
             // 
@@ -242,6 +242,7 @@ namespace RoomPlanner
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RoomPlanner";
+            this.Load += new System.EventHandler(this.MainWindowLoad);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();

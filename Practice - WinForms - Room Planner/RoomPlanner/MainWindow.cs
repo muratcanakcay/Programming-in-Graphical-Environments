@@ -14,7 +14,7 @@ namespace RoomPlanner
     public partial class MainWindow : Form
     {
         public ToggleButton SelectedButton { get; set; } = null;
-        public BindingList<IPicture> pictureList { get; set; } = new BindingList<IPicture>();
+        public BindingList<IPicture> PictureList { get; set; } = new BindingList<IPicture>();
 
         public MainWindow()
         {
@@ -27,8 +27,7 @@ namespace RoomPlanner
             Canvas.Width = splitContainer.Panel1.Width;
             Canvas.Height = splitContainer.Panel1.Height;
 
-            listBox.DataSource = pictureList;
-            listBox.DisplayMember = "ListBoxDisplay";
+            listBox.DataSource = PictureList;
         }
 
         private void SelectButton(object sender, EventArgs e)
@@ -70,7 +69,7 @@ namespace RoomPlanner
                 
                 Debug.WriteLine(newPicture.ToString());
 
-                pictureList.Add(newPicture);
+                PictureList.Add(newPicture);
                 
                 SelectedButton.State = ButtonState.off;
                 SelectedButton = null;
@@ -83,7 +82,7 @@ namespace RoomPlanner
         {
             Debug.WriteLine("Canvas Paint Event"); 
             
-            foreach (var picture in pictureList)
+            foreach (var picture in PictureList)
             {
                 e.Graphics.DrawImage(picture.Img, picture.BeginPt);
             }
@@ -91,7 +90,7 @@ namespace RoomPlanner
             System.GC.Collect();
         }
 
-        private void listBoxFormat(object sender, ListControlConvertEventArgs e)
+        private void ListBoxFormat(object sender, ListControlConvertEventArgs e)
         {
             e.Value = e.ListItem.ToString();
         }

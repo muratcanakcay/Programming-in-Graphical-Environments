@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace RoomPlanner
 {
-    public class Picture : IPicture
+    class Picture : IPicture
     {
         public Point BeginPt { get; set; }
         public Image Img { get; set; }
