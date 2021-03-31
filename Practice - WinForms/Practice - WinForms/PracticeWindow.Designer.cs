@@ -40,13 +40,17 @@ namespace PracticeWinForms
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.drawBox = new System.Windows.Forms.GroupBox();
+            this.textBox = new System.Windows.Forms.TextBox();
+            this.txtBtn = new System.Windows.Forms.Button();
             this.crossBtn = new System.Windows.Forms.Button();
             this.lineBtn = new System.Windows.Forms.Button();
             this.circleBtn = new System.Windows.Forms.Button();
             this.resetBtn = new System.Windows.Forms.Button();
             this.Canvas = new System.Windows.Forms.PictureBox();
-            this.txtBtn = new System.Windows.Forms.Button();
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.listButton = new System.Windows.Forms.Button();
+            this.listTextBox = new System.Windows.Forms.TextBox();
+            this.listView = new System.Windows.Forms.ListView();
+            this.columnHeader = new System.Windows.Forms.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
             this.radioBtnGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).BeginInit();
@@ -157,6 +161,23 @@ namespace PracticeWinForms
             this.drawBox.TabStop = false;
             this.drawBox.Text = "drawBox";
             // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(272, 136);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(130, 23);
+            this.textBox.TabIndex = 6;
+            // 
+            // txtBtn
+            // 
+            this.txtBtn.Location = new System.Drawing.Point(191, 136);
+            this.txtBtn.Name = "txtBtn";
+            this.txtBtn.Size = new System.Drawing.Size(75, 23);
+            this.txtBtn.TabIndex = 5;
+            this.txtBtn.Text = "Text";
+            this.txtBtn.UseVisualStyleBackColor = true;
+            this.txtBtn.Click += new System.EventHandler(this.txtBtn_Click);
+            // 
             // crossBtn
             // 
             this.crossBtn.Location = new System.Drawing.Point(191, 106);
@@ -206,22 +227,43 @@ namespace PracticeWinForms
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             // 
-            // txtBtn
+            // listButton
             // 
-            this.txtBtn.Location = new System.Drawing.Point(191, 136);
-            this.txtBtn.Name = "txtBtn";
-            this.txtBtn.Size = new System.Drawing.Size(75, 23);
-            this.txtBtn.TabIndex = 5;
-            this.txtBtn.Text = "Text";
-            this.txtBtn.UseVisualStyleBackColor = true;
-            this.txtBtn.Click += new System.EventHandler(this.txtBtn_Click);
+            this.listButton.Location = new System.Drawing.Point(186, 240);
+            this.listButton.Name = "listButton";
+            this.listButton.Size = new System.Drawing.Size(75, 23);
+            this.listButton.TabIndex = 6;
+            this.listButton.Text = "Add";
+            this.listButton.UseVisualStyleBackColor = true;
+            this.listButton.Click += new System.EventHandler(this.listButton_Click);
             // 
-            // textBox
+            // listTextBox
             // 
-            this.textBox.Location = new System.Drawing.Point(272, 136);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(130, 23);
-            this.textBox.TabIndex = 6;
+            this.listTextBox.Location = new System.Drawing.Point(32, 240);
+            this.listTextBox.Name = "listTextBox";
+            this.listTextBox.Size = new System.Drawing.Size(148, 23);
+            this.listTextBox.TabIndex = 7;
+            this.listTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.listTextBox_KeyPress);
+            // 
+            // listView
+            // 
+            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader});
+            this.listView.FullRowSelect = true;
+            this.listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView.HideSelection = false;
+            this.listView.Location = new System.Drawing.Point(32, 270);
+            this.listView.MultiSelect = false;
+            this.listView.Name = "listView";
+            this.listView.Size = new System.Drawing.Size(229, 129);
+            this.listView.TabIndex = 8;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader
+            // 
+            this.columnHeader.Text = "List Items";
+            this.columnHeader.Width = 225;
             // 
             // PracticeWindow
             // 
@@ -229,6 +271,9 @@ namespace PracticeWinForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(1093, 707);
+            this.Controls.Add(this.listView);
+            this.Controls.Add(this.listTextBox);
+            this.Controls.Add(this.listButton);
             this.Controls.Add(this.drawBox);
             this.Controls.Add(this.radioBtnGrpBox);
             this.Controls.Add(this.goButton);
@@ -267,6 +312,10 @@ namespace PracticeWinForms
         private System.Windows.Forms.Button crossBtn;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.Button txtBtn;
+        private System.Windows.Forms.ListView listView;
+        private System.Windows.Forms.ColumnHeader columnHeader;
+        private System.Windows.Forms.TextBox listTextBox;
+        private System.Windows.Forms.Button listButton;
     }
 }
 

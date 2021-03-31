@@ -19,6 +19,7 @@ namespace PracticeWinForms
         public PracticeWindow()
         {
             InitializeComponent();
+            colorListViewHeader(ref listView, Color.LightSteelBlue, Color.Black);
         }
 
         private void goButton_Click(object sender, EventArgs e)
@@ -105,6 +106,53 @@ namespace PracticeWinForms
 
             Graphics g = Canvas.CreateGraphics();
             g.DrawString(textBox.Text, myFont, Brushes.Black, 10, Canvas.Size.Height - 30, myStringFormat);
+        }
+
+        private void listButton_Click(object sender, EventArgs e)
+        {
+            ListViewItem newItem = new ListViewItem(listTextBox.Text);
+            listView.Items.Add(newItem);
+            listTextBox.Text = "";
+        }
+
+        private void listTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar.Equals((char)Keys.Return))
+            {
+                ListViewItem newItem = new ListViewItem(listTextBox.Text);
+                listView.Items.Add(newItem);
+                listTextBox.Text = "";
+            }
+
+        }
+
+        public static void colorListViewHeader(ref ListView list, Color backColor, Color foreColor)
+        {
+            list.OwnerDraw = true;
+            list.DrawColumnHeader +=
+                new DrawListViewColumnHeaderEventHandler
+                (
+                    (sender, e) => headerDraw(sender, e, backColor, foreColor)
+                );
+            list.DrawItem += new DrawListViewItemEventHandler(bodyDraw);
+        }
+
+        private static void headerDraw(object sender, DrawListViewColumnHeaderEventArgs e, Color backColor, Color foreColor)
+        {
+            using (SolidBrush backBrush = new SolidBrush(backColor))
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+            }
+
+            using (SolidBrush foreBrush = new SolidBrush(foreColor))
+            {
+                e.Graphics.DrawString(e.Header.Text, e.Font, foreBrush, e.Bounds);
+            }
+        }
+
+        private static void bodyDraw(object sender, DrawListViewItemEventArgs e)
+        {
+            e.DrawDefault = true;
         }
     }
 }
