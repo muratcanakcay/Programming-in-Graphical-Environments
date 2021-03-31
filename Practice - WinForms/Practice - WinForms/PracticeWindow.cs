@@ -10,8 +10,12 @@ using System.Windows.Forms;
 
 namespace PracticeWinForms
 {
+    
+    
     public partial class PracticeWindow : Form
     {
+        //RadioButton selectedColor { get; set; } = null;
+
         public PracticeWindow()
         {
             InitializeComponent();
@@ -41,5 +45,28 @@ namespace PracticeWinForms
             nameErrorProvider.SetError(nameTextBox, string.Empty);
             e.Cancel = false;
         }
+
+        private void selectedColor(object sender, EventArgs e)
+        {
+            RadioButton button = (RadioButton)sender;
+            if (button.Checked)
+            {
+                switch (button.Text)
+                {
+                    case "Red":
+                        colorBox.BackColor = Color.Red;
+                        break;
+                    case "Blue":
+                        colorBox.BackColor = Color.Blue;
+                        break;
+                    case "Green":
+                        colorBox.BackColor = Color.Green;
+                        break;
+                }
+
+                colorBox.Refresh();
+            }
+        }
+
     }
 }
