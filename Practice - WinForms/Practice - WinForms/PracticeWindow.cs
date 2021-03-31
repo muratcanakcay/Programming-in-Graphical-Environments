@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Practice___WinForms
+namespace PracticeWinForms
 {
     public partial class PracticeWindow : Form
     {

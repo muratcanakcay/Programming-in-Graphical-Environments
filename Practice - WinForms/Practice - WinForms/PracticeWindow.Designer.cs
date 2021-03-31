@@ -1,5 +1,5 @@
 ﻿
-namespace Practice___WinForms
+namespace PracticeWinForms
 {
     partial class PracticeWindow
     {
@@ -74,7 +74,7 @@ namespace Practice___WinForms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.ClientSize = new System.Drawing.Size(184, 161);
+            this.ClientSize = new System.Drawing.Size(1093, 707);
             this.Controls.Add(this.goButton);
             this.Controls.Add(this.nameTextBox);
             this.Controls.Add(this.nameLabel);
