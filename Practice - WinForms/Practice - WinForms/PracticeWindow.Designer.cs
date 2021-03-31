@@ -40,10 +40,11 @@ namespace PracticeWinForms
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.drawBox = new System.Windows.Forms.GroupBox();
+            this.lineBtn = new System.Windows.Forms.Button();
             this.circleBtn = new System.Windows.Forms.Button();
             this.resetBtn = new System.Windows.Forms.Button();
             this.Canvas = new System.Windows.Forms.PictureBox();
-            this.lineBtn = new System.Windows.Forms.Button();
+            this.crossBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
             this.radioBtnGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).BeginInit();
@@ -140,6 +141,7 @@ namespace PracticeWinForms
             // 
             // drawBox
             // 
+            this.drawBox.Controls.Add(this.crossBtn);
             this.drawBox.Controls.Add(this.lineBtn);
             this.drawBox.Controls.Add(this.circleBtn);
             this.drawBox.Controls.Add(this.resetBtn);
@@ -150,6 +152,16 @@ namespace PracticeWinForms
             this.drawBox.TabIndex = 4;
             this.drawBox.TabStop = false;
             this.drawBox.Text = "drawBox";
+            // 
+            // lineBtn
+            // 
+            this.lineBtn.Location = new System.Drawing.Point(191, 76);
+            this.lineBtn.Name = "lineBtn";
+            this.lineBtn.Size = new System.Drawing.Size(75, 23);
+            this.lineBtn.TabIndex = 3;
+            this.lineBtn.Text = "Line";
+            this.lineBtn.UseVisualStyleBackColor = true;
+            this.lineBtn.Click += new System.EventHandler(this.lineBtn_Click);
             // 
             // circleBtn
             // 
@@ -180,15 +192,15 @@ namespace PracticeWinForms
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             // 
-            // lineBtn
+            // crossBtn
             // 
-            this.lineBtn.Location = new System.Drawing.Point(191, 76);
-            this.lineBtn.Name = "lineBtn";
-            this.lineBtn.Size = new System.Drawing.Size(75, 23);
-            this.lineBtn.TabIndex = 3;
-            this.lineBtn.Text = "Line";
-            this.lineBtn.UseVisualStyleBackColor = true;
-            this.lineBtn.Click += new System.EventHandler(this.lineBtn_Click);
+            this.crossBtn.Location = new System.Drawing.Point(191, 106);
+            this.crossBtn.Name = "crossBtn";
+            this.crossBtn.Size = new System.Drawing.Size(75, 23);
+            this.crossBtn.TabIndex = 4;
+            this.crossBtn.Text = "Cross";
+            this.crossBtn.UseVisualStyleBackColor = true;
+            this.crossBtn.Click += new System.EventHandler(this.crossBtn_Click);
             // 
             // PracticeWindow
             // 
@@ -230,6 +242,7 @@ namespace PracticeWinForms
         private System.Windows.Forms.Button resetBtn;
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.Button lineBtn;
+        private System.Windows.Forms.Button crossBtn;
     }
 }
 

@@ -86,5 +86,14 @@ namespace PracticeWinForms
             Graphics g = Canvas.CreateGraphics();
             g.DrawLine(Pens.Black, new Point(0, 0), new Point(Canvas.Size.Width / 2, Canvas.Size.Height / 2));
         }
+
+        private void crossBtn_Click(object sender, EventArgs e)
+        {
+            Region r1 = new Region(new Rectangle(10, Canvas.Size.Height / 2 - 5, Canvas.Size.Width - 20, 10));
+            Region r2 = new Region(new Rectangle(Canvas.Size.Width / 2 - 5, 10, 10, Canvas.Size.Height - 20));
+            r1.Union(r2);
+            Graphics g = Canvas.CreateGraphics();
+            g.FillRegion(Brushes.Red, r1);
+        }
     }
 }
