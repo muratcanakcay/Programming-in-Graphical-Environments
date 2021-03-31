@@ -92,8 +92,19 @@ namespace PracticeWinForms
             Region r1 = new Region(new Rectangle(10, Canvas.Size.Height / 2 - 5, Canvas.Size.Width - 20, 10));
             Region r2 = new Region(new Rectangle(Canvas.Size.Width / 2 - 5, 10, 10, Canvas.Size.Height - 20));
             r1.Union(r2);
+            
             Graphics g = Canvas.CreateGraphics();
             g.FillRegion(Brushes.Red, r1);
+        }
+
+        private void txtBtn_Click(object sender, EventArgs e)
+        {
+            FontFamily myFontFamily = new FontFamily("Times New Roman");
+            Font myFont = DefaultFont;
+            StringFormat myStringFormat = new StringFormat();
+
+            Graphics g = Canvas.CreateGraphics();
+            g.DrawString(textBox.Text, myFont, Brushes.Black, 10, Canvas.Size.Height - 30, myStringFormat);
         }
     }
 }

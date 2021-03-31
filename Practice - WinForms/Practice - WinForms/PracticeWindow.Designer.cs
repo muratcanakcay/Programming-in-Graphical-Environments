@@ -40,11 +40,13 @@ namespace PracticeWinForms
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.drawBox = new System.Windows.Forms.GroupBox();
+            this.crossBtn = new System.Windows.Forms.Button();
             this.lineBtn = new System.Windows.Forms.Button();
             this.circleBtn = new System.Windows.Forms.Button();
             this.resetBtn = new System.Windows.Forms.Button();
             this.Canvas = new System.Windows.Forms.PictureBox();
-            this.crossBtn = new System.Windows.Forms.Button();
+            this.txtBtn = new System.Windows.Forms.Button();
+            this.textBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
             this.radioBtnGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).BeginInit();
@@ -141,6 +143,8 @@ namespace PracticeWinForms
             // 
             // drawBox
             // 
+            this.drawBox.Controls.Add(this.textBox);
+            this.drawBox.Controls.Add(this.txtBtn);
             this.drawBox.Controls.Add(this.crossBtn);
             this.drawBox.Controls.Add(this.lineBtn);
             this.drawBox.Controls.Add(this.circleBtn);
@@ -148,10 +152,20 @@ namespace PracticeWinForms
             this.drawBox.Controls.Add(this.Canvas);
             this.drawBox.Location = new System.Drawing.Point(490, 32);
             this.drawBox.Name = "drawBox";
-            this.drawBox.Size = new System.Drawing.Size(332, 161);
+            this.drawBox.Size = new System.Drawing.Size(408, 173);
             this.drawBox.TabIndex = 4;
             this.drawBox.TabStop = false;
             this.drawBox.Text = "drawBox";
+            // 
+            // crossBtn
+            // 
+            this.crossBtn.Location = new System.Drawing.Point(191, 106);
+            this.crossBtn.Name = "crossBtn";
+            this.crossBtn.Size = new System.Drawing.Size(75, 23);
+            this.crossBtn.TabIndex = 4;
+            this.crossBtn.Text = "Cross";
+            this.crossBtn.UseVisualStyleBackColor = true;
+            this.crossBtn.Click += new System.EventHandler(this.crossBtn_Click);
             // 
             // lineBtn
             // 
@@ -192,15 +206,22 @@ namespace PracticeWinForms
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             // 
-            // crossBtn
+            // txtBtn
             // 
-            this.crossBtn.Location = new System.Drawing.Point(191, 106);
-            this.crossBtn.Name = "crossBtn";
-            this.crossBtn.Size = new System.Drawing.Size(75, 23);
-            this.crossBtn.TabIndex = 4;
-            this.crossBtn.Text = "Cross";
-            this.crossBtn.UseVisualStyleBackColor = true;
-            this.crossBtn.Click += new System.EventHandler(this.crossBtn_Click);
+            this.txtBtn.Location = new System.Drawing.Point(191, 136);
+            this.txtBtn.Name = "txtBtn";
+            this.txtBtn.Size = new System.Drawing.Size(75, 23);
+            this.txtBtn.TabIndex = 5;
+            this.txtBtn.Text = "Text";
+            this.txtBtn.UseVisualStyleBackColor = true;
+            this.txtBtn.Click += new System.EventHandler(this.txtBtn_Click);
+            // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(272, 136);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(130, 23);
+            this.textBox.TabIndex = 6;
             // 
             // PracticeWindow
             // 
@@ -220,6 +241,7 @@ namespace PracticeWinForms
             this.radioBtnGrpBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).EndInit();
             this.drawBox.ResumeLayout(false);
+            this.drawBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -243,6 +265,8 @@ namespace PracticeWinForms
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.Button lineBtn;
         private System.Windows.Forms.Button crossBtn;
+        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.Button txtBtn;
     }
 }
 
