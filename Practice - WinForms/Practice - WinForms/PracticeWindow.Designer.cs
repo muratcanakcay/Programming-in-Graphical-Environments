@@ -35,13 +35,20 @@ namespace PracticeWinForms
             this.goButton = new System.Windows.Forms.Button();
             this.nameErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.radioBtnGrpBox = new System.Windows.Forms.GroupBox();
+            this.colorBox = new System.Windows.Forms.PictureBox();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.colorBox = new System.Windows.Forms.PictureBox();
+            this.drawBox = new System.Windows.Forms.GroupBox();
+            this.circleBtn = new System.Windows.Forms.Button();
+            this.resetBtn = new System.Windows.Forms.Button();
+            this.Canvas = new System.Windows.Forms.PictureBox();
+            this.lineBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
             this.radioBtnGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).BeginInit();
+            this.drawBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -89,6 +96,15 @@ namespace PracticeWinForms
             this.radioBtnGrpBox.TabStop = false;
             this.radioBtnGrpBox.Text = "Radio buttons";
             // 
+            // colorBox
+            // 
+            this.colorBox.BackColor = System.Drawing.Color.White;
+            this.colorBox.Location = new System.Drawing.Point(140, 23);
+            this.colorBox.Name = "colorBox";
+            this.colorBox.Size = new System.Drawing.Size(117, 113);
+            this.colorBox.TabIndex = 3;
+            this.colorBox.TabStop = false;
+            // 
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
@@ -122,14 +138,57 @@ namespace PracticeWinForms
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.selectedColor);
             // 
-            // colorBox
+            // drawBox
             // 
-            this.colorBox.BackColor = System.Drawing.Color.White;
-            this.colorBox.Location = new System.Drawing.Point(140, 23);
-            this.colorBox.Name = "colorBox";
-            this.colorBox.Size = new System.Drawing.Size(117, 113);
-            this.colorBox.TabIndex = 3;
-            this.colorBox.TabStop = false;
+            this.drawBox.Controls.Add(this.lineBtn);
+            this.drawBox.Controls.Add(this.circleBtn);
+            this.drawBox.Controls.Add(this.resetBtn);
+            this.drawBox.Controls.Add(this.Canvas);
+            this.drawBox.Location = new System.Drawing.Point(490, 32);
+            this.drawBox.Name = "drawBox";
+            this.drawBox.Size = new System.Drawing.Size(332, 161);
+            this.drawBox.TabIndex = 4;
+            this.drawBox.TabStop = false;
+            this.drawBox.Text = "drawBox";
+            // 
+            // circleBtn
+            // 
+            this.circleBtn.Location = new System.Drawing.Point(191, 48);
+            this.circleBtn.Name = "circleBtn";
+            this.circleBtn.Size = new System.Drawing.Size(75, 23);
+            this.circleBtn.TabIndex = 2;
+            this.circleBtn.Text = "Circle";
+            this.circleBtn.UseVisualStyleBackColor = true;
+            this.circleBtn.Click += new System.EventHandler(this.circleBtn_Click);
+            // 
+            // resetBtn
+            // 
+            this.resetBtn.Location = new System.Drawing.Point(191, 18);
+            this.resetBtn.Name = "resetBtn";
+            this.resetBtn.Size = new System.Drawing.Size(75, 23);
+            this.resetBtn.TabIndex = 1;
+            this.resetBtn.Text = "Reset";
+            this.resetBtn.UseVisualStyleBackColor = true;
+            this.resetBtn.Click += new System.EventHandler(this.resetBtn_Click);
+            // 
+            // Canvas
+            // 
+            this.Canvas.BackColor = System.Drawing.Color.White;
+            this.Canvas.Location = new System.Drawing.Point(6, 18);
+            this.Canvas.Name = "Canvas";
+            this.Canvas.Size = new System.Drawing.Size(167, 137);
+            this.Canvas.TabIndex = 0;
+            this.Canvas.TabStop = false;
+            // 
+            // lineBtn
+            // 
+            this.lineBtn.Location = new System.Drawing.Point(191, 76);
+            this.lineBtn.Name = "lineBtn";
+            this.lineBtn.Size = new System.Drawing.Size(75, 23);
+            this.lineBtn.TabIndex = 3;
+            this.lineBtn.Text = "Line";
+            this.lineBtn.UseVisualStyleBackColor = true;
+            this.lineBtn.Click += new System.EventHandler(this.lineBtn_Click);
             // 
             // PracticeWindow
             // 
@@ -137,6 +196,7 @@ namespace PracticeWinForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(1093, 707);
+            this.Controls.Add(this.drawBox);
             this.Controls.Add(this.radioBtnGrpBox);
             this.Controls.Add(this.goButton);
             this.Controls.Add(this.nameTextBox);
@@ -147,6 +207,8 @@ namespace PracticeWinForms
             this.radioBtnGrpBox.ResumeLayout(false);
             this.radioBtnGrpBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).EndInit();
+            this.drawBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,6 +225,11 @@ namespace PracticeWinForms
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.PictureBox colorBox;
+        private System.Windows.Forms.GroupBox drawBox;
+        private System.Windows.Forms.Button circleBtn;
+        private System.Windows.Forms.Button resetBtn;
+        private System.Windows.Forms.PictureBox Canvas;
+        private System.Windows.Forms.Button lineBtn;
     }
 }
 

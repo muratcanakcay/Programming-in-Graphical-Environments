@@ -68,5 +68,23 @@ namespace PracticeWinForms
             }
         }
 
+        private void resetBtn_Click(object sender, EventArgs e)
+        {
+            Graphics g = Canvas.CreateGraphics();
+            g.Clear(Color.White);
+            Canvas.Refresh();
+        }
+
+        private void circleBtn_Click(object sender, EventArgs e)
+        {
+            Graphics g = Canvas.CreateGraphics();
+            g.DrawEllipse(Pens.Black, 10, 10, Canvas.Size.Width - 20 , Canvas.Size.Height - 20);
+        }
+
+        private void lineBtn_Click(object sender, EventArgs e)
+        {
+            Graphics g = Canvas.CreateGraphics();
+            g.DrawLine(Pens.Black, new Point(0, 0), new Point(Canvas.Size.Width / 2, Canvas.Size.Height / 2));
+        }
     }
 }
