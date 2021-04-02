@@ -17,8 +17,8 @@ namespace Lab05
         struct addedText
         {
             public string text;
-            public int x;
-            public int y;
+            public int xOff;
+            public int yOff;
         }
         List<addedText> LAddedTexts = new();
             
@@ -36,24 +36,24 @@ namespace Lab05
 
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            int centerX = Canvas.Width / 2;
-            int centerY = Canvas.Height / 2;
+            int xCenter = Canvas.Width / 2;
+            int yCenter = Canvas.Height / 2;
             int bookWidth = 400;
             int bookHeight = 600;
             int spineWidth = 50;
 
-            e.Graphics.DrawRectangle(Pens.DarkGray, centerX - bookWidth - spineWidth/2, centerY - bookHeight/2, 2*bookWidth + spineWidth, bookHeight);
+            e.Graphics.DrawRectangle(Pens.DarkGray, 
+                xCenter - bookWidth - spineWidth/2, yCenter - bookHeight/2, 
+                2*bookWidth + spineWidth, bookHeight);
+
             e.Graphics.DrawLine(Pens.DarkGray, 
-                centerX - spineWidth / 2,
-                centerY - bookHeight / 2,
-                centerX - spineWidth / 2,
-                centerY + bookHeight / 2
+                xCenter - spineWidth / 2, yCenter - bookHeight / 2,
+                xCenter - spineWidth / 2, yCenter + bookHeight / 2
                 );
+
             e.Graphics.DrawLine(Pens.DarkGray,
-                centerX + spineWidth / 2,
-                centerY - bookHeight / 2,
-                centerX + spineWidth / 2,
-                centerY + bookHeight / 2
+                xCenter + spineWidth / 2, yCenter - bookHeight / 2,
+                xCenter + spineWidth / 2, yCenter + bookHeight / 2
                 );
 
             FontFamily fontFamily = new FontFamily("Arial");
@@ -65,7 +65,7 @@ namespace Lab05
             StringFormat myStringFormat = new StringFormat();
 
             foreach (var t in LAddedTexts)
-                e.Graphics.DrawString(t.text, font, Brushes.Black, t.x, t.y, myStringFormat);
+                e.Graphics.DrawString(t.text, font, Brushes.Black, xCenter + t.xOff, yCenter+ t.yOff, myStringFormat);
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -103,7 +103,13 @@ namespace Lab05
                 int xPos = e.X - (int)textWidth / 2;
                 int yPos = e.Y - (int)textHeight / 2;
 
-                LAddedTexts.Add( new addedText { text = addTextBox.Text, x = xPos, y = yPos} );
+                int xCenter = Canvas.Width / 2;
+                int yCenter = Canvas.Height / 2;
+
+                int xOff = xPos - xCenter;
+                int yOff = yPos - yCenter;
+
+                LAddedTexts.Add( new addedText { text = addTextBox.Text, xOff = xOff, yOff = yOff} );
 
                 addTextBox.Text = "";
                 addText = false;
