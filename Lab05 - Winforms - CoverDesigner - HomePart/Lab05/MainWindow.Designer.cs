@@ -1,7 +1,7 @@
 ﻿
 namespace Lab05
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -33,23 +33,33 @@ namespace Lab05
             this.Canvas = new System.Windows.Forms.PictureBox();
             this.addButton = new System.Windows.Forms.Button();
             this.addTextBox = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.titleTextBox = new System.Windows.Forms.TextBox();
             this.addTextLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.authorLabel = new System.Windows.Forms.Label();
             this.authorTextBox = new System.Windows.Forms.TextBox();
+            this.menuBar = new System.Windows.Forms.MenuStrip();
+            this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuLanguage = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdEnglish = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdPolish = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            this.menuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
             // 
             this.splitContainer.BackColor = System.Drawing.Color.LightSteelBlue;
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Location = new System.Drawing.Point(0, 24);
             this.splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -62,13 +72,13 @@ namespace Lab05
             this.splitContainer.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.splitContainer.Panel2.Controls.Add(this.addButton);
             this.splitContainer.Panel2.Controls.Add(this.addTextBox);
-            this.splitContainer.Panel2.Controls.Add(this.textBox2);
+            this.splitContainer.Panel2.Controls.Add(this.titleTextBox);
             this.splitContainer.Panel2.Controls.Add(this.addTextLabel);
             this.splitContainer.Panel2.Controls.Add(this.titleLabel);
             this.splitContainer.Panel2.Controls.Add(this.authorLabel);
             this.splitContainer.Panel2.Controls.Add(this.authorTextBox);
             this.splitContainer.Panel2MinSize = 200;
-            this.splitContainer.Size = new System.Drawing.Size(1384, 861);
+            this.splitContainer.Size = new System.Drawing.Size(1384, 837);
             this.splitContainer.SplitterDistance = 1170;
             this.splitContainer.TabIndex = 0;
             // 
@@ -78,7 +88,7 @@ namespace Lab05
             this.Canvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Canvas.Location = new System.Drawing.Point(0, 0);
             this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(1170, 861);
+            this.Canvas.Size = new System.Drawing.Size(1170, 837);
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.Canvas_Paint);
@@ -110,16 +120,16 @@ namespace Lab05
             this.addTextBox.Size = new System.Drawing.Size(200, 175);
             this.addTextBox.TabIndex = 5;
             // 
-            // textBox2
+            // titleTextBox
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(3, 31);
-            this.textBox2.MinimumSize = new System.Drawing.Size(200, 4);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(200, 92);
-            this.textBox2.TabIndex = 4;
+            this.titleTextBox.Location = new System.Drawing.Point(3, 31);
+            this.titleTextBox.MinimumSize = new System.Drawing.Size(200, 4);
+            this.titleTextBox.Multiline = true;
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(200, 92);
+            this.titleTextBox.TabIndex = 4;
             // 
             // addTextLabel
             // 
@@ -162,16 +172,102 @@ namespace Lab05
             this.authorTextBox.Size = new System.Drawing.Size(200, 23);
             this.authorTextBox.TabIndex = 3;
             // 
-            // Form1
+            // menuBar
+            // 
+            this.menuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuFile,
+            this.menuSettings});
+            this.menuBar.Location = new System.Drawing.Point(0, 0);
+            this.menuBar.Name = "menuBar";
+            this.menuBar.Size = new System.Drawing.Size(1384, 24);
+            this.menuBar.TabIndex = 1;
+            this.menuBar.Text = "menuStrip1";
+            // 
+            // menuFile
+            // 
+            this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdNew,
+            this.cmdOpen,
+            this.cmdSave});
+            this.menuFile.Name = "menuFile";
+            this.menuFile.Size = new System.Drawing.Size(37, 20);
+            this.menuFile.Text = "File";
+            this.menuFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmdNew
+            // 
+            this.cmdNew.Name = "cmdNew";
+            this.cmdNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.cmdNew.Size = new System.Drawing.Size(146, 22);
+            this.cmdNew.Text = "New";
+            this.cmdNew.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
+            // 
+            // cmdOpen
+            // 
+            this.cmdOpen.Name = "cmdOpen";
+            this.cmdOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.cmdOpen.Size = new System.Drawing.Size(146, 22);
+            this.cmdOpen.Text = "Open";
+            this.cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmdSave
+            // 
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.cmdSave.Size = new System.Drawing.Size(146, 22);
+            this.cmdSave.Text = "Save";
+            this.cmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // menuSettings
+            // 
+            this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuLanguage});
+            this.menuSettings.Name = "menuSettings";
+            this.menuSettings.Size = new System.Drawing.Size(61, 20);
+            this.menuSettings.Text = "Settings";
+            this.menuSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // menuLanguage
+            // 
+            this.menuLanguage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdEnglish,
+            this.cmdPolish});
+            this.menuLanguage.Name = "menuLanguage";
+            this.menuLanguage.Size = new System.Drawing.Size(126, 22);
+            this.menuLanguage.Text = "Language";
+            // 
+            // cmdEnglish
+            // 
+            this.cmdEnglish.Checked = true;
+            this.cmdEnglish.CheckOnClick = true;
+            this.cmdEnglish.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cmdEnglish.Name = "cmdEnglish";
+            this.cmdEnglish.Size = new System.Drawing.Size(112, 22);
+            this.cmdEnglish.Text = "English";
+            this.cmdEnglish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cmdEnglish.Click += new System.EventHandler(this.cmdEnglish_Click);
+            // 
+            // cmdPolish
+            // 
+            this.cmdPolish.CheckOnClick = true;
+            this.cmdPolish.Name = "cmdPolish";
+            this.cmdPolish.Size = new System.Drawing.Size(112, 22);
+            this.cmdPolish.Text = "Polish";
+            this.cmdPolish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cmdPolish.Click += new System.EventHandler(this.cmdPolish_Click);
+            // 
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1384, 861);
             this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.menuBar);
             this.MinimumSize = new System.Drawing.Size(800, 600);
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Book Cover Designer";
             this.Load += new System.EventHandler(this.MainWindowLoad);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
@@ -179,7 +275,10 @@ namespace Lab05
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            this.menuBar.ResumeLayout(false);
+            this.menuBar.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -187,13 +286,22 @@ namespace Lab05
 
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.PictureBox Canvas;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox titleTextBox;
         private System.Windows.Forms.TextBox addTextBox;
         private System.Windows.Forms.Label addTextLabel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label authorLabel;
         private System.Windows.Forms.TextBox authorTextBox;
         private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.MenuStrip menuBar;
+        private System.Windows.Forms.ToolStripMenuItem menuFile;
+        private System.Windows.Forms.ToolStripMenuItem cmdNew;
+        private System.Windows.Forms.ToolStripMenuItem cmdOpen;
+        private System.Windows.Forms.ToolStripMenuItem cmdSave;
+        private System.Windows.Forms.ToolStripMenuItem menuSettings;
+        private System.Windows.Forms.ToolStripMenuItem menuLanguage;
+        private System.Windows.Forms.ToolStripMenuItem cmdEnglish;
+        private System.Windows.Forms.ToolStripMenuItem cmdPolish;
     }
 }
 
