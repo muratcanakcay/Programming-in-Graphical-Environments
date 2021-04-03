@@ -22,15 +22,16 @@ namespace Lab05
     public class Painter
     {
         public static bool addText { get; set; } = false;
-        public static int bookWidth { get; private set; } = 300;
-        public static int bookHeight { get; private set; } = 500;
-        public static int spineWidth { get; private set; } = 30;
-        private static text_t titleText_t { get;  set; }
-        public static List<text_t> LAddedTexts = new();
         public static PictureBox Canvas;
         public static TextBox titleTextBox; 
         public static TextBox authorTextBox;
         public static TextBox addTextBox;
+
+        private static int bookWidth { get; set; } = 300;
+        private static int bookHeight { get; set; } = 500;
+        private static int spineWidth { get; set; } = 30;
+        private static List<text_t> LAddedTexts = new();
+        private static text_t titleText_t { get;  set; }
 
         private static void paintBorders(PaintEventArgs e)
         {
