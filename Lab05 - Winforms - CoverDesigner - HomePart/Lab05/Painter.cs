@@ -10,11 +10,13 @@ using System.Drawing;
 
 namespace Lab05
 {
-    public struct addedText
+    public struct text_t
     {
         public string text;
         public int xOff;
         public int yOff;
+        public Font font;
+        public StringFormat format;
     }
 
     public class Painter
@@ -23,13 +25,14 @@ namespace Lab05
         public static int bookWidth { get; private set; } = 300;
         public static int bookHeight { get; private set; } = 500;
         public static int spineWidth { get; private set; } = 30;
-        public static List<addedText> LAddedTexts = new();
+        private static text_t titleText_t { get;  set; }
+        public static List<text_t> LAddedTexts = new();
         public static PictureBox Canvas;
         public static TextBox titleTextBox; 
         public static TextBox authorTextBox;
         public static TextBox addTextBox;
 
-        public static void drawCanvas(PaintEventArgs e)
+        private static void paintBorders(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
             int yCenter = Canvas.Height / 2;
@@ -49,16 +52,56 @@ namespace Lab05
                 xCenter + spineWidth / 2, yCenter + bookHeight / 2
                 );
 
-            FontFamily fontFamily = new FontFamily("Arial");
+            foreach (var t in LAddedTexts)
+                e.Graphics.DrawString(t.text, t.font, Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
+        }
+
+        public static void paint(PaintEventArgs e)
+        {
+            paintBorders(e);
+            paintCoverTitle(e);
+        }
+
+        private static Font getFont(string type, int size)
+        {
+            FontFamily fontFamily = new FontFamily(type);
             Font font = new Font(
                        fontFamily,
-                       16,
+                       size,
                        FontStyle.Regular,
                        GraphicsUnit.Pixel);
-            StringFormat myStringFormat = new StringFormat();
+            return font;
+        }
 
-            foreach (var t in Painter.LAddedTexts)
-                e.Graphics.DrawString(t.text, font, Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, myStringFormat);
+        public static void processCoverTitle()
+        {
+            int fSize = 33, titleWidth, titleHeight; 
+            Font font;
+            Graphics g = Canvas.CreateGraphics();
+
+            do
+            {
+                font = getFont("Arial", --fSize);
+                titleWidth = (int)g.MeasureString(titleTextBox.Text, font).Width;
+                titleHeight = (int)g.MeasureString(titleTextBox.Text, font).Height;
+            } while (titleHeight > bookHeight / 3 || titleWidth > bookWidth);
+
+            StringFormat titleFormat = new StringFormat();
+            titleFormat.Alignment = StringAlignment.Near;
+            
+            int xOff = (bookWidth + spineWidth - titleWidth) / 2;
+            int yOff = - bookHeight / 2 + bookHeight / 10 ;
+
+            titleText_t = new text_t { text = titleTextBox.Text, xOff = xOff, yOff = yOff, font = font};
+
+            Canvas.Refresh();
+        }
+
+        private static void paintCoverTitle(PaintEventArgs e)
+        {
+            int xCenter = Canvas.Width / 2;
+            int yCenter = Canvas.Height / 2; 
+            e.Graphics.DrawString(titleText_t.text, titleText_t.font, Brushes.Black, xCenter + titleText_t.xOff, yCenter + titleText_t.yOff, titleText_t.format);
         }
 
         
@@ -68,18 +111,13 @@ namespace Lab05
             {
                 Graphics g = Canvas.CreateGraphics();
 
-                FontFamily fontFamily = new FontFamily("Arial");
-                Font font = new Font(
-                           fontFamily,
-                           16,
-                           FontStyle.Regular,
-                           GraphicsUnit.Pixel);
-                StringFormat myStringFormat = new StringFormat();
+                Font font = getFont("Arial", 16);
+                StringFormat format = new StringFormat();
 
-                float textWidth = g.MeasureString(addTextBox.Text, font).Width;
-                float textHeight = g.MeasureString(addTextBox.Text, font).Height;
-                int xPos = xCursor - (int)textWidth / 2;
-                int yPos = yCursor - (int)textHeight / 2;
+                int textWidth = (int)g.MeasureString(addTextBox.Text, font).Width;
+                int textHeight = (int)g.MeasureString(addTextBox.Text, font).Height;
+                int xPos = xCursor - textWidth / 2;
+                int yPos = yCursor - textHeight / 2;
 
                 int xCenter = Canvas.Width / 2;
                 int yCenter = Canvas.Height / 2;
@@ -87,10 +125,10 @@ namespace Lab05
                 int xOff = xPos - xCenter;
                 int yOff = yPos - yCenter;
 
-                Painter.LAddedTexts.Add(new addedText { text = addTextBox.Text, xOff = xOff, yOff = yOff });
+                LAddedTexts.Add(new text_t { text = addTextBox.Text, xOff = xOff, yOff = yOff, font = font, format = format });
 
                 addTextBox.Text = "";
-                Painter.addText = false;
+                addText = false;
                 Canvas.Refresh();
             }
         }

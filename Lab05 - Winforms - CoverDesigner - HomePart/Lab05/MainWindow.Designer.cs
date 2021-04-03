@@ -130,6 +130,7 @@ namespace Lab05
             this.titleTextBox.Name = "titleTextBox";
             this.titleTextBox.Size = new System.Drawing.Size(200, 92);
             this.titleTextBox.TabIndex = 4;
+            this.titleTextBox.TextChanged += new System.EventHandler(this.titleTextBox_TextChanged);
             // 
             // addTextLabel
             // 

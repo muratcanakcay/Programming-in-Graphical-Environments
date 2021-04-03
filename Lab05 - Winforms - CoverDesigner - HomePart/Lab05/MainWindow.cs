@@ -31,7 +31,7 @@ namespace Lab05
         
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            Painter.drawCanvas(e);
+            Painter.paint(e);
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -70,7 +70,10 @@ namespace Lab05
             newDialog.ShowDialog();
         }
 
-        
+        private void titleTextBox_TextChanged(object sender, EventArgs e)
+        {
+            Painter.processCoverTitle();
+        }
     }
 
     
