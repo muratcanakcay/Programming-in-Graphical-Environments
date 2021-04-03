@@ -75,7 +75,12 @@ namespace Lab05
             TextBox box = (TextBox)sender;            
             Painter.processCoverText(box.Tag.ToString());
         }
-        
+
+        private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            Canvas.Refresh();
+
+        }
     }
 
     

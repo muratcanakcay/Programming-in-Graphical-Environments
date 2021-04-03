@@ -81,6 +81,7 @@ namespace Lab05
             this.splitContainer.Size = new System.Drawing.Size(1384, 837);
             this.splitContainer.SplitterDistance = 1170;
             this.splitContainer.TabIndex = 0;
+            this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
             // 
             // Canvas
             // 
