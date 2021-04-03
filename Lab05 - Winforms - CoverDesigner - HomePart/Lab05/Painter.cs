@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
 
 
 
@@ -32,12 +33,13 @@ namespace Lab05
         private static int spineWidth { get; set; } = 30;
         private static List<text_t> LAddedTexts = new();
         private static text_t titleText_t { get;  set; }
+        private static text_t authorText_t { get; set; }
 
         private static void paintBorders(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
-            int yCenter = Canvas.Height / 2;
-
+            int yCenter = Canvas.Height / 2; 
+            
             e.Graphics.DrawRectangle(Pens.DarkGray,
                 xCenter - bookWidth - spineWidth / 2, yCenter - bookHeight / 2,
                 2 * bookWidth + spineWidth, bookHeight
@@ -57,10 +59,10 @@ namespace Lab05
                 e.Graphics.DrawString(t.text, t.font, Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
         }
 
-        public static void paint(PaintEventArgs e)
+        public static void paintCanvas(PaintEventArgs e)
         {
             paintBorders(e);
-            paintCoverTitle(e);
+            paintCoverText(e);
         }
 
         private static Font getFont(string type, int size)
@@ -74,35 +76,44 @@ namespace Lab05
             return font;
         }
 
-        public static void processCoverTitle()
+        public static void processCoverText(string tag)
         {
-            int fSize = 33, titleWidth, titleHeight; 
+            int size = tag.Equals("title") ? 33 : 25;
+            int quotient = tag.Equals("title") ? 3 : 6;
+            string text = tag.Equals("title") ? titleTextBox.Text : authorTextBox.Text;
+            int textWidth, textHeight; 
             Font font;
             Graphics g = Canvas.CreateGraphics();
 
             do
             {
-                font = getFont("Arial", --fSize);
-                titleWidth = (int)g.MeasureString(titleTextBox.Text, font).Width;
-                titleHeight = (int)g.MeasureString(titleTextBox.Text, font).Height;
-            } while (titleHeight > bookHeight / 3 || titleWidth > bookWidth);
+                font = getFont("Arial", --size);
+                textWidth = (int)g.MeasureString(text, font).Width;
+                textHeight = (int)g.MeasureString(text, font).Height;
+            } while (textHeight > bookHeight / quotient || textWidth > bookWidth);
 
-            StringFormat titleFormat = new StringFormat();
-            titleFormat.Alignment = StringAlignment.Near;
+            StringFormat textFormat = new StringFormat();
+            textFormat.Alignment = StringAlignment.Near;
             
-            int xOff = (bookWidth + spineWidth - titleWidth) / 2;
+            int xOff = (bookWidth + spineWidth - textWidth) / 2;
             int yOff = - bookHeight / 2 + bookHeight / 10 ;
+            if (tag.Equals("author")) yOff += bookHeight / 5;
 
-            titleText_t = new text_t { text = titleTextBox.Text, xOff = xOff, yOff = yOff, font = font};
+            if (tag.Equals("title"))
+                titleText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat};
+            else if (tag.Equals("author"))            
+                authorText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat };
 
             Canvas.Refresh();
         }
 
-        private static void paintCoverTitle(PaintEventArgs e)
+        private static void paintCoverText(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
             int yCenter = Canvas.Height / 2; 
+            
             e.Graphics.DrawString(titleText_t.text, titleText_t.font, Brushes.Black, xCenter + titleText_t.xOff, yCenter + titleText_t.yOff, titleText_t.format);
+            e.Graphics.DrawString(authorText_t.text, authorText_t.font, Brushes.Black, xCenter + authorText_t.xOff, yCenter + authorText_t.yOff, authorText_t.format);
         }
 
         
@@ -119,14 +130,10 @@ namespace Lab05
                 int textHeight = (int)g.MeasureString(addTextBox.Text, font).Height;
                 int xPos = xCursor - textWidth / 2;
                 int yPos = yCursor - textHeight / 2;
-
                 int xCenter = Canvas.Width / 2;
                 int yCenter = Canvas.Height / 2;
 
-                int xOff = xPos - xCenter;
-                int yOff = yPos - yCenter;
-
-                LAddedTexts.Add(new text_t { text = addTextBox.Text, xOff = xOff, yOff = yOff, font = font, format = format });
+                LAddedTexts.Add(new text_t { text = addTextBox.Text, xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
 
                 addTextBox.Text = "";
                 addText = false;
