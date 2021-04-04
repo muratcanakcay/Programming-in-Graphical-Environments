@@ -81,7 +81,6 @@ namespace Lab05
             this.splitContainer.Size = new System.Drawing.Size(1384, 837);
             this.splitContainer.SplitterDistance = 1170;
             this.splitContainer.TabIndex = 0;
-            this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
             // 
             // Canvas
             // 
@@ -92,6 +91,7 @@ namespace Lab05
             this.Canvas.Size = new System.Drawing.Size(1170, 837);
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
+            this.Canvas.SizeChanged += new System.EventHandler(this.Canvas_SizeChanged);
             this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.Canvas_Paint);
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
             this.Canvas.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
@@ -120,6 +120,7 @@ namespace Lab05
             this.addTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.addTextBox.Size = new System.Drawing.Size(200, 175);
             this.addTextBox.TabIndex = 5;
+            this.addTextBox.TextChanged += new System.EventHandler(this.addTextBox_TextChanged);
             // 
             // titleTextBox
             // 

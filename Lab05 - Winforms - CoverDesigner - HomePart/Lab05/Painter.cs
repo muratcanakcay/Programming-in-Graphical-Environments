@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using System.ComponentModel;
 
 
 
@@ -135,7 +136,7 @@ namespace Lab05
 
                 LAddedTexts.Add(new text_t { text = addTextBox.Text, xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
 
-                addTextBox.Text = "";
+                addTextBox.Text = String.Empty;
                 addText = false;
                 Canvas.Refresh();
             }
@@ -148,9 +149,9 @@ namespace Lab05
             spineWidth = newSpineWidth;
 
             LAddedTexts.Clear();
-            authorTextBox.Text = "";
-            titleTextBox.Text = "";            
-            addTextBox.Text = "";
+            authorTextBox.Text = String.Empty;
+            titleTextBox.Text = String.Empty;            
+            addTextBox.Text = String.Empty;
 
             Canvas.Refresh();
         }

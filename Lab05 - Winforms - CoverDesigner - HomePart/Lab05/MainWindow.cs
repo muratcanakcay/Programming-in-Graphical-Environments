@@ -36,12 +36,13 @@ namespace Lab05
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            Painter.addText = true;
+            if (addTextBox.Text != String.Empty) Painter.addText = true;
         }
 
         private void Canvas_MouseEnter(object sender, EventArgs e)
         {
-            if (Painter.addText) Cursor = Cursors.Cross;
+            if (addTextBox.Text != String.Empty && Painter.addText) Cursor = Cursors.Cross;
+            else Cursor = Cursors.Arrow;
         }
 
         private void Canvas_MouseLeave(object sender, EventArgs e)
@@ -76,10 +77,14 @@ namespace Lab05
             Painter.processCoverText(box.Tag.ToString());
         }
 
-        private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+        private void Canvas_SizeChanged(object sender, EventArgs e)
         {
-            Canvas.Refresh();
+            Refresh();
+        }
 
+        private void addTextBox_TextChanged(object sender, EventArgs e)
+        {
+            Painter.addText = false;
         }
     }
 
