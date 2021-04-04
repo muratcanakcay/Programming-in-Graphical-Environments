@@ -20,6 +20,7 @@ namespace Lab05
         public int yOff;
         public Font font;
         public StringFormat format;
+        public Color color;
     }
 
     public class Painter
@@ -34,10 +35,10 @@ namespace Lab05
         private static int bookHeight { get; set; } = 500;
         private static int spineWidth { get; set; } = 30;
         private static List<text_t> LAddedTexts = new();
-        private static text_t titleCoverText_t { get;  set; }
-        private static text_t authorCoverText_t { get; set; }
-        private static text_t titleSplineText_t { get; set; }
-        private static text_t authorSplineText_t { get; set; }
+        private static text_t titleCoverText_t { get; set; } = new text_t { color = Color.Black };
+        private static text_t authorCoverText_t { get; set; } = new text_t { color = Color.Black };
+        private static text_t titleSplineText_t { get; set; } = new text_t { color = Color.Black };
+        private static text_t authorSplineText_t { get; set; } = new text_t { color = Color.Black };
 
         private static readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private static string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
@@ -49,6 +50,10 @@ namespace Lab05
             
             e.Graphics.DrawRectangle(Pens.DarkGray,
                 xCenter - bookWidth - spineWidth / 2, yCenter - bookHeight / 2,
+                2 * bookWidth + spineWidth, bookHeight
+                );
+
+            e.Graphics.FillRectangle(new SolidBrush(Color.Red), xCenter - bookWidth - spineWidth / 2, yCenter - bookHeight / 2,
                 2 * bookWidth + spineWidth, bookHeight
                 );
 
@@ -108,7 +113,7 @@ namespace Lab05
             if (tag.Equals("author")) yOff += bookHeight / 5;
 
             if (tag.Equals("title"))
-                titleCoverText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat};
+                titleCoverText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat };
             else if (tag.Equals("author"))            
                 authorCoverText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat };
 
