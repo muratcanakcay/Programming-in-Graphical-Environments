@@ -24,7 +24,7 @@ namespace Lab05
 
         private void okButtonNewDialog_Click(object sender, EventArgs e)
         {
-            Painter.newBook((int)widthUpDownNewDialog.Value, (int)heightUpDownNewDialog.Value, (int)spineWidthUpDownNewDialog.Value);
+            Painter.paintNewBook((int)widthUpDownNewDialog.Value, (int)heightUpDownNewDialog.Value, (int)spineWidthUpDownNewDialog.Value);
             this.Close();
         }
     }

@@ -75,6 +75,7 @@ namespace Lab05
         {
             TextBox box = (TextBox)sender;            
             Painter.processCoverText(box.Tag.ToString());
+            Painter.processSplineText(box.Tag.ToString());
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e)
