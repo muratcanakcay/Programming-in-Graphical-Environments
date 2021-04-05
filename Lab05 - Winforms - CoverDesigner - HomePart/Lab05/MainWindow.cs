@@ -19,7 +19,7 @@ namespace Lab05
             Painter.Canvas = Canvas;
             Painter.titleTextBox = titleTextBox;
             Painter.authorTextBox = authorTextBox;
-            Painter.addTextBox = addTextBox;
+            //Painter.addTextBox = addTextBox;
         }
 
         private void MainWindowLoad(object sender, EventArgs e)
@@ -34,20 +34,15 @@ namespace Lab05
             Painter.paintCanvas(e);
         }
 
-        private void addButton_Click(object sender, EventArgs e)
-        {
-            if (addTextBox.Text != String.Empty) Painter.addText = true;
-        }
-
         private void Canvas_MouseEnter(object sender, EventArgs e)
         {
-            if (addTextBox.Text != String.Empty && Painter.addText) Cursor = Cursors.Cross;
-            else Cursor = Cursors.Arrow;
+            //if (addTextBox.Text != String.Empty && Painter.addText) Cursor = Cursors.Cross;
+            //else Cursor = Cursors.Arrow;
         }
 
         private void Canvas_MouseLeave(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.Arrow;
+            Cursor = Cursors.Arrow;
         }
 
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
@@ -97,6 +92,12 @@ namespace Lab05
                 Book.ChangeColors(button.Tag.ToString(), colorDialog.Color);
                 Canvas.Refresh();
             }
+        }
+
+        private void addTextButton_Click(object sender, EventArgs e)
+        {
+            AddTextDialog addTextDialog = new AddTextDialog();
+            addTextDialog.ShowDialog();
         }
     }
 

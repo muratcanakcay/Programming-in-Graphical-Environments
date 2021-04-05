@@ -72,7 +72,7 @@ namespace Lab05
         {
             titleTextBox.Text = String.Empty;
             authorTextBox.Text = String.Empty;
-            addTextBox.Text = String.Empty;
+            //addTextBox.Text = String.Empty;
             addText = false;
 
             Canvas.Refresh();
@@ -176,7 +176,7 @@ namespace Lab05
                 font = getFont("Arial", --size);
                 textWidth = (int)g.MeasureString(text, font).Width;
                 textHeight = (int)g.MeasureString(text, font).Height;
-            } while (textWidth > Book.BookHeight / 2);
+            } while (textWidth > Book.BookHeight / 2 || textHeight > Book.SpineWidth);
 
             StringFormat textFormat = new StringFormat();
             textFormat.Alignment = StringAlignment.Near;

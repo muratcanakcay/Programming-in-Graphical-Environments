@@ -230,9 +230,8 @@ namespace Lab05
         private System.Windows.Forms.Label spineWidthLabelNewDialog;
         private System.Windows.Forms.NumericUpDown newWidth;
         private System.Windows.Forms.NumericUpDown newHeight;
-        private System.Windows.Forms.NumericUpDown SpineWidth;
+        private System.Windows.Forms.NumericUpDown newSpineWidth;        
         private System.Windows.Forms.Button cancelButtonNewDialog;
         private System.Windows.Forms.Button okButtonNewDialog;
-        private System.Windows.Forms.NumericUpDown newSpineWidth;
     }
 }

@@ -31,13 +31,13 @@ namespace Lab05
         {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.Canvas = new System.Windows.Forms.PictureBox();
+            this.colorSettingsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textLabel = new System.Windows.Forms.Label();
             this.backgroundLabel = new System.Windows.Forms.Label();
             this.backgroundColorButton = new System.Windows.Forms.Button();
             this.textColorButton = new System.Windows.Forms.Button();
-            this.addButton = new System.Windows.Forms.Button();
-            this.addTextBox = new System.Windows.Forms.TextBox();
+            this.addTextButton = new System.Windows.Forms.Button();
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.addTextLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
@@ -76,9 +76,9 @@ namespace Lab05
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.splitContainer.Panel2.Controls.Add(this.colorSettingsLabel);
             this.splitContainer.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer.Panel2.Controls.Add(this.addButton);
-            this.splitContainer.Panel2.Controls.Add(this.addTextBox);
+            this.splitContainer.Panel2.Controls.Add(this.addTextButton);
             this.splitContainer.Panel2.Controls.Add(this.titleTextBox);
             this.splitContainer.Panel2.Controls.Add(this.addTextLabel);
             this.splitContainer.Panel2.Controls.Add(this.titleLabel);
@@ -104,6 +104,16 @@ namespace Lab05
             this.Canvas.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
             this.Canvas.MouseLeave += new System.EventHandler(this.Canvas_MouseLeave);
             // 
+            // colorSettingsLabel
+            // 
+            this.colorSettingsLabel.AutoSize = true;
+            this.colorSettingsLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.colorSettingsLabel.Location = new System.Drawing.Point(2, 222);
+            this.colorSettingsLabel.Name = "colorSettingsLabel";
+            this.colorSettingsLabel.Size = new System.Drawing.Size(103, 19);
+            this.colorSettingsLabel.TabIndex = 8;
+            this.colorSettingsLabel.Text = "Color Settings";
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -116,7 +126,7 @@ namespace Lab05
             this.tableLayoutPanel1.Controls.Add(this.backgroundLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.backgroundColorButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.textColorButton, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 408);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 244);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -174,33 +184,20 @@ namespace Lab05
             this.textColorButton.UseVisualStyleBackColor = true;
             this.textColorButton.Click += new System.EventHandler(this.ColorsChanged);
             // 
-            // addButton
+            // addTextButton
             // 
-            this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.addTextButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.addButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.addButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addButton.Location = new System.Drawing.Point(3, 378);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(200, 23);
-            this.addButton.TabIndex = 6;
-            this.addButton.Text = "Add Text";
-            this.addButton.UseVisualStyleBackColor = false;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
-            // 
-            // addTextBox
-            // 
-            this.addTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.addTextBox.Location = new System.Drawing.Point(3, 196);
-            this.addTextBox.MinimumSize = new System.Drawing.Size(190, 4);
-            this.addTextBox.Multiline = true;
-            this.addTextBox.Name = "addTextBox";
-            this.addTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.addTextBox.Size = new System.Drawing.Size(200, 175);
-            this.addTextBox.TabIndex = 5;
-            this.addTextBox.TextChanged += new System.EventHandler(this.addTextBox_TextChanged);
+            this.addTextButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.addTextButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.addTextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addTextButton.Location = new System.Drawing.Point(4, 196);
+            this.addTextButton.Name = "addTextButton";
+            this.addTextButton.Size = new System.Drawing.Size(200, 23);
+            this.addTextButton.TabIndex = 6;
+            this.addTextButton.Text = "Add Text";
+            this.addTextButton.UseVisualStyleBackColor = false;
+            this.addTextButton.Click += new System.EventHandler(this.addTextButton_Click);
             // 
             // titleTextBox
             // 
@@ -375,12 +372,11 @@ namespace Lab05
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.TextBox titleTextBox;
-        private System.Windows.Forms.TextBox addTextBox;
         private System.Windows.Forms.Label addTextLabel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label authorLabel;
         private System.Windows.Forms.TextBox authorTextBox;
-        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button addTextButton;
         private System.Windows.Forms.MenuStrip menuBar;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
         private System.Windows.Forms.ToolStripMenuItem cmdNew;
@@ -395,6 +391,7 @@ namespace Lab05
         private System.Windows.Forms.Label textLabel;
         private System.Windows.Forms.Button backgroundColorButton;
         private System.Windows.Forms.Button textColorButton;
+        private System.Windows.Forms.Label colorSettingsLabel;
     }
 }
 
