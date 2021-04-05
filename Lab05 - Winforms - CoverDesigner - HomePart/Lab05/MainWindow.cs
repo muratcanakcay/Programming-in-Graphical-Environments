@@ -18,14 +18,10 @@ namespace Lab05
 
         public MainWindow()
         {
-            Book = new();
-            Painter = new(Book); 
-            
             InitializeComponent();           
             
-            Painter.Canvas = Canvas;
-            Painter.titleTextBox = titleTextBox;
-            Painter.authorTextBox = authorTextBox;
+            Book = new();
+            Painter = new(Book, Canvas, titleTextBox, authorTextBox); 
             //Painter.addTextBox = addTextBox;
         }
 
@@ -95,7 +91,7 @@ namespace Lab05
 
         private void addTextBox_TextChanged(object sender, EventArgs e)
         {
-            Painter.addText = false;
+            Painter.addTextOff();
         }
 
         private void ColorsChanged(object sender, EventArgs e)
@@ -112,7 +108,14 @@ namespace Lab05
         private void addTextButton_Click(object sender, EventArgs e)
         {
             AddTextDialog addTextDialog = new AddTextDialog();
-            if (addTextDialog.ShowDialog() == DialogResult.OK) Debug.Print("OK"); 
+            if (addTextDialog.ShowDialog() == DialogResult.OK)
+            {
+
+
+
+
+
+            }
         }
     }
 

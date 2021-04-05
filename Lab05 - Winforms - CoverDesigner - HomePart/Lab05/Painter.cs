@@ -15,24 +15,37 @@ namespace Lab05
 {
     public class Painter
     {
-        public Painter(Book _book) { Book = _book; }
+        private bool addText = false;
+        public bool AddTextOn { get => addText; }
+        private int xCenter { get; }
+        private int yCenter { get; }
 
-        public bool addText { get; set; } = false;
-        public PictureBox Canvas;
-        public TextBox titleTextBox;
-        public TextBox authorTextBox;
+        private PictureBox Canvas { get; }
+        private TextBox titleTextBox { get; }
+        private TextBox authorTextBox { get; }
+        private Book Book { get; } 
 
-        private Book Book {get; set;}
         private text_t titleCoverText_t { get; set; } 
         private text_t authorCoverText_t { get; set; }
         private text_t titleSplineText_t { get; set; }
         private text_t authorSplineText_t { get; set; }
-
+        
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
-        
+
+        public Painter(Book _book, PictureBox _canvas, TextBox _titleTextBox, TextBox _authorTextBox)
+        {
+            Book = _book;
+            Canvas = _canvas;
+            authorTextBox = _authorTextBox;
+            titleTextBox = _titleTextBox;
+
+            xCenter = Canvas.Width / 2; 
+            yCenter = Canvas.Height / 2;
+        }
+
         //------------ public methods
-        
+
         public void paintCanvas(PaintEventArgs e)
         {
             paintBorders(e);
@@ -48,7 +61,7 @@ namespace Lab05
 
         public void paintString(int xCursor, int yCursor)
         {
-            if (addText)
+            if (AddTextOn)
             {
                 Graphics g = Canvas.CreateGraphics();
 
@@ -59,12 +72,10 @@ namespace Lab05
                 int textHeight = (int)g.MeasureString("text", font).Height;
                 int xPos = xCursor - textWidth / 2;
                 int yPos = yCursor - textHeight / 2;
-                int xCenter = Canvas.Width / 2;
-                int yCenter = Canvas.Height / 2;
 
                 Book.AddedTexts.Add(new text_t { text = "text", xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
 
-                addText = false;
+                addTextOff();
                 Canvas.Refresh();
             }
         }
@@ -73,18 +84,19 @@ namespace Lab05
         {
             titleTextBox.Text = String.Empty;
             authorTextBox.Text = String.Empty;
-            addText = false;
+            addTextOff();
 
             Canvas.Refresh();
         }
+
+        public void addTextOn() { addText = true; }
+        public void addTextOff() { addText = false; }
+        public bool addTextState() { return addText; }
 
         //------------ private methods
 
         private void paintBorders(PaintEventArgs e)
         {
-            int xCenter = Canvas.Width / 2;
-            int yCenter = Canvas.Height / 2; 
-            
             e.Graphics.FillRectangle(new SolidBrush(Book.BackgroundColor), xCenter - Book.BookWidth - Book.SpineWidth / 2, yCenter - Book.BookHeight / 2,
                 2 * Book.BookWidth + Book.SpineWidth, Book.BookHeight 
                 );
@@ -154,9 +166,6 @@ namespace Lab05
 
         private void paintCoverText(PaintEventArgs e)
         {
-            int xCenter = Canvas.Width / 2;
-            int yCenter = Canvas.Height / 2;
-
             // paint title & author
             e.Graphics.DrawString(titleCoverText_t.text, titleCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
             e.Graphics.DrawString(authorCoverText_t.text, authorCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
@@ -196,9 +205,6 @@ namespace Lab05
 
         private void paintSplineText(PaintEventArgs e)
         {
-            int xCenter = Canvas.Width / 2;
-            int yCenter = Canvas.Height / 2;
-
             // paint title
             e.Graphics.RotateTransform(270);
             e.Graphics.TranslateTransform(xCenter + titleSplineText_t.xOff, yCenter + titleSplineText_t.yOff, MatrixOrder.Append);
