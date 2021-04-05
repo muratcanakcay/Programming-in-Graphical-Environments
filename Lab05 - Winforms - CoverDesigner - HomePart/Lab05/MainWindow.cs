@@ -75,7 +75,7 @@ namespace Lab05
         private void CoverTextChanged(object sender, EventArgs e)
         {
             TextBox box = (TextBox)sender;
-            Book.ChangeCoverText(box.Tag.ToString(), box.Text);
+            Book.ChangeCoverTexts(box.Tag.ToString(), box.Text);
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e)
@@ -88,10 +88,15 @@ namespace Lab05
             Painter.addText = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ColorsChanged(object sender, EventArgs e)
         {
-            Book.TextColor = Color.Red;
-            Canvas.Refresh();
+            ColorDialog colorDialog = new ColorDialog();
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                Button button = (Button)sender;
+                Book.ChangeColors(button.Tag.ToString(), colorDialog.Color);
+                Canvas.Refresh();
+            }
         }
     }
 

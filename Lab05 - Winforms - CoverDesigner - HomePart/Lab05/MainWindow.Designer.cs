@@ -31,6 +31,11 @@ namespace Lab05
         {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.Canvas = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textLabel = new System.Windows.Forms.Label();
+            this.backgroundLabel = new System.Windows.Forms.Label();
+            this.backgroundColorButton = new System.Windows.Forms.Button();
+            this.textColorButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.addTextBox = new System.Windows.Forms.TextBox();
             this.titleTextBox = new System.Windows.Forms.TextBox();
@@ -47,12 +52,12 @@ namespace Lab05
             this.menuLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdEnglish = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdPolish = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.menuBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +76,7 @@ namespace Lab05
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.splitContainer.Panel2.Controls.Add(this.button1);
+            this.splitContainer.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer.Panel2.Controls.Add(this.addButton);
             this.splitContainer.Panel2.Controls.Add(this.addTextBox);
             this.splitContainer.Panel2.Controls.Add(this.titleTextBox);
@@ -99,16 +104,89 @@ namespace Lab05
             this.Canvas.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
             this.Canvas.MouseLeave += new System.EventHandler(this.Canvas_MouseLeave);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.textLabel, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.backgroundLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.backgroundColorButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textColorButton, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 408);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 100);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // textLabel
+            // 
+            this.textLabel.AutoSize = true;
+            this.textLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textLabel.Location = new System.Drawing.Point(4, 50);
+            this.textLabel.Name = "textLabel";
+            this.textLabel.Size = new System.Drawing.Size(92, 49);
+            this.textLabel.TabIndex = 1;
+            this.textLabel.Text = "Text";
+            this.textLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // backgroundLabel
+            // 
+            this.backgroundLabel.AutoSize = true;
+            this.backgroundLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.backgroundLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.backgroundLabel.Location = new System.Drawing.Point(4, 1);
+            this.backgroundLabel.Name = "backgroundLabel";
+            this.backgroundLabel.Size = new System.Drawing.Size(92, 48);
+            this.backgroundLabel.TabIndex = 0;
+            this.backgroundLabel.Text = "Background";
+            this.backgroundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // backgroundColorButton
+            // 
+            this.backgroundColorButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.backgroundColorButton.Location = new System.Drawing.Point(117, 10);
+            this.backgroundColorButton.MinimumSize = new System.Drawing.Size(50, 29);
+            this.backgroundColorButton.Name = "backgroundColorButton";
+            this.backgroundColorButton.Size = new System.Drawing.Size(64, 29);
+            this.backgroundColorButton.TabIndex = 2;
+            this.backgroundColorButton.Tag = "background";
+            this.backgroundColorButton.Text = "Change";
+            this.backgroundColorButton.UseVisualStyleBackColor = true;
+            this.backgroundColorButton.Click += new System.EventHandler(this.ColorsChanged);
+            // 
+            // textColorButton
+            // 
+            this.textColorButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textColorButton.Location = new System.Drawing.Point(117, 60);
+            this.textColorButton.MinimumSize = new System.Drawing.Size(50, 29);
+            this.textColorButton.Name = "textColorButton";
+            this.textColorButton.Size = new System.Drawing.Size(64, 29);
+            this.textColorButton.TabIndex = 3;
+            this.textColorButton.Tag = "text";
+            this.textColorButton.Text = "Change";
+            this.textColorButton.UseVisualStyleBackColor = true;
+            this.textColorButton.Click += new System.EventHandler(this.ColorsChanged);
+            // 
             // addButton
             // 
             this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.addButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.addButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addButton.Location = new System.Drawing.Point(3, 378);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(200, 23);
             this.addButton.TabIndex = 6;
             this.addButton.Text = "Add Text";
-            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.UseVisualStyleBackColor = false;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // addTextBox
@@ -116,7 +194,7 @@ namespace Lab05
             this.addTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addTextBox.Location = new System.Drawing.Point(3, 196);
-            this.addTextBox.MinimumSize = new System.Drawing.Size(200, 4);
+            this.addTextBox.MinimumSize = new System.Drawing.Size(190, 4);
             this.addTextBox.Multiline = true;
             this.addTextBox.Name = "addTextBox";
             this.addTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -129,7 +207,7 @@ namespace Lab05
             this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.titleTextBox.Location = new System.Drawing.Point(3, 31);
-            this.titleTextBox.MinimumSize = new System.Drawing.Size(200, 4);
+            this.titleTextBox.MinimumSize = new System.Drawing.Size(190, 4);
             this.titleTextBox.Multiline = true;
             this.titleTextBox.Name = "titleTextBox";
             this.titleTextBox.Size = new System.Drawing.Size(200, 92);
@@ -173,7 +251,7 @@ namespace Lab05
             this.authorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.authorTextBox.Location = new System.Drawing.Point(3, 148);
-            this.authorTextBox.MinimumSize = new System.Drawing.Size(200, 4);
+            this.authorTextBox.MinimumSize = new System.Drawing.Size(190, 4);
             this.authorTextBox.Name = "authorTextBox";
             this.authorTextBox.Size = new System.Drawing.Size(200, 23);
             this.authorTextBox.TabIndex = 3;
@@ -265,16 +343,6 @@ namespace Lab05
             this.cmdPolish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdPolish.Click += new System.EventHandler(this.cmdPolish_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(55, 436);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -293,6 +361,8 @@ namespace Lab05
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.menuBar.ResumeLayout(false);
             this.menuBar.PerformLayout();
             this.ResumeLayout(false);
@@ -320,7 +390,11 @@ namespace Lab05
         private System.Windows.Forms.ToolStripMenuItem menuLanguage;
         private System.Windows.Forms.ToolStripMenuItem cmdEnglish;
         private System.Windows.Forms.ToolStripMenuItem cmdPolish;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label backgroundLabel;
+        private System.Windows.Forms.Label textLabel;
+        private System.Windows.Forms.Button backgroundColorButton;
+        private System.Windows.Forms.Button textColorButton;
     }
 }
 

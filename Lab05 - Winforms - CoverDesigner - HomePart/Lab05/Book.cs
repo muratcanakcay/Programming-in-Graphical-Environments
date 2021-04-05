@@ -54,12 +54,18 @@ namespace Lab05
             Painter.paintNewBook();
         }
 
-        public static void ChangeCoverText(string tag, string newText)
+        public static void ChangeCoverTexts(string tag, string newText)
         {
             if (tag.Equals("title")) Title = newText;
             else Author = newText;
             
             Painter.processTexts(tag);
+        }
+
+        public static void ChangeColors(string tag, Color color)
+        {
+            if (tag.Equals("background")) BackgroundColor = color;
+            else TextColor = color;
         }
 
 
