@@ -21,10 +21,10 @@ namespace Lab05
         public static TextBox authorTextBox;
         public static TextBox addTextBox;
 
-        private static text_t titleCoverText_t { get; set; } = new text_t { brush = new SolidBrush(Color.Black) };
-        private static text_t authorCoverText_t { get; set; } = new text_t { brush = new SolidBrush(Color.Black) };
-        private static text_t titleSplineText_t { get; set; } = new text_t { brush = new SolidBrush(Color.Black) };
-        private static text_t authorSplineText_t { get; set; } = new text_t { brush = new SolidBrush(Color.Black) };
+        private static text_t titleCoverText_t { get; set; } 
+        private static text_t authorCoverText_t { get; set; }
+        private static text_t titleSplineText_t { get; set; }
+        private static text_t authorSplineText_t { get; set; }
 
         private static readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private static string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
@@ -126,7 +126,6 @@ namespace Lab05
             string text = tag.Equals("title") ? Book.Title : Book.Author;
             int textWidth, textHeight;
             Font font;
-            Brush brush = new SolidBrush(Book.TextColor);
             Graphics g = Canvas.CreateGraphics();
 
             do
@@ -143,7 +142,7 @@ namespace Lab05
             int yOff = -Book.BookHeight / 2 + Book.BookHeight / 10;
             if (tag.Equals("author")) yOff += Book.BookHeight / 5;
 
-            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat, brush=brush };
+            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat };
 
             if (tag.Equals("title"))
                 titleCoverText_t = newText_t;
@@ -159,8 +158,8 @@ namespace Lab05
             int yCenter = Canvas.Height / 2;
 
             // paint title & author
-            e.Graphics.DrawString(titleCoverText_t.text, titleCoverText_t.font, titleCoverText_t.brush, xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
-            e.Graphics.DrawString(authorCoverText_t.text, authorCoverText_t.font, authorCoverText_t.brush, xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
+            e.Graphics.DrawString(titleCoverText_t.text, titleCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
+            e.Graphics.DrawString(authorCoverText_t.text, authorCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
         }
 
         private static void processSplineText(string tag)
@@ -170,7 +169,6 @@ namespace Lab05
             text = ReplaceWhitespace(text, " ");
             int textWidth, textHeight;
             Font font;
-            Brush brush = new SolidBrush(Book.TextColor);
             Graphics g = Canvas.CreateGraphics();
 
             do
@@ -186,7 +184,7 @@ namespace Lab05
             int xOff = -textHeight / 2;
             int yOff = ((Book.BookHeight / 4) * (tag.Equals("title") ? 1 : -1)) + textWidth / 2;
 
-            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat, brush = brush };
+            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat};
 
             if (tag.Equals("title"))
                 titleSplineText_t = newText_t;
@@ -204,13 +202,13 @@ namespace Lab05
             // paint title
             e.Graphics.RotateTransform(270);
             e.Graphics.TranslateTransform(xCenter + titleSplineText_t.xOff, yCenter + titleSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(titleSplineText_t.text, titleSplineText_t.font, titleCoverText_t.brush, 0, 0, titleSplineText_t.format);
+            e.Graphics.DrawString(titleSplineText_t.text, titleSplineText_t.font, new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
             e.Graphics.ResetTransform();
 
             // paint author
             e.Graphics.RotateTransform(270);
             e.Graphics.TranslateTransform(xCenter + authorSplineText_t.xOff, yCenter + authorSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(authorSplineText_t.text, authorSplineText_t.font, authorCoverText_t.brush, 0, 0, authorSplineText_t.format);
+            e.Graphics.DrawString(authorSplineText_t.text, authorSplineText_t.font, new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
             e.Graphics.ResetTransform();
         }
     }

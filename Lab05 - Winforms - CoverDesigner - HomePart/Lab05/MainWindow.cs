@@ -87,6 +87,12 @@ namespace Lab05
         {
             Painter.addText = false;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Book.TextColor = Color.Red;
+            Canvas.Refresh();
+        }
     }
 
     

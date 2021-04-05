@@ -47,6 +47,7 @@ namespace Lab05
             this.menuLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdEnglish = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdPolish = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -70,6 +71,7 @@ namespace Lab05
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.splitContainer.Panel2.Controls.Add(this.button1);
             this.splitContainer.Panel2.Controls.Add(this.addButton);
             this.splitContainer.Panel2.Controls.Add(this.addTextBox);
             this.splitContainer.Panel2.Controls.Add(this.titleTextBox);
@@ -263,6 +265,16 @@ namespace Lab05
             this.cmdPolish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdPolish.Click += new System.EventHandler(this.cmdPolish_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(55, 436);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -308,6 +320,7 @@ namespace Lab05
         private System.Windows.Forms.ToolStripMenuItem menuLanguage;
         private System.Windows.Forms.ToolStripMenuItem cmdEnglish;
         private System.Windows.Forms.ToolStripMenuItem cmdPolish;
+        private System.Windows.Forms.Button button1;
     }
 }
 

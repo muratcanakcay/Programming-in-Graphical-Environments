@@ -18,7 +18,6 @@ namespace Lab05
         public int yOff;
         public Font font;
         public StringFormat format;
-        public Brush brush;
     }
     
     public static class Book
