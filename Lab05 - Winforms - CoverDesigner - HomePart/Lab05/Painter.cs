@@ -19,7 +19,6 @@ namespace Lab05
         public static PictureBox Canvas;
         public static TextBox titleTextBox; 
         public static TextBox authorTextBox;
-        public static TextBox addTextBox;
 
         private static text_t titleCoverText_t { get; set; } 
         private static text_t authorCoverText_t { get; set; }
@@ -53,16 +52,15 @@ namespace Lab05
                 Font font = getFont("Arial", 16);
                 StringFormat format = new StringFormat();
 
-                int textWidth = (int)g.MeasureString(addTextBox.Text, font).Width;
-                int textHeight = (int)g.MeasureString(addTextBox.Text, font).Height;
+                int textWidth = (int)g.MeasureString("text", font).Width;
+                int textHeight = (int)g.MeasureString("text", font).Height;
                 int xPos = xCursor - textWidth / 2;
                 int yPos = yCursor - textHeight / 2;
                 int xCenter = Canvas.Width / 2;
                 int yCenter = Canvas.Height / 2;
 
-                Book.AddedTexts.Add(new text_t { text = addTextBox.Text, xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
+                Book.AddedTexts.Add(new text_t { text = "text", xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
 
-                addTextBox.Text = String.Empty;
                 addText = false;
                 Canvas.Refresh();
             }
@@ -72,7 +70,6 @@ namespace Lab05
         {
             titleTextBox.Text = String.Empty;
             authorTextBox.Text = String.Empty;
-            //addTextBox.Text = String.Empty;
             addText = false;
 
             Canvas.Refresh();

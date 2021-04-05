@@ -63,8 +63,10 @@ namespace Lab05
 
         private void cmdNew_Click(object sender, EventArgs e)
         {
-            NewDialog newDialog = new NewDialog();
-            newDialog.ShowDialog();
+            using (NewDialog newDialog = new NewDialog())
+            {
+                if (newDialog.ShowDialog() == DialogResult.OK) Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+            }
         }
 
         private void CoverTextChanged(object sender, EventArgs e)
@@ -97,7 +99,7 @@ namespace Lab05
         private void addTextButton_Click(object sender, EventArgs e)
         {
             AddTextDialog addTextDialog = new AddTextDialog();
-            addTextDialog.ShowDialog();
+            if (addTextDialog.ShowDialog() == DialogResult.OK) Debug.Print("OK"); 
         }
     }
 

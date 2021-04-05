@@ -151,12 +151,14 @@ namespace Lab05
             resources.ApplyResources(this.buttonAddTextOK, "buttonAddTextOK");
             this.buttonAddTextOK.Name = "buttonAddTextOK";
             this.buttonAddTextOK.UseVisualStyleBackColor = true;
+            this.buttonAddTextOK.Click += new System.EventHandler(this.buttonAddTextOK_Click);
             // 
             // AddTextDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddTextDialog";

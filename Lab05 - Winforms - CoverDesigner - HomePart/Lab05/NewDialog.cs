@@ -12,20 +12,21 @@ namespace Lab05
 {
     public partial class NewDialog : Form
     {
+        public int NewWidth { get; private set; }
+        public int NewHeight { get; private set; }
+        public int NewSpineWidth { get; private set; }
+        
+
         public NewDialog()
         {
             InitializeComponent();
         }
 
-        private void cancelButtonNewDialog_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void okButtonNewDialog_Click(object sender, EventArgs e)
         {
-            Book.NewBook((int)newWidth.Value, (int)newHeight.Value, (int)newSpineWidth.Value);
-            Close();
+            NewWidth = (int)newWidth.Value;
+            NewHeight = (int)newHeight.Value;
+            NewSpineWidth = (int)newSpineWidth.Value;
         }
     }
 

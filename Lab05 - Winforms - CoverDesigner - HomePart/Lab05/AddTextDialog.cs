@@ -16,5 +16,14 @@ namespace Lab05
         {
             InitializeComponent();
         }
+
+        private void buttonAddTextOK_Click(object sender, EventArgs e)
+        {
+            text_t addedText;
+            
+
+
+
+        }
     }
 }

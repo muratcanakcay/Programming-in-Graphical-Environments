@@ -71,13 +71,13 @@ namespace Lab05
             // cancelButtonNewDialog
             // 
             this.cancelButtonNewDialog.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cancelButtonNewDialog.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButtonNewDialog.Location = new System.Drawing.Point(138, 172);
             this.cancelButtonNewDialog.Name = "cancelButtonNewDialog";
             this.cancelButtonNewDialog.Size = new System.Drawing.Size(75, 23);
             this.cancelButtonNewDialog.TabIndex = 7;
             this.cancelButtonNewDialog.Text = "Cancel";
             this.cancelButtonNewDialog.UseVisualStyleBackColor = true;
-            this.cancelButtonNewDialog.Click += new System.EventHandler(this.cancelButtonNewDialog_Click);
             // 
             // widthLabelNewDialog
             // 
@@ -190,6 +190,7 @@ namespace Lab05
             // okButtonNewDialog
             // 
             this.okButtonNewDialog.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.okButtonNewDialog.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButtonNewDialog.Location = new System.Drawing.Point(21, 172);
             this.okButtonNewDialog.Name = "okButtonNewDialog";
             this.okButtonNewDialog.Size = new System.Drawing.Size(75, 23);
@@ -204,6 +205,7 @@ namespace Lab05
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 211);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(250, 250);
             this.MinimizeBox = false;
