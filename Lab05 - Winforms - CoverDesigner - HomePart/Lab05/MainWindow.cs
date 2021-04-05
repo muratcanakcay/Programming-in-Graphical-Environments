@@ -13,9 +13,16 @@ namespace Lab05
 {
     public partial class MainWindow : Form
     {
+        private Book Book { get; set; }
+        private Painter Painter { get; set; }
+
         public MainWindow()
         {
-            InitializeComponent();
+            Book = new();
+            Painter = new(Book); 
+            
+            InitializeComponent();           
+            
             Painter.Canvas = Canvas;
             Painter.titleTextBox = titleTextBox;
             Painter.authorTextBox = authorTextBox;
@@ -65,14 +72,20 @@ namespace Lab05
         {
             using (NewDialog newDialog = new NewDialog())
             {
-                if (newDialog.ShowDialog() == DialogResult.OK) Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+                if (newDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+                    Painter.paintNewBook();
+                }
             }
         }
 
         private void CoverTextChanged(object sender, EventArgs e)
         {
             TextBox box = (TextBox)sender;
-            Book.ChangeCoverTexts(box.Tag.ToString(), box.Text);
+            string tag = box.Tag.ToString();
+            Book.ChangeCoverTexts(tag, box.Text);
+            Painter.processTexts(tag);
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e)

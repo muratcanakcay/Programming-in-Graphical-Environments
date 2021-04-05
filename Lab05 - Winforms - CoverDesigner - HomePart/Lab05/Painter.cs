@@ -15,35 +15,38 @@ namespace Lab05
 {
     public class Painter
     {
-        public static bool addText { get; set; } = false;
-        public static PictureBox Canvas;
-        public static TextBox titleTextBox; 
-        public static TextBox authorTextBox;
+        public Painter(Book _book) { Book = _book; }
 
-        private static text_t titleCoverText_t { get; set; } 
-        private static text_t authorCoverText_t { get; set; }
-        private static text_t titleSplineText_t { get; set; }
-        private static text_t authorSplineText_t { get; set; }
+        public bool addText { get; set; } = false;
+        public PictureBox Canvas;
+        public TextBox titleTextBox;
+        public TextBox authorTextBox;
 
-        private static readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
-        private static string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
+        private Book Book {get; set;}
+        private text_t titleCoverText_t { get; set; } 
+        private text_t authorCoverText_t { get; set; }
+        private text_t titleSplineText_t { get; set; }
+        private text_t authorSplineText_t { get; set; }
+
+        private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
+        private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
         
         //------------ public methods
         
-        public static void paintCanvas(PaintEventArgs e)
+        public void paintCanvas(PaintEventArgs e)
         {
             paintBorders(e);
             paintCoverText(e);
             paintSplineText(e);
         }
 
-        public static void processTexts(string tag)
+        public void processTexts(string tag)
         {
             processCoverText(tag);
             processSplineText(tag);
         }
 
-        public static void paintString(int xCursor, int yCursor)
+        public void paintString(int xCursor, int yCursor)
         {
             if (addText)
             {
@@ -66,7 +69,7 @@ namespace Lab05
             }
         }
 
-        public static void paintNewBook()
+        public void paintNewBook()
         {
             titleTextBox.Text = String.Empty;
             authorTextBox.Text = String.Empty;
@@ -77,7 +80,7 @@ namespace Lab05
 
         //------------ private methods
 
-        private static void paintBorders(PaintEventArgs e)
+        private void paintBorders(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
             int yCenter = Canvas.Height / 2; 
@@ -105,7 +108,7 @@ namespace Lab05
                 e.Graphics.DrawString(t.text, t.font, Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
         }
 
-        private static Font getFont(string type, int size)
+        private Font getFont(string type, int size)
         {
             FontFamily fontFamily = new FontFamily(type);
             Font font = new Font(
@@ -116,7 +119,7 @@ namespace Lab05
             return font;
         }
 
-        private static void processCoverText(string tag)
+        private void processCoverText(string tag)
         {
             int size = tag.Equals("title") ? 33 : 25;
             int quotient = tag.Equals("title") ? 3 : 6;
@@ -149,7 +152,7 @@ namespace Lab05
             Canvas.Refresh();
         }
 
-        private static void paintCoverText(PaintEventArgs e)
+        private void paintCoverText(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
             int yCenter = Canvas.Height / 2;
@@ -159,7 +162,7 @@ namespace Lab05
             e.Graphics.DrawString(authorCoverText_t.text, authorCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
         }
 
-        private static void processSplineText(string tag)
+        private void processSplineText(string tag)
         {
             int size = tag.Equals("title") ? 33 : 25;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
@@ -191,7 +194,7 @@ namespace Lab05
             Canvas.Refresh();
         }
 
-        private static void paintSplineText(PaintEventArgs e)
+        private void paintSplineText(PaintEventArgs e)
         {
             int xCenter = Canvas.Width / 2;
             int yCenter = Canvas.Height / 2;
