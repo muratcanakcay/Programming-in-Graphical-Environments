@@ -111,22 +111,27 @@ namespace Lab05
             // 
             resources.ApplyResources(this.radioRight, "radioRight");
             this.radioRight.Name = "radioRight";
-            this.radioRight.TabStop = true;
+            this.radioRight.Tag = "right";
             this.radioRight.UseVisualStyleBackColor = true;
+            this.radioRight.Click += new System.EventHandler(this.radioButton_Click);
             // 
             // radioCenter
             // 
             resources.ApplyResources(this.radioCenter, "radioCenter");
             this.radioCenter.Name = "radioCenter";
-            this.radioCenter.TabStop = true;
+            this.radioCenter.Tag = "center";
             this.radioCenter.UseVisualStyleBackColor = true;
+            this.radioCenter.Click += new System.EventHandler(this.radioButton_Click);
             // 
             // radioLeft
             // 
             resources.ApplyResources(this.radioLeft, "radioLeft");
+            this.radioLeft.Checked = true;
             this.radioLeft.Name = "radioLeft";
             this.radioLeft.TabStop = true;
+            this.radioLeft.Tag = "left";
             this.radioLeft.UseVisualStyleBackColor = true;
+            this.radioLeft.Click += new System.EventHandler(this.radioButton_Click);
             // 
             // addTextBox
             // 

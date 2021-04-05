@@ -17,6 +17,23 @@ namespace Lab05
             InitializeComponent();
         }
 
+        private void radioButton_Click(object sender, EventArgs e)
+        {
+            switch (((RadioButton)sender).Tag.ToString())
+            {
+                case "left":
+                    addTextBox.TextAlign = HorizontalAlignment.Left;
+                    break;
+                case "center":
+                    addTextBox.TextAlign = HorizontalAlignment.Center;
+                    break;
+                case "right":
+                    addTextBox.TextAlign = HorizontalAlignment.Right;
+                    break;
+            }
+        }
+
+
         private void buttonAddTextOK_Click(object sender, EventArgs e)
         {
             text_t addedText;

@@ -116,7 +116,7 @@
     <value>86, 23</value>
   </data>
   <data name="numericUpDown1.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;numericUpDown1.Name" xml:space="preserve">
     <value>numericUpDown1</value>
@@ -173,7 +173,7 @@
     <value>53, 19</value>
   </data>
   <data name="radioRight.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="radioRight.Text" xml:space="preserve">
     <value>Right</value>
@@ -203,7 +203,7 @@
     <value>60, 19</value>
   </data>
   <data name="radioCenter.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="radioCenter.Text" xml:space="preserve">
     <value>Center</value>
@@ -230,7 +230,7 @@
     <value>45, 19</value>
   </data>
   <data name="radioLeft.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="radioLeft.Text" xml:space="preserve">
     <value>Left</value>
@@ -320,7 +320,7 @@
     <value>378, 128</value>
   </data>
   <data name="addTextBox.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;addTextBox.Name" xml:space="preserve">
     <value>addTextBox</value>
@@ -347,7 +347,7 @@
     <value>75, 23</value>
   </data>
   <data name="buttonAddTextCancel.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="buttonAddTextCancel.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -377,7 +377,7 @@
     <value>75, 23</value>
   </data>
   <data name="buttonAddTextOK.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="buttonAddTextOK.Text" xml:space="preserve">
     <value>OK</value>

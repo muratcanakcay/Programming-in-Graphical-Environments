@@ -91,7 +91,6 @@ namespace Lab05
 
         public void addTextOn() { addText = true; }
         public void addTextOff() { addText = false; }
-        public bool addTextState() { return addText; }
 
         //------------ private methods
 
