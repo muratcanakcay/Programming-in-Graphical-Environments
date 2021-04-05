@@ -20,7 +20,7 @@ namespace Lab05
             Painter.titleTextBox = titleTextBox;
             Painter.authorTextBox = authorTextBox;
             Painter.addTextBox = addTextBox;
-    }
+        }
 
         private void MainWindowLoad(object sender, EventArgs e)
         {
@@ -53,6 +53,7 @@ namespace Lab05
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             Painter.paintString(e.X, e.Y);
+            Cursor = Cursors.Arrow;
         }
 
         private void cmdEnglish_Click(object sender, EventArgs e)
@@ -71,11 +72,10 @@ namespace Lab05
             newDialog.ShowDialog();
         }
 
-        private void coverTextChanged(object sender, EventArgs e)
+        private void CoverTextChanged(object sender, EventArgs e)
         {
-            TextBox box = (TextBox)sender;            
-            Painter.processCoverText(box.Tag.ToString());
-            Painter.processSplineText(box.Tag.ToString());
+            TextBox box = (TextBox)sender;
+            Book.ChangeCoverText(box.Tag.ToString(), box.Text);
         }
 
         private void Canvas_SizeChanged(object sender, EventArgs e)

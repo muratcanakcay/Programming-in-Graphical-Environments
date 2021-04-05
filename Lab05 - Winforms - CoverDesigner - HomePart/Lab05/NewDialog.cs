@@ -19,13 +19,13 @@ namespace Lab05
 
         private void cancelButtonNewDialog_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void okButtonNewDialog_Click(object sender, EventArgs e)
         {
-            Painter.paintNewBook((int)widthUpDownNewDialog.Value, (int)heightUpDownNewDialog.Value, (int)spineWidthUpDownNewDialog.Value);
-            this.Close();
+            Book.NewBook((int)newWidth.Value, (int)newHeight.Value, (int)newSpineWidth.Value);
+            Close();
         }
     }
 

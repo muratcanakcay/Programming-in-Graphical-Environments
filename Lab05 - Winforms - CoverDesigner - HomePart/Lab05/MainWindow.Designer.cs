@@ -133,7 +133,7 @@ namespace Lab05
             this.titleTextBox.Size = new System.Drawing.Size(200, 92);
             this.titleTextBox.TabIndex = 4;
             this.titleTextBox.Tag = "title";
-            this.titleTextBox.TextChanged += new System.EventHandler(this.coverTextChanged);
+            this.titleTextBox.TextChanged += new System.EventHandler(this.CoverTextChanged);
             // 
             // addTextLabel
             // 
@@ -176,7 +176,7 @@ namespace Lab05
             this.authorTextBox.Size = new System.Drawing.Size(200, 23);
             this.authorTextBox.TabIndex = 3;
             this.authorTextBox.Tag = "author";
-            this.authorTextBox.TextChanged += new System.EventHandler(this.coverTextChanged);
+            this.authorTextBox.TextChanged += new System.EventHandler(this.CoverTextChanged);
             // 
             // menuBar
             // 

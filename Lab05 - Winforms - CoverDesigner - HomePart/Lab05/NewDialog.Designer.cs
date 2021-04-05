@@ -34,14 +34,14 @@ namespace Lab05
             this.widthLabelNewDialog = new System.Windows.Forms.Label();
             this.heightLabelNewDialog = new System.Windows.Forms.Label();
             this.spineWidthLabelNewDialog = new System.Windows.Forms.Label();
-            this.widthUpDownNewDialog = new System.Windows.Forms.NumericUpDown();
-            this.heightUpDownNewDialog = new System.Windows.Forms.NumericUpDown();
-            this.spineWidthUpDownNewDialog = new System.Windows.Forms.NumericUpDown();
+            this.newWidth = new System.Windows.Forms.NumericUpDown();
+            this.newHeight = new System.Windows.Forms.NumericUpDown();
+            this.newSpineWidth = new System.Windows.Forms.NumericUpDown();
             this.okButtonNewDialog = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.widthUpDownNewDialog)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heightUpDownNewDialog)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spineWidthUpDownNewDialog)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newSpineWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -53,9 +53,9 @@ namespace Lab05
             this.tableLayoutPanel1.Controls.Add(this.widthLabelNewDialog, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.heightLabelNewDialog, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.spineWidthLabelNewDialog, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.widthUpDownNewDialog, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.heightUpDownNewDialog, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.spineWidthUpDownNewDialog, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.newWidth, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.newHeight, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.newSpineWidth, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.okButtonNewDialog, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -105,83 +105,83 @@ namespace Lab05
             this.heightLabelNewDialog.Text = "Height";
             this.heightLabelNewDialog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Worker.spineWidthLabelNewDialog
+            // spineWidthLabelNewDialog
             // 
             this.spineWidthLabelNewDialog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.spineWidthLabelNewDialog.AutoSize = true;
             this.spineWidthLabelNewDialog.Location = new System.Drawing.Point(3, 104);
-            this.spineWidthLabelNewDialog.Name = "Worker.spineWidthLabelNewDialog";
+            this.spineWidthLabelNewDialog.Name = "spineWidthLabelNewDialog";
             this.spineWidthLabelNewDialog.Size = new System.Drawing.Size(111, 52);
             this.spineWidthLabelNewDialog.TabIndex = 2;
             this.spineWidthLabelNewDialog.Text = "Spine Width";
             this.spineWidthLabelNewDialog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // widthUpDownNewDialog
+            // newWidth
             // 
-            this.widthUpDownNewDialog.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.widthUpDownNewDialog.Location = new System.Drawing.Point(129, 14);
-            this.widthUpDownNewDialog.Maximum = new decimal(new int[] {
+            this.newWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.newWidth.Location = new System.Drawing.Point(129, 14);
+            this.newWidth.Maximum = new decimal(new int[] {
             600,
             0,
             0,
             0});
-            this.widthUpDownNewDialog.Minimum = new decimal(new int[] {
+            this.newWidth.Minimum = new decimal(new int[] {
             150,
             0,
             0,
             0});
-            this.widthUpDownNewDialog.Name = "widthUpDownNewDialog";
-            this.widthUpDownNewDialog.Size = new System.Drawing.Size(92, 23);
-            this.widthUpDownNewDialog.TabIndex = 3;
-            this.widthUpDownNewDialog.Value = new decimal(new int[] {
+            this.newWidth.Name = "newWidth";
+            this.newWidth.Size = new System.Drawing.Size(92, 23);
+            this.newWidth.TabIndex = 3;
+            this.newWidth.Value = new decimal(new int[] {
             300,
             0,
             0,
             0});
             // 
-            // heightUpDownNewDialog
+            // newHeight
             // 
-            this.heightUpDownNewDialog.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.heightUpDownNewDialog.Location = new System.Drawing.Point(129, 66);
-            this.heightUpDownNewDialog.Maximum = new decimal(new int[] {
+            this.newHeight.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.newHeight.Location = new System.Drawing.Point(129, 66);
+            this.newHeight.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.heightUpDownNewDialog.Minimum = new decimal(new int[] {
+            this.newHeight.Minimum = new decimal(new int[] {
             250,
             0,
             0,
             0});
-            this.heightUpDownNewDialog.Name = "heightUpDownNewDialog";
-            this.heightUpDownNewDialog.Size = new System.Drawing.Size(92, 23);
-            this.heightUpDownNewDialog.TabIndex = 4;
-            this.heightUpDownNewDialog.Value = new decimal(new int[] {
+            this.newHeight.Name = "newHeight";
+            this.newHeight.Size = new System.Drawing.Size(92, 23);
+            this.newHeight.TabIndex = 4;
+            this.newHeight.Value = new decimal(new int[] {
             500,
             0,
             0,
             0});
             // 
-            // Worker.spineWidthUpDownNewDialog
+            // newSpineWidth
             // 
-            this.spineWidthUpDownNewDialog.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.spineWidthUpDownNewDialog.Location = new System.Drawing.Point(129, 118);
-            this.spineWidthUpDownNewDialog.Maximum = new decimal(new int[] {
+            this.newSpineWidth.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.newSpineWidth.Location = new System.Drawing.Point(129, 118);
+            this.newSpineWidth.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.spineWidthUpDownNewDialog.Minimum = new decimal(new int[] {
+            this.newSpineWidth.Minimum = new decimal(new int[] {
             15,
             0,
             0,
             0});
-            this.spineWidthUpDownNewDialog.Name = "Worker.spineWidthUpDownNewDialog";
-            this.spineWidthUpDownNewDialog.Size = new System.Drawing.Size(92, 23);
-            this.spineWidthUpDownNewDialog.TabIndex = 5;
-            this.spineWidthUpDownNewDialog.Value = new decimal(new int[] {
+            this.newSpineWidth.Name = "newSpineWidth";
+            this.newSpineWidth.Size = new System.Drawing.Size(92, 23);
+            this.newSpineWidth.TabIndex = 5;
+            this.newSpineWidth.Value = new decimal(new int[] {
             30,
             0,
             0,
@@ -215,9 +215,9 @@ namespace Lab05
             this.Text = "New Cover...";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.widthUpDownNewDialog)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heightUpDownNewDialog)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spineWidthUpDownNewDialog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newSpineWidth)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -228,10 +228,11 @@ namespace Lab05
         private System.Windows.Forms.Label widthLabelNewDialog;
         private System.Windows.Forms.Label heightLabelNewDialog;
         private System.Windows.Forms.Label spineWidthLabelNewDialog;
-        private System.Windows.Forms.NumericUpDown widthUpDownNewDialog;
-        private System.Windows.Forms.NumericUpDown heightUpDownNewDialog;
-        private System.Windows.Forms.NumericUpDown spineWidthUpDownNewDialog;
+        private System.Windows.Forms.NumericUpDown newWidth;
+        private System.Windows.Forms.NumericUpDown newHeight;
+        private System.Windows.Forms.NumericUpDown SpineWidth;
         private System.Windows.Forms.Button cancelButtonNewDialog;
         private System.Windows.Forms.Button okButtonNewDialog;
+        private System.Windows.Forms.NumericUpDown newSpineWidth;
     }
 }
