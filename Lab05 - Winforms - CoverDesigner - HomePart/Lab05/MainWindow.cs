@@ -102,11 +102,8 @@ namespace Lab05
             {
                 if (addTextDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (addTextDialog.PreparedText.text != String.Empty)
-                    {
-                        PreparedText = addTextDialog.PreparedText;
-                        Painter.addTextOn();
-                    }                    
+                    PreparedText = addTextDialog.PreparedText;
+                    if (addTextDialog.PreparedText.text != String.Empty) Painter.addTextOn();
                 }
             }
         }
