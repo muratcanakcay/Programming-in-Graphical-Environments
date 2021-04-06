@@ -14,11 +14,8 @@ namespace Lab05
     public class Painter
     {
         private bool addText = false;
-        public bool AddTextOn { get => addText; }
         private int selectedText = -1;
-        public bool textSelected { get => selectedText > -1; }
-        private bool moveText = false;
-        public bool MoveTextOn { get => moveText; }
+        private bool moveText = false;        
 
         private int xCenter { get; set; }
         private int yCenter { get; set; }
@@ -35,10 +32,13 @@ namespace Lab05
         private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
          
-
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
 
+        public bool AddTextOn { get => addText; }
+        public bool textSelected { get => selectedText > -1; }
+        public bool MoveTextOn { get => moveText; }
+        
         public Painter(Book _book, PictureBox _canvas, TextBox _titleTextBox, TextBox _authorTextBox)
         {
             Book = _book;
@@ -61,6 +61,14 @@ namespace Lab05
             paintCoverText(e);
             paintSplineText(e);
             paintAddedTexts(e);
+        }
+        public void paintNewBook()
+        {
+            titleTextBox.Text = String.Empty;
+            authorTextBox.Text = String.Empty;
+            //addTextOff();
+
+            Canvas.Refresh();
         }
 
         public void processTexts(string tag)
@@ -146,7 +154,6 @@ namespace Lab05
             Book.AddedTexts[selectedText] = movedText;
             Canvas.Refresh();
         }
-
         public void deleteSelectedText()
         {
             Book.AddedTexts.RemoveAt(selectedText);
@@ -154,20 +161,10 @@ namespace Lab05
             Canvas.Refresh();
         }
 
-        public void paintNewBook()
-        {
-            titleTextBox.Text = String.Empty;
-            authorTextBox.Text = String.Empty;
-            //addTextOff();
-
-            Canvas.Refresh();
-        }
-        
         public void addTextOn() { addText = true; }
         public void addTextOff() { addText = false; }
         public void moveTextOn() { moveText = true; }
         public void moveTextOff() { moveText = false; }
-
 
         //------------ private methods
 
@@ -309,10 +306,6 @@ namespace Lab05
 
             return rect;
         }
-
-
-
-
 
     }
 }

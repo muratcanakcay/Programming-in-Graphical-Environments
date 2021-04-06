@@ -32,7 +32,6 @@ namespace Lab05
         private string title;
         private string author;
         private List<text_t> addedTexts;
-        
 
         public int BookWidth { get => bookWidth; set { bookWidth = value; } } 
         public int BookHeight { get => bookHeight; set { bookHeight = value; } }
@@ -81,9 +80,5 @@ namespace Lab05
             if (tag.Equals("background")) BackgroundColor = color;
             else TextColor = color;
         }
-
-
-
-
     }
 }

@@ -23,18 +23,14 @@ namespace Lab05
 
             Book = new();
             Painter = new(Book, Canvas, titleTextBox, authorTextBox);
-            //Painter.addTextBox = addTextBox;
         }
-
-        private void MainWindowLoad(object sender, EventArgs e)
+        
+        private void CoverTextChanged(object sender, EventArgs e)
         {
-            //splitContainer.SplitterDistance = Convert.ToInt32(this.ClientSize.Width * 0.66);
-            //Canvas.Width = splitContainer.Panel1.Width;
-            //Canvas.Height = splitContainer.Panel1.Height;
-        }
-        private void Canvas_Paint(object sender, PaintEventArgs e)
-        {
-            Painter.paintCanvas(e);
+            TextBox box = (TextBox)sender;
+            string tag = box.Tag.ToString();
+            Book.ChangeCoverTexts(tag, box.Text);
+            Painter.processTexts(tag);
         }
         private void ColorsChanged(object sender, EventArgs e)
         {
@@ -50,35 +46,9 @@ namespace Lab05
         {
             Refresh();
         }
-        private void CoverTextChanged(object sender, EventArgs e)
+        private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            TextBox box = (TextBox)sender;
-            string tag = box.Tag.ToString();
-            Book.ChangeCoverTexts(tag, box.Text);
-            Painter.processTexts(tag);
-        }
-
-        private void Canvas_MouseEnter(object sender, EventArgs e)
-        {
-            if (PreparedText.text != String.Empty && Painter.AddTextOn) Cursor = Cursors.Cross;
-            else Cursor = Cursors.Arrow;
-        }
-        private void Canvas_MouseLeave(object sender, EventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-        }
-        private void Canvas_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (Painter.AddTextOn && e.Button == MouseButtons.Left)
-            {
-                Painter.addNewText(e.X, e.Y, PreparedText);
-                Cursor = Cursors.Arrow;
-            }
-            else if (Painter.textSelected && e.Button == MouseButtons.Middle)
-            {
-                Painter.prepareMoveText(e);
-                Painter.moveTextOn();
-            }
+            Painter.paintCanvas(e);
         }
 
         private void cmdEnglish_Click(object sender, EventArgs e)
@@ -126,10 +96,30 @@ namespace Lab05
                         Painter.modifyOldText(idx, PreparedText);
                     }
                 }
-
             }
         }
-
+        private void Canvas_MouseEnter(object sender, EventArgs e)
+        {
+            if (PreparedText.text != String.Empty && Painter.AddTextOn) Cursor = Cursors.Cross;
+            else Cursor = Cursors.Arrow;
+        }
+        private void Canvas_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (Painter.AddTextOn && e.Button == MouseButtons.Left)
+            {
+                Painter.addNewText(e.X, e.Y, PreparedText);
+                Cursor = Cursors.Arrow;
+            }
+            else if (Painter.textSelected && e.Button == MouseButtons.Middle)
+            {
+                Painter.prepareMoveText(e);
+                Painter.moveTextOn();
+            }
+        }
         private void Canvas_Click(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
@@ -140,7 +130,6 @@ namespace Lab05
             }
             else Painter.selectText(-1);
         }
-
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
@@ -148,7 +137,6 @@ namespace Lab05
                 Painter.moveTextOff();
             }
         }
-
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (Painter.MoveTextOn)
@@ -156,7 +144,6 @@ namespace Lab05
                 Painter.moveSelectedText(e);
             }
         }
-
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             Debug.Print("key\n");
