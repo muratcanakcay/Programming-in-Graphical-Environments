@@ -131,8 +131,9 @@ namespace Lab05
 
             if (Painter.findText(e, out text_t foundText, out int idx))
             {
-                Painter.SelectText(idx);
+                Painter.selectText(idx);
             }
+            else Painter.selectText(-1);
         }
     }
 

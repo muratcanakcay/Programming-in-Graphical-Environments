@@ -15,6 +15,9 @@ namespace Lab05
     {
         private bool addText = false;
         public bool AddTextOn { get => addText; }
+        private int selectedText = -1;
+        public bool textSelected { get => selectedText > -1; }
+
         private int xCenter { get; set; }
         private int yCenter { get; set; }
 
@@ -27,7 +30,7 @@ namespace Lab05
         private text_t authorCoverText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
-        private int selectedText { get; set; } = -1;
+        
         
 
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
@@ -89,20 +92,6 @@ namespace Lab05
             Canvas.Refresh();            
         }
 
-        private Rectangle getTextRect(text_t t)
-        {
-            Rectangle rect = new(); 
-            
-            rect.X = xCenter + t.xOff;
-            if (t.format.Alignment == StringAlignment.Center) rect.X -= t.width / 2;
-            if (t.format.Alignment == StringAlignment.Far) rect.X -= t.width;
-
-            rect.Y = yCenter + t.yOff;
-            rect.Width = t.width;
-            rect.Height = t.height;
-
-            return rect;
-        }
         public bool findText(MouseEventArgs e, out text_t foundText, out int idx)
         {
             Point mouse = e.Location;
@@ -125,14 +114,6 @@ namespace Lab05
             foundText = new text_t();
             return false;
         }
-
-        public void SelectText(int idx)
-        {
-            selectedText = idx;
-            Canvas.Refresh();
-        }
-
-
         public void modifyOldText(int idx, text_t newText)
         {
             text_t oldText = Book.AddedTexts[idx];
@@ -144,6 +125,13 @@ namespace Lab05
             Book.AddedTexts.RemoveAt(idx);
             addNewText(xCursor, yCursor, newText);
         }
+        public void selectText(int idx)
+        {
+            selectedText = idx;
+            Canvas.Refresh();
+        }
+
+
 
         public void paintNewBook()
         {
@@ -190,8 +178,11 @@ namespace Lab05
                 xCenter + Book.SpineWidth / 2, yCenter - Book.BookHeight / 2,
                 xCenter + Book.SpineWidth / 2, yCenter + Book.BookHeight / 2
                 );
+
+            SolidBrush selectedTextBrush = new SolidBrush(Color.FromArgb(255 - Book.BackgroundColor.R, 255 - Book.BackgroundColor.G, 255 - Book.BackgroundColor.B));
+            Pen selectedTextPen = new Pen(selectedTextBrush);
             
-            if(selectedText>-1) e.Graphics.DrawRectangle(Pens.DarkGray, getTextRect(Book.AddedTexts[selectedText]));
+            if(selectedText > -1) e.Graphics.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
         }
         private void processCoverText(string tag)
         {
@@ -280,6 +271,20 @@ namespace Lab05
         {
             foreach (var t in Book.AddedTexts)
                 e.Graphics.DrawString(t.text, getFont("Arial", t.fontSize), Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
+        }
+        private Rectangle getTextRect(text_t t)
+        {
+            Rectangle rect = new(); 
+            
+            rect.X = xCenter + t.xOff;
+            if (t.format.Alignment == StringAlignment.Center) rect.X -= t.width / 2;
+            if (t.format.Alignment == StringAlignment.Far) rect.X -= t.width;
+
+            rect.Y = yCenter + t.yOff;
+            rect.Width = t.width;
+            rect.Height = t.height;
+
+            return rect;
         }
 
 
