@@ -34,7 +34,7 @@ namespace Lab05
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.labelFontSize = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownFontSize = new System.Windows.Forms.NumericUpDown();
             this.alignmentBox = new System.Windows.Forms.GroupBox();
             this.radioRight = new System.Windows.Forms.RadioButton();
             this.radioCenter = new System.Windows.Forms.RadioButton();
@@ -46,7 +46,7 @@ namespace Lab05
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFontSize)).BeginInit();
             this.alignmentBox.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +70,7 @@ namespace Lab05
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
             this.tableLayoutPanel3.Controls.Add(this.labelFontSize, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.numericUpDown1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.numericUpDownFontSize, 1, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
             // labelFontSize
@@ -78,21 +78,21 @@ namespace Lab05
             resources.ApplyResources(this.labelFontSize, "labelFontSize");
             this.labelFontSize.Name = "labelFontSize";
             // 
-            // numericUpDown1
+            // numericUpDownFontSize
             // 
-            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.numericUpDownFontSize, "numericUpDownFontSize");
+            this.numericUpDownFontSize.Maximum = new decimal(new int[] {
             32,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numericUpDownFontSize.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDownFontSize.Name = "numericUpDownFontSize";
+            this.numericUpDownFontSize.Value = new decimal(new int[] {
             16,
             0,
             0,
@@ -148,12 +148,14 @@ namespace Lab05
             // buttonAddTextCancel
             // 
             resources.ApplyResources(this.buttonAddTextCancel, "buttonAddTextCancel");
+            this.buttonAddTextCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonAddTextCancel.Name = "buttonAddTextCancel";
             this.buttonAddTextCancel.UseVisualStyleBackColor = true;
             // 
             // buttonAddTextOK
             // 
             resources.ApplyResources(this.buttonAddTextOK, "buttonAddTextOK");
+            this.buttonAddTextOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonAddTextOK.Name = "buttonAddTextOK";
             this.buttonAddTextOK.UseVisualStyleBackColor = true;
             this.buttonAddTextOK.Click += new System.EventHandler(this.buttonAddTextOK_Click);
@@ -173,7 +175,7 @@ namespace Lab05
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFontSize)).EndInit();
             this.alignmentBox.ResumeLayout(false);
             this.alignmentBox.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -187,7 +189,7 @@ namespace Lab05
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label labelFontSize;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDownFontSize;
         private System.Windows.Forms.GroupBox alignmentBox;
         private System.Windows.Forms.RadioButton radioRight;
         private System.Windows.Forms.RadioButton radioCenter;

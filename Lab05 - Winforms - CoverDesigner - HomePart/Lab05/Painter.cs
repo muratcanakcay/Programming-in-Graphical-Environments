@@ -23,13 +23,13 @@ namespace Lab05
         private PictureBox Canvas { get; }
         private TextBox titleTextBox { get; }
         private TextBox authorTextBox { get; }
-        private Book Book { get; } 
+        private Book Book { get; }
 
-        private text_t titleCoverText_t { get; set; } 
-        private text_t authorCoverText_t { get; set; }
-        private text_t titleSplineText_t { get; set; }
-        private text_t authorSplineText_t { get; set; }
-        
+        private text_t titleCoverText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t authorCoverText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
+
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
 
@@ -59,21 +59,27 @@ namespace Lab05
             processSplineText(tag);
         }
 
-        public void paintString(int xCursor, int yCursor)
+        public void addNewText(int xCursor, int yCursor, text_t newText)
         {
-            if (AddTextOn)
+            if (true) // (AddTextOn)
             {
                 Graphics g = Canvas.CreateGraphics();
 
-                Font font = getFont("Arial", 16);
-                StringFormat format = new StringFormat();
+                int fontSize = newText.fontSize;
+                Font font = getFont("Arial", fontSize);
+                StringFormat format = newText.format;
+                
+                string text = newText.text;
 
-                int textWidth = (int)g.MeasureString("text", font).Width;
-                int textHeight = (int)g.MeasureString("text", font).Height;
-                int xPos = xCursor - textWidth / 2;
+                int textWidth = (int)g.MeasureString(text, font).Width;
+                int textHeight = (int)g.MeasureString(text, font).Height;
                 int yPos = yCursor - textHeight / 2;
 
-                Book.AddedTexts.Add(new text_t { text = "text", xOff = xPos - xCenter, yOff = yPos - yCenter, font = font, format = format });
+                int xPos = xCursor - textWidth / 2;
+                if (format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
+                if (format.Alignment == StringAlignment.Far) xPos += textWidth;
+
+                Book.AddedTexts.Add(new text_t { text = text, xOff = xPos - xCenter, yOff = yPos - yCenter, fontSize = fontSize, format = format });
 
                 addTextOff();
                 Canvas.Refresh();
@@ -84,13 +90,14 @@ namespace Lab05
         {
             titleTextBox.Text = String.Empty;
             authorTextBox.Text = String.Empty;
-            addTextOff();
+            //addTextOff();
 
             Canvas.Refresh();
         }
-
+        
         public void addTextOn() { addText = true; }
         public void addTextOff() { addText = false; }
+
 
         //------------ private methods
 
@@ -116,7 +123,7 @@ namespace Lab05
                 );
 
             foreach (var t in Book.AddedTexts)
-                e.Graphics.DrawString(t.text, t.font, Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
+                e.Graphics.DrawString(t.text, getFont("Arial", t.fontSize), Brushes.Black, xCenter + t.xOff, yCenter + t.yOff, t.format);
         }
 
         private Font getFont(string type, int size)
@@ -132,7 +139,7 @@ namespace Lab05
 
         private void processCoverText(string tag)
         {
-            int size = tag.Equals("title") ? 33 : 25;
+            int fontSize = tag.Equals("title") ? 33 : 25;
             int quotient = tag.Equals("title") ? 3 : 6;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
             int textWidth, textHeight;
@@ -141,7 +148,7 @@ namespace Lab05
 
             do
             {
-                font = getFont("Arial", --size);
+                font = getFont("Arial", --fontSize);
                 textWidth = (int)g.MeasureString(text, font).Width;
                 textHeight = (int)g.MeasureString(text, font).Height;
             } while (textHeight > Book.BookHeight / quotient || textWidth > Book.BookWidth);
@@ -153,7 +160,7 @@ namespace Lab05
             int yOff = -Book.BookHeight / 2 + Book.BookHeight / 10;
             if (tag.Equals("author")) yOff += Book.BookHeight / 5;
 
-            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat };
+            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, fontSize = fontSize, format = textFormat };
 
             if (tag.Equals("title"))
                 titleCoverText_t = newText_t;
@@ -166,13 +173,13 @@ namespace Lab05
         private void paintCoverText(PaintEventArgs e)
         {
             // paint title & author
-            e.Graphics.DrawString(titleCoverText_t.text, titleCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
-            e.Graphics.DrawString(authorCoverText_t.text, authorCoverText_t.font, new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
+            e.Graphics.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
+            e.Graphics.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
         }
 
         private void processSplineText(string tag)
         {
-            int size = tag.Equals("title") ? 33 : 25;
+            int fontSize = tag.Equals("title") ? 33 : 25;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
             text = ReplaceWhitespace(text, " ");
             int textWidth, textHeight;
@@ -181,7 +188,7 @@ namespace Lab05
 
             do
             {
-                font = getFont("Arial", --size);
+                font = getFont("Arial", --fontSize);
                 textWidth = (int)g.MeasureString(text, font).Width;
                 textHeight = (int)g.MeasureString(text, font).Height;
             } while (textWidth > Book.BookHeight / 2 || textHeight > Book.SpineWidth);
@@ -192,7 +199,7 @@ namespace Lab05
             int xOff = -textHeight / 2;
             int yOff = ((Book.BookHeight / 4) * (tag.Equals("title") ? 1 : -1)) + textWidth / 2;
 
-            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, font = font, format = textFormat};
+            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, fontSize = fontSize, format = textFormat};
 
             if (tag.Equals("title"))
                 titleSplineText_t = newText_t;
@@ -207,13 +214,13 @@ namespace Lab05
             // paint title
             e.Graphics.RotateTransform(270);
             e.Graphics.TranslateTransform(xCenter + titleSplineText_t.xOff, yCenter + titleSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(titleSplineText_t.text, titleSplineText_t.font, new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
+            e.Graphics.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
             e.Graphics.ResetTransform();
 
             // paint author
             e.Graphics.RotateTransform(270);
             e.Graphics.TranslateTransform(xCenter + authorSplineText_t.xOff, yCenter + authorSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(authorSplineText_t.text, authorSplineText_t.font, new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
+            e.Graphics.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
             e.Graphics.ResetTransform();
         }
     }

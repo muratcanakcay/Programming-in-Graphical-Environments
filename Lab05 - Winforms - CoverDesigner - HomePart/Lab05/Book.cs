@@ -16,7 +16,7 @@ namespace Lab05
         public string text;
         public int xOff;
         public int yOff;
-        public Font font;
+        public int fontSize;
         public StringFormat format;
     }
     
