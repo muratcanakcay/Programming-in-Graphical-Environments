@@ -34,8 +34,7 @@ namespace Lab05
         private text_t authorCoverText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
-        
-        
+         
 
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
@@ -148,6 +147,12 @@ namespace Lab05
             Canvas.Refresh();
         }
 
+        public void deleteSelectedText()
+        {
+            Book.AddedTexts.RemoveAt(selectedText);
+            selectedText = -1;
+            Canvas.Refresh();
+        }
 
         public void paintNewBook()
         {

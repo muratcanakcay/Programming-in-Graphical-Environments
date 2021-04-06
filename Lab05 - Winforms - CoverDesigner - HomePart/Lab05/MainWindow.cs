@@ -156,6 +156,17 @@ namespace Lab05
                 Painter.moveSelectedText(e);
             }
         }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            Debug.Print("key\n");
+            if (Painter.textSelected && e.KeyCode == Keys.Delete)
+            {
+                Debug.Print("Delete\n");
+                Painter.deleteSelectedText();
+                Canvas.Refresh();
+            }
+        }
     }
 
     
