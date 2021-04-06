@@ -16,6 +16,8 @@ namespace Lab05
         public string text;
         public int xOff;
         public int yOff;
+        public int height;
+        public int width;
         public int fontSize;
         public StringFormat format;
     }
@@ -30,6 +32,7 @@ namespace Lab05
         private string title;
         private string author;
         private List<text_t> addedTexts;
+        
 
         public int BookWidth { get => bookWidth; set { bookWidth = value; } } 
         public int BookHeight { get => bookHeight; set { bookHeight = value; } }
@@ -39,6 +42,7 @@ namespace Lab05
         public string Title { get => title; set => title = value; }
         public string Author { get => author; set => author = value; }
         public List<text_t> AddedTexts { get => addedTexts; set { addedTexts = value; } } 
+        
 
         public Book()
         {

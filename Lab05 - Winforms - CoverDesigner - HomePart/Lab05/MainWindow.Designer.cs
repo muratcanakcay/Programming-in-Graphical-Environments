@@ -100,6 +100,7 @@ namespace Lab05
             this.Canvas.TabStop = false;
             this.Canvas.SizeChanged += new System.EventHandler(this.Canvas_SizeChanged);
             this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.Canvas_Paint);
+            this.Canvas.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Canvas_DoubleClick);
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
             this.Canvas.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
             this.Canvas.MouseLeave += new System.EventHandler(this.Canvas_MouseLeave);

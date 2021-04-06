@@ -22,6 +22,24 @@ namespace Lab05
             format.Alignment = StringAlignment.Near;
         }
 
+        public void ImportText(text_t importText)
+        {
+            addTextBox.Text = importText.text;
+            numericUpDownFontSize.Value = importText.fontSize;
+
+            switch (importText.format.Alignment)
+            {
+                case StringAlignment.Center:
+                    radioLeft.Checked = false;
+                    radioCenter.Checked = true;
+                    break;
+                case StringAlignment.Far:
+                    radioLeft.Checked = false;
+                    radioRight.Checked = true;
+                    break;
+            }
+        }
+        
         private void radioButton_Click(object sender, EventArgs e)
         {
             switch (((RadioButton)sender).Tag.ToString())

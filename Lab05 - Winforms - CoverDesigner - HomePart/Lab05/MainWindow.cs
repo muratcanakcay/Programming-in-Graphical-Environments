@@ -107,6 +107,29 @@ namespace Lab05
                 }
             }
         }
+
+        private void Canvas_DoubleClick(object sender, MouseEventArgs e)
+        {
+            text_t foundText = new();
+            
+
+            if (Painter.findText(e, ref foundText, out int idx))
+            {
+                using (AddTextDialog modifyTextDialog = new AddTextDialog())
+                {
+                    modifyTextDialog.ImportText(foundText);
+                    modifyTextDialog.ShowDialog();
+                    if (modifyTextDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        PreparedText = modifyTextDialog.PreparedText;
+                        Painter.modifyText(idx, PreparedText);
+                    }
+
+
+                }
+
+            }
+        }
     }
 
     
