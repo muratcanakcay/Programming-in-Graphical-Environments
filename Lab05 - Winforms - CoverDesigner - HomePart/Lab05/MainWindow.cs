@@ -118,7 +118,6 @@ namespace Lab05
                 using (AddTextDialog modifyTextDialog = new AddTextDialog())
                 {
                     modifyTextDialog.ImportText(foundText);
-                    modifyTextDialog.ShowDialog();
                     if (modifyTextDialog.ShowDialog() == DialogResult.OK)
                     {
                         PreparedText = modifyTextDialog.PreparedText;

@@ -103,6 +103,7 @@ namespace Lab05
                 {
                     foundText = t;
                     idx = i;
+                    Debug.Print("Found: %d %d", t.xOff, t.yOff);
                     return true;
                 }
             }
@@ -111,13 +112,22 @@ namespace Lab05
             return false;
         }
 
-        public void modifyText(int idx, text_t newText)
+        public void modifyOldText(int idx, text_t newText)
         {
             text_t oldText = Book.AddedTexts[idx];
             oldText.text = newText.text;
             oldText.fontSize = newText.fontSize;
             oldText.format = newText.format;
-            Book.AddedTexts[idx] = newText;
+
+
+            // TODO: implement cursorToText() and textToCursor() to switch coordinates. Also simplifies other text oprations
+
+            //if (oldText.format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
+            //if (oldText.format.Alignment == StringAlignment.Far) xPos += textWidth;
+
+            Book.AddedTexts[idx] = oldText;
+            Debug.Print("Modified: %d %d", oldText.xOff, oldText.yOff);
+            Canvas.Refresh();
         }
 
         public void paintNewBook()
