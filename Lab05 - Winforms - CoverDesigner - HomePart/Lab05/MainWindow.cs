@@ -69,10 +69,15 @@ namespace Lab05
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Painter.AddTextOn)
+            if (Painter.AddTextOn && e.Button == MouseButtons.Left)
             {
                 Painter.addNewText(e.X, e.Y, PreparedText);
                 Cursor = Cursors.Arrow;
+            }
+            else if (Painter.textSelected && e.Button == MouseButtons.Middle)
+            {
+                Painter.prepareMoveText(e);
+                Painter.moveTextOn();
             }
         }
 
@@ -125,15 +130,31 @@ namespace Lab05
             }
         }
 
-        private void Canvas_RightClick(object sender, MouseEventArgs e)
+        private void Canvas_Click(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
-
+            
             if (Painter.findText(e, out text_t foundText, out int idx))
             {
                 Painter.selectText(idx);
             }
             else Painter.selectText(-1);
+        }
+
+        private void Canvas_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                Painter.moveTextOff();
+            }
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Painter.MoveTextOn)
+            {
+                Painter.moveSelectedText(e);
+            }
         }
     }
 

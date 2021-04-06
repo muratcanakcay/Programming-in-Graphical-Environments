@@ -17,9 +17,13 @@ namespace Lab05
         public bool AddTextOn { get => addText; }
         private int selectedText = -1;
         public bool textSelected { get => selectedText > -1; }
+        private bool moveText = false;
+        public bool MoveTextOn { get => moveText; }
 
         private int xCenter { get; set; }
         private int yCenter { get; set; }
+        private Point cursorStartLoc { get; set; }
+        private Point textStartLoc { get; set; }
 
         private PictureBox Canvas { get; }
         private TextBox titleTextBox { get; }
@@ -130,7 +134,19 @@ namespace Lab05
             selectedText = idx;
             Canvas.Refresh();
         }
-
+        public void prepareMoveText(MouseEventArgs e)
+        {
+            cursorStartLoc = e.Location;
+            textStartLoc = new Point(Book.AddedTexts[selectedText].xOff, Book.AddedTexts[selectedText].yOff);
+        }
+        public void moveSelectedText(MouseEventArgs e)
+        {
+            text_t movedText = Book.AddedTexts[selectedText];
+            movedText.xOff = textStartLoc.X + e.X - cursorStartLoc.X;
+            movedText.yOff = textStartLoc.Y + e.Y - cursorStartLoc.Y; 
+            Book.AddedTexts[selectedText] = movedText;
+            Canvas.Refresh();
+        }
 
 
         public void paintNewBook()
@@ -144,6 +160,8 @@ namespace Lab05
         
         public void addTextOn() { addText = true; }
         public void addTextOff() { addText = false; }
+        public void moveTextOn() { moveText = true; }
+        public void moveTextOff() { moveText = false; }
 
 
         //------------ private methods
