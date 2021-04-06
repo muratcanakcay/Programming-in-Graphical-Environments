@@ -15,8 +15,8 @@ namespace Lab05
     {
         private bool addText = false;
         public bool AddTextOn { get => addText; }
-        private int xCenter { get; }
-        private int yCenter { get; }
+        private int xCenter { get; set; }
+        private int yCenter { get; set; }
 
         private PictureBox Canvas { get; }
         private TextBox titleTextBox { get; }
@@ -27,6 +27,8 @@ namespace Lab05
         private text_t authorCoverText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
+        private int selectedText { get; set; } = -1;
+        
 
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+"); 
         private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
@@ -46,6 +48,9 @@ namespace Lab05
 
         public void paintCanvas(PaintEventArgs e)
         {
+            xCenter = Canvas.Width / 2;
+            yCenter = Canvas.Height / 2;
+
             paintBorders(e);
             paintCoverText(e);
             paintSplineText(e);
@@ -59,75 +64,85 @@ namespace Lab05
         }
         public void addNewText(int xCursor, int yCursor, text_t newText)
         {
-            if (true) // (AddTextOn)
-            {
-                Graphics g = Canvas.CreateGraphics();
+            Graphics g = Canvas.CreateGraphics();
 
-                int fontSize = newText.fontSize;
-                Font font = getFont("Arial", fontSize);
-                StringFormat format = newText.format;
+            int fontSize = newText.fontSize;
+            Font font = getFont("Arial", fontSize);
+            StringFormat format = newText.format;
                 
-                string text = newText.text;
+            string text = newText.text;
 
-                int textWidth = (int)g.MeasureString(text, font).Width;
-                int textHeight = (int)g.MeasureString(text, font).Height;
-                int yPos = yCursor - textHeight / 2;
+            int textWidth = (int)g.MeasureString(text, font).Width;
+            int textHeight = (int)g.MeasureString(text, font).Height;
+            int yPos = yCursor - textHeight / 2;
 
-                int xPos = xCursor - textWidth / 2;
-                if (format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
-                if (format.Alignment == StringAlignment.Far) xPos += textWidth;
+            int xPos = xCursor - textWidth / 2;
+            if (format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
+            if (format.Alignment == StringAlignment.Far) xPos += textWidth;
 
-                int xOff = xPos - xCenter;
-                int yOff = yPos - yCenter;
+            int xOff = xPos - xCenter;
+            int yOff = yPos - yCenter;
 
-                Book.AddedTexts.Add(new text_t { text = text, height = textHeight, width = textWidth, xOff = xOff, yOff = yOff, fontSize = fontSize, format = format });
+            Book.AddedTexts.Add(new text_t { text = text, height = textHeight, width = textWidth, xOff = xOff, yOff = yOff, fontSize = fontSize, format = format });
 
-                addTextOff();
-                Canvas.Refresh();
-            }
+            addTextOff();
+            Canvas.Refresh();            
         }
-        public bool findText(MouseEventArgs e, ref text_t foundText, out int idx)
+
+        private Rectangle getTextRect(text_t t)
+        {
+            Rectangle rect = new(); 
+            
+            rect.X = xCenter + t.xOff;
+            if (t.format.Alignment == StringAlignment.Center) rect.X -= t.width / 2;
+            if (t.format.Alignment == StringAlignment.Far) rect.X -= t.width;
+
+            rect.Y = yCenter + t.yOff;
+            rect.Width = t.width;
+            rect.Height = t.height;
+
+            return rect;
+        }
+        public bool findText(MouseEventArgs e, out text_t foundText, out int idx)
         {
             Point mouse = e.Location;
-            Rectangle rect = new();
+            Rectangle rect;
 
             for (int i = 0; i < Book.AddedTexts.Count; i++)
             {
                 text_t t = Book.AddedTexts[i];
-                rect.X = xCenter + t.xOff;
-                rect.Y = yCenter + t.yOff;
-                rect.Width = t.width;
-                rect.Height = t.height;
-
+                rect = getTextRect(t);
+                
                 if (rect.Contains(mouse))
                 {
                     foundText = t;
                     idx = i;
-                    Debug.Print("Found: %d %d", t.xOff, t.yOff);
                     return true;
                 }
             }
             
             idx = -1;
+            foundText = new text_t();
             return false;
         }
+
+        public void SelectText(int idx)
+        {
+            selectedText = idx;
+            Canvas.Refresh();
+        }
+
 
         public void modifyOldText(int idx, text_t newText)
         {
             text_t oldText = Book.AddedTexts[idx];
-            oldText.text = newText.text;
-            oldText.fontSize = newText.fontSize;
-            oldText.format = newText.format;
-
-
-            // TODO: implement cursorToText() and textToCursor() to switch coordinates. Also simplifies other text oprations
-
-            //if (oldText.format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
-            //if (oldText.format.Alignment == StringAlignment.Far) xPos += textWidth;
-
-            Book.AddedTexts[idx] = oldText;
-            Debug.Print("Modified: %d %d", oldText.xOff, oldText.yOff);
-            Canvas.Refresh();
+            int xCursor = oldText.xOff + xCenter + oldText.width / 2;
+            if (oldText.format.Alignment == StringAlignment.Center) xCursor -= oldText.width / 2;
+            if (oldText.format.Alignment == StringAlignment.Far) xCursor -= oldText.width;
+            int yCursor = oldText.yOff + yCenter + oldText.height / 2;
+            
+            Book.AddedTexts.RemoveAt(idx);
+            addNewText(xCursor, yCursor, newText);
         }
 
         public void paintNewBook()
@@ -175,6 +190,8 @@ namespace Lab05
                 xCenter + Book.SpineWidth / 2, yCenter - Book.BookHeight / 2,
                 xCenter + Book.SpineWidth / 2, yCenter + Book.BookHeight / 2
                 );
+            
+            if(selectedText>-1) e.Graphics.DrawRectangle(Pens.DarkGray, getTextRect(Book.AddedTexts[selectedText]));
         }
         private void processCoverText(string tag)
         {

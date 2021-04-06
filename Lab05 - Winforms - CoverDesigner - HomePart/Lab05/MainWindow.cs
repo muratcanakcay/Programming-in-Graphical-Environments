@@ -19,8 +19,8 @@ namespace Lab05
 
         public MainWindow()
         {
-            InitializeComponent();           
-            
+            InitializeComponent();
+
             Book = new();
             Painter = new(Book, Canvas, titleTextBox, authorTextBox);
             //Painter.addTextBox = addTextBox;
@@ -110,10 +110,7 @@ namespace Lab05
 
         private void Canvas_DoubleClick(object sender, MouseEventArgs e)
         {
-            text_t foundText = new();
-            
-
-            if (Painter.findText(e, ref foundText, out int idx))
+            if (Painter.findText(e, out text_t foundText, out int idx))
             {
                 using (AddTextDialog modifyTextDialog = new AddTextDialog())
                 {
@@ -121,12 +118,20 @@ namespace Lab05
                     if (modifyTextDialog.ShowDialog() == DialogResult.OK)
                     {
                         PreparedText = modifyTextDialog.PreparedText;
-                        Painter.modifyText(idx, PreparedText);
+                        Painter.modifyOldText(idx, PreparedText);
                     }
-
-
                 }
 
+            }
+        }
+
+        private void Canvas_RightClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right) return;
+
+            if (Painter.findText(e, out text_t foundText, out int idx))
+            {
+                Painter.SelectText(idx);
             }
         }
     }
