@@ -26,8 +26,9 @@ namespace Lab05
         {
             addTextBox.Text = importText.text;
             numericUpDownFontSize.Value = importText.fontSize;
+            format = importText.format;
 
-            switch (importText.format.Alignment)
+            switch (format.Alignment)
             {
                 case StringAlignment.Center:
                     radioLeft.Checked = false;
