@@ -16,13 +16,15 @@ namespace Lab05
         private Book Book { get; set; }
         private Painter Painter { get; set; }
         private text_t PreparedText { get; set; }
+        private Graphics g { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            g = Canvas.CreateGraphics();
             Book = new();
-            Painter = new(Book, Canvas, titleTextBox, authorTextBox);
+            Painter = new(Book, new Point(Canvas.Width/2, Canvas.Height/2));
         }
         
         private void CoverTextChanged(object sender, EventArgs e)
@@ -30,7 +32,8 @@ namespace Lab05
             TextBox box = (TextBox)sender;
             string tag = box.Tag.ToString();
             Book.ChangeCoverTexts(tag, box.Text);
-            Painter.processTexts(tag);
+            Painter.processTexts(g, tag);
+            Canvas.Refresh();
         }
         private void ColorsChanged(object sender, EventArgs e)
         {
@@ -44,7 +47,8 @@ namespace Lab05
         }
         private void Canvas_SizeChanged(object sender, EventArgs e)
         {
-            Refresh();
+            Painter.changeCenter(new Point(Canvas.Width / 2, Canvas.Height / 2));
+            Canvas.Refresh();
         }
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
@@ -66,7 +70,9 @@ namespace Lab05
                 if (newDialog.ShowDialog() == DialogResult.OK)
                 {
                     Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
-                    Painter.paintNewBook();
+                    titleTextBox.Text = String.Empty;
+                    authorTextBox.Text = String.Empty;
+                    Canvas.Refresh();
                 }
             }
         }
@@ -93,7 +99,8 @@ namespace Lab05
                     if (modifyTextDialog.ShowDialog() == DialogResult.OK)
                     {
                         PreparedText = modifyTextDialog.PreparedText;
-                        Painter.modifyOldText(idx, PreparedText);
+                        Painter.modifyOldText(g, idx, PreparedText);
+                        Canvas.Refresh();
                     }
                 }
             }
@@ -111,8 +118,9 @@ namespace Lab05
         {
             if (Painter.AddTextOn && e.Button == MouseButtons.Left)
             {
-                Painter.addNewText(e.X, e.Y, PreparedText);
+                Painter.addNewText(g, e.X, e.Y, PreparedText);
                 Cursor = Cursors.Arrow;
+                Canvas.Refresh();
             }
             else if (Painter.textSelected && e.Button == MouseButtons.Middle)
             {
@@ -129,6 +137,8 @@ namespace Lab05
                 Painter.selectText(idx);
             }
             else Painter.selectText(-1);
+
+            Canvas.Refresh();
         }
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
@@ -142,6 +152,7 @@ namespace Lab05
             if (Painter.MoveTextOn)
             {
                 Painter.moveSelectedText(e);
+                Canvas.Refresh();
             }
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

@@ -63,16 +63,12 @@ namespace Lab05
             Title = String.Empty;
             Author = String.Empty;
             AddedTexts.Clear();
-            
-            //Painter.paintNewBook();  ---- do this in MainWindow
         }
 
         public void ChangeCoverTexts(string tag, string newText)
         {
             if (tag.Equals("title")) Title = newText;
             else Author = newText;
-
-            //Painter.processTexts(tag); ---- do this in MainWindow
         }
 
         public void ChangeColors(string tag, Color color)

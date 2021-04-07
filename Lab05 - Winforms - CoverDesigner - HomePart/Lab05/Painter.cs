@@ -15,7 +15,7 @@ namespace Lab05
     {
         private bool addText = false;
         private int selectedText = -1;
-        private bool moveText = false;        
+        private bool moveText = false;
 
         private int xCenter { get; set; }
         private int yCenter { get; set; }
@@ -24,7 +24,6 @@ namespace Lab05
 
         private PictureBox Canvas { get; }
         private TextBox titleTextBox { get; }
-        private TextBox authorTextBox { get; }
         private Book Book { get; }
 
         private text_t titleCoverText_t { get; set; } = new text_t { fontSize = 1 };
@@ -39,47 +38,36 @@ namespace Lab05
         public bool textSelected { get => selectedText > -1; }
         public bool MoveTextOn { get => moveText; }
         
-        public Painter(Book _book, PictureBox _canvas, TextBox _titleTextBox, TextBox _authorTextBox)
+        public Painter(Book _book, Point canvasCenter)
         {
             Book = _book;
-            Canvas = _canvas;
-            authorTextBox = _authorTextBox;
-            titleTextBox = _titleTextBox;
-
-            xCenter = Canvas.Width / 2; 
-            yCenter = Canvas.Height / 2;
+            xCenter = canvasCenter.X; 
+            yCenter = canvasCenter.Y;
         }
 
         //------------ public methods
 
+        public void changeCenter(Point newCenter)
+        {
+            xCenter = newCenter.X;
+            yCenter = newCenter.Y;
+        }
+
         public void paintCanvas(PaintEventArgs e)
         {
-            xCenter = Canvas.Width / 2;
-            yCenter = Canvas.Height / 2;
-
             paintBorders(e);
             paintCoverText(e);
             paintSplineText(e);
             paintAddedTexts(e);
         }
-        public void paintNewBook()
-        {
-            titleTextBox.Text = String.Empty;
-            authorTextBox.Text = String.Empty;
-            //addTextOff();
 
-            Canvas.Refresh();
+        public void processTexts(Graphics g, string tag)
+        {
+            processCoverText(g, tag);
+            processSplineText(g, tag);
         }
-
-        public void processTexts(string tag)
+        public void addNewText(Graphics g, int xCursor, int yCursor, text_t newText)
         {
-            processCoverText(tag);
-            processSplineText(tag);
-        }
-        public void addNewText(int xCursor, int yCursor, text_t newText)
-        {
-            Graphics g = Canvas.CreateGraphics();
-
             int fontSize = newText.fontSize;
             Font font = getFont("Arial", fontSize);
             StringFormat format = newText.format;
@@ -88,9 +76,10 @@ namespace Lab05
 
             int textWidth = (int)g.MeasureString(text, font).Width;
             int textHeight = (int)g.MeasureString(text, font).Height;
+            
             int yPos = yCursor - textHeight / 2;
-
             int xPos = xCursor - textWidth / 2;
+            
             if (format.Alignment == StringAlignment.Center) xPos += textWidth / 2;
             if (format.Alignment == StringAlignment.Far) xPos += textWidth;
 
@@ -100,7 +89,6 @@ namespace Lab05
             Book.AddedTexts.Add(new text_t { text = text, height = textHeight, width = textWidth, xOff = xOff, yOff = yOff, fontSize = fontSize, format = format });
 
             addTextOff();
-            Canvas.Refresh();            
         }
 
         public bool findText(MouseEventArgs e, out text_t foundText, out int idx)
@@ -125,7 +113,7 @@ namespace Lab05
             foundText = new text_t();
             return false;
         }
-        public void modifyOldText(int idx, text_t newText)
+        public void modifyOldText(Graphics g, int idx, text_t newText)
         {
             text_t oldText = Book.AddedTexts[idx];
             int xCursor = oldText.xOff + xCenter + oldText.width / 2;
@@ -134,12 +122,7 @@ namespace Lab05
             int yCursor = oldText.yOff + yCenter + oldText.height / 2;
             
             Book.AddedTexts.RemoveAt(idx);
-            addNewText(xCursor, yCursor, newText);
-        }
-        public void selectText(int idx)
-        {
-            selectedText = idx;
-            Canvas.Refresh();
+            addNewText(g, xCursor, yCursor, newText);
         }
         public void prepareMoveText(MouseEventArgs e)
         {
@@ -152,19 +135,18 @@ namespace Lab05
             movedText.xOff = textStartLoc.X + e.X - cursorStartLoc.X;
             movedText.yOff = textStartLoc.Y + e.Y - cursorStartLoc.Y; 
             Book.AddedTexts[selectedText] = movedText;
-            Canvas.Refresh();
         }
         public void deleteSelectedText()
         {
             Book.AddedTexts.RemoveAt(selectedText);
             selectedText = -1;
-            Canvas.Refresh();
         }
 
         public void addTextOn() { addText = true; }
         public void addTextOff() { addText = false; }
         public void moveTextOn() { moveText = true; }
         public void moveTextOff() { moveText = false; }
+        public void selectText(int idx) { selectedText = idx; }
 
         //------------ private methods
 
@@ -204,14 +186,13 @@ namespace Lab05
             
             if(selectedText > -1) e.Graphics.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
         }
-        private void processCoverText(string tag)
+        private void processCoverText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
             int quotient = tag.Equals("title") ? 3 : 6;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
             int textWidth, textHeight;
             Font font;
-            Graphics g = Canvas.CreateGraphics();
 
             do
             {
@@ -225,16 +206,17 @@ namespace Lab05
 
             int xOff = (Book.BookWidth + Book.SpineWidth - textWidth) / 2;
             int yOff = -Book.BookHeight / 2 + Book.BookHeight / 10;
-            if (tag.Equals("author")) yOff += Book.BookHeight / 5;
+            if (tag.Equals("author")) yOff += titleCoverText_t.height + Book.BookHeight / 10;
 
-            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, fontSize = fontSize, format = textFormat };
+            text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, width = textWidth, height = textHeight, fontSize = fontSize, format = textFormat };
 
             if (tag.Equals("title"))
+            {
                 titleCoverText_t = newText_t;
+                processCoverText(g, "author"); // also process author text to move it if needed
+            }
             else if (tag.Equals("author"))
                 authorCoverText_t = newText_t;
-
-            Canvas.Refresh();
         }
         private void paintCoverText(PaintEventArgs e)
         {
@@ -242,14 +224,13 @@ namespace Lab05
             e.Graphics.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), xCenter + titleCoverText_t.xOff, yCenter + titleCoverText_t.yOff, titleCoverText_t.format);
             e.Graphics.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), xCenter + authorCoverText_t.xOff, yCenter + authorCoverText_t.yOff, authorCoverText_t.format);
         }
-        private void processSplineText(string tag)
+        private void processSplineText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
             text = ReplaceWhitespace(text, " ");
             int textWidth, textHeight;
             Font font;
-            Graphics g = Canvas.CreateGraphics();
 
             do
             {
@@ -270,8 +251,6 @@ namespace Lab05
                 titleSplineText_t = newText_t;
             else if (tag.Equals("author"))
                 authorSplineText_t = newText_t;
-
-            Canvas.Refresh();
         }
         private void paintSplineText(PaintEventArgs e)
         {
