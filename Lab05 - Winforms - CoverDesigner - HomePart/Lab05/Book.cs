@@ -33,14 +33,14 @@ namespace Lab05
         private string author;
         private List<text_t> addedTexts;
 
-        public int BookWidth { get => bookWidth; set { bookWidth = value; } } 
-        public int BookHeight { get => bookHeight; set { bookHeight = value; } }
-        public int SpineWidth { get => spineWidth; set { spineWidth = value; } } 
-        public Color TextColor { get => textColor; set { textColor = value; } }
-        public Color BackgroundColor { get => backgroundColor; set { backgroundColor = value; } }
-        public string Title { get => title; set => title = value; }
-        public string Author { get => author; set => author = value; }
-        public List<text_t> AddedTexts { get => addedTexts; set { addedTexts = value; } } 
+        public int BookWidth { get => bookWidth; private set { bookWidth = value; } } 
+        public int BookHeight { get => bookHeight; private set { bookHeight = value; } }
+        public int SpineWidth { get => spineWidth; private set { spineWidth = value; } } 
+        public Color TextColor { get => textColor; private set { textColor = value; } }
+        public Color BackgroundColor { get => backgroundColor; private set { backgroundColor = value; } }
+        public string Title { get => title; private set => title = value; }
+        public string Author { get => author; private set => author = value; }
+        public List<text_t> AddedTexts { get => addedTexts; private set { addedTexts = value; } } 
         
 
         public Book()
