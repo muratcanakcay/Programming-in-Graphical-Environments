@@ -122,7 +122,7 @@ namespace Lab05
                 Cursor = Cursors.Arrow;
                 Canvas.Refresh();
             }
-            else if (Painter.textSelected && e.Button == MouseButtons.Middle)
+            else if (Painter.TextSelected && e.Button == MouseButtons.Middle)
             {
                 Painter.prepareMoveText(e);
                 Painter.moveTextOn();
@@ -158,7 +158,7 @@ namespace Lab05
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             Debug.Print("key\n");
-            if (Painter.textSelected && e.KeyCode == Keys.Delete)
+            if (Painter.TextSelected && e.KeyCode == Keys.Delete)
             {
                 Debug.Print("Delete\n");
                 Painter.deleteSelectedText();
