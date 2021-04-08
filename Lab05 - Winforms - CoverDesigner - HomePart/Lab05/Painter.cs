@@ -59,14 +59,13 @@ namespace Lab05
         public void addNewText(Graphics g, Point cursor, text_t newText)
         {
             SizeF textSize = g.MeasureString(newText.text, getFont("Arial", newText.fontSize));
-
-            // calculate offset from canvas center
+            
+            // calculate offset from canvas center using cursor position and text alignment
             int yOff = cursor.Y - (int)textSize.Height / 2 - CanvasCenter.Y;
             int xOff = cursor.X - (int)textSize.Width / 2 - CanvasCenter.X;
-
-            if (newText.format.Alignment == StringAlignment.Center) xOff += (int)textSize.Width / 2;
-            else if (newText.format.Alignment == StringAlignment.Far) xOff += (int)textSize.Width;
-
+            if (newText.format.Alignment.Equals(StringAlignment.Center)) xOff += (int)textSize.Width / 2;
+            else if (newText.format.Alignment.Equals(StringAlignment.Far)) xOff += (int)textSize.Width;
+            
             // add text to list
             Book.AddedTexts.Add(new text_t { text = newText.text, height = (int)textSize.Height, width = (int)textSize.Width, xOff = xOff, yOff = yOff, fontSize = newText.fontSize, format = newText.format });
             addTextOff();
@@ -96,12 +95,14 @@ namespace Lab05
         {
             text_t oldText = Book.AddedTexts[idx];
             
-            // calculate cursor position from text offset
-            int xCursor = oldText.xOff + CanvasCenter.X + oldText.width / 2;
-            int yCursor = oldText.yOff + CanvasCenter.Y + oldText.height / 2;
-            if (oldText.format.Alignment == StringAlignment.Center) xCursor -= oldText.width / 2;
-            else if (oldText.format.Alignment == StringAlignment.Far) xCursor -= oldText.width;
-
+            // calculate original cursor position using old text offset
+            
+            int yCursor = oldText.yOff + oldText.height / 2 + CanvasCenter.Y;
+            int xCursor = oldText.xOff + oldText.width / 2 + CanvasCenter.X;
+            
+            if (oldText.format.Alignment.Equals(StringAlignment.Center)) xCursor -= oldText.width / 2;            
+            else if (oldText.format.Alignment.Equals(StringAlignment.Far)) xCursor -= oldText.width;
+            
             // remove old text and add new text
             Book.AddedTexts.RemoveAt(idx);
             addNewText(g, new Point(xCursor, yCursor), newText);
