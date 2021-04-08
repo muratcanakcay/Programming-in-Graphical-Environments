@@ -52,7 +52,7 @@ namespace Lab05
         }
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            Painter.paintCanvas(e);
+            Painter.paintCanvas(e.Graphics);
         }
 
         private void cmdEnglish_Click(object sender, EventArgs e)
@@ -91,7 +91,7 @@ namespace Lab05
 
         private void Canvas_DoubleClick(object sender, MouseEventArgs e)
         {
-            if (Painter.findText(e, out text_t foundText, out int idx))
+            if (Painter.findText(e.Location, out text_t foundText, out int idx))
             {
                 using (AddTextDialog modifyTextDialog = new AddTextDialog())
                 {
@@ -118,13 +118,13 @@ namespace Lab05
         {
             if (Painter.AddTextOn && e.Button == MouseButtons.Left)
             {
-                Painter.addNewText(g, e.X, e.Y, PreparedText);
+                Painter.addNewText(g, e.Location, PreparedText);
                 Cursor = Cursors.Arrow;
                 Canvas.Refresh();
             }
             else if (Painter.TextSelected && e.Button == MouseButtons.Middle)
             {
-                Painter.prepareMoveText(e);
+                Painter.prepareMoveText(e.Location);
                 Painter.moveTextOn();
             }
         }
@@ -132,7 +132,7 @@ namespace Lab05
         {
             if (e.Button != MouseButtons.Right) return;
             
-            if (Painter.findText(e, out text_t foundText, out int idx))
+            if (Painter.findText(e.Location, out text_t foundText, out int idx))
             {
                 Painter.selectText(idx);
             }
@@ -151,7 +151,7 @@ namespace Lab05
         {
             if (Painter.MoveTextOn)
             {
-                Painter.moveSelectedText(e);
+                Painter.moveSelectedText(e.Location);
                 Canvas.Refresh();
             }
         }

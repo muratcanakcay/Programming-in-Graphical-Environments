@@ -43,12 +43,12 @@ namespace Lab05
 
         //------------ public methods
 
-        public void paintCanvas(PaintEventArgs e)
+        public void paintCanvas(Graphics g)
         {
-            paintBorders(e);
-            paintCoverText(e);
-            paintSpineText(e);
-            paintAddedTexts(e);
+            paintBorders(g);
+            paintCoverText(g);
+            paintSpineText(g);
+            paintAddedTexts(g);
         }
 
         public void processTexts(Graphics g, string tag)
@@ -56,13 +56,13 @@ namespace Lab05
             processCoverText(g, tag);
             processSplineText(g, tag);
         }
-        public void addNewText(Graphics g, int xCursor, int yCursor, text_t newText)
+        public void addNewText(Graphics g, Point cursor, text_t newText)
         {
             SizeF textSize = g.MeasureString(newText.text, getFont("Arial", newText.fontSize));
 
             // calculate offset from canvas center
-            int yOff = yCursor - (int)textSize.Height / 2 - CanvasCenter.Y;
-            int xOff = xCursor - (int)textSize.Width / 2 - CanvasCenter.X;
+            int yOff = cursor.Y - (int)textSize.Height / 2 - CanvasCenter.Y;
+            int xOff = cursor.X - (int)textSize.Width / 2 - CanvasCenter.X;
 
             if (newText.format.Alignment == StringAlignment.Center) xOff += (int)textSize.Width / 2;
             else if (newText.format.Alignment == StringAlignment.Far) xOff += (int)textSize.Width;
@@ -71,9 +71,8 @@ namespace Lab05
             Book.AddedTexts.Add(new text_t { text = newText.text, height = (int)textSize.Height, width = (int)textSize.Width, xOff = xOff, yOff = yOff, fontSize = newText.fontSize, format = newText.format });
             addTextOff();
         }
-        public bool findText(MouseEventArgs e, out text_t foundText, out int idx)
+        public bool findText(Point cursor, out text_t foundText, out int idx)
         {
-            Point mouse = e.Location;
             Rectangle rect;
 
             for (int i = 0; i < Book.AddedTexts.Count; i++)
@@ -81,7 +80,7 @@ namespace Lab05
                 text_t t = Book.AddedTexts[i];
                 rect = getTextRect(t);
 
-                if (rect.Contains(mouse))
+                if (rect.Contains(cursor))
                 {
                     foundText = t;
                     idx = i;
@@ -105,19 +104,19 @@ namespace Lab05
 
             // remove old text and add new text
             Book.AddedTexts.RemoveAt(idx);
-            addNewText(g, xCursor, yCursor, newText);
+            addNewText(g, new Point(xCursor, yCursor), newText);
         }
-        public void prepareMoveText(MouseEventArgs e)
+        public void prepareMoveText(Point cursor)
         {
-            // remember initial position of text
-            cursorStartLoc = e.Location;
+            // remember initial position of cursor and text
+            cursorStartLoc = cursor;
             textStartLoc = new Point(Book.AddedTexts[selectedText].xOff, Book.AddedTexts[selectedText].yOff);
         }
-        public void moveSelectedText(MouseEventArgs e)
+        public void moveSelectedText(Point cursor)
         {
             text_t movedText = Book.AddedTexts[selectedText];
-            movedText.xOff = textStartLoc.X + e.X - cursorStartLoc.X;
-            movedText.yOff = textStartLoc.Y + e.Y - cursorStartLoc.Y;
+            movedText.xOff = textStartLoc.X + cursor.X - cursorStartLoc.X;
+            movedText.yOff = textStartLoc.Y + cursor.Y - cursorStartLoc.Y;
             Book.AddedTexts[selectedText] = movedText;
         }
         public void deleteSelectedText()
@@ -145,23 +144,23 @@ namespace Lab05
                        GraphicsUnit.Pixel);
             return font;
         }
-        private void paintBorders(PaintEventArgs e)
+        private void paintBorders(Graphics g)
         {
-            e.Graphics.FillRectangle(new SolidBrush(Book.BackgroundColor), CanvasCenter.X - Book.BookWidth - Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
+            g.FillRectangle(new SolidBrush(Book.BackgroundColor), CanvasCenter.X - Book.BookWidth - Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
                 2 * Book.BookWidth + Book.SpineWidth, Book.BookHeight
                 );
 
-            e.Graphics.DrawRectangle(Pens.DarkGray,
+            g.DrawRectangle(Pens.DarkGray,
                 CanvasCenter.X - Book.BookWidth - Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
                 2 * Book.BookWidth + Book.SpineWidth, Book.BookHeight
                 );
 
-            e.Graphics.DrawLine(Pens.DarkGray,
+            g.DrawLine(Pens.DarkGray,
                 CanvasCenter.X - Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
                 CanvasCenter.X - Book.SpineWidth / 2, CanvasCenter.Y + Book.BookHeight / 2
                 );
 
-            e.Graphics.DrawLine(Pens.DarkGray,
+            g.DrawLine(Pens.DarkGray,
                 CanvasCenter.X + Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
                 CanvasCenter.X + Book.SpineWidth / 2, CanvasCenter.Y + Book.BookHeight / 2
                 );
@@ -169,7 +168,7 @@ namespace Lab05
             SolidBrush selectedTextBrush = new SolidBrush(Color.FromArgb(255 - Book.BackgroundColor.R, 255 - Book.BackgroundColor.G, 255 - Book.BackgroundColor.B));
             Pen selectedTextPen = new Pen(selectedTextBrush);
 
-            if (selectedText > -1) e.Graphics.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
+            if (selectedText > -1) g.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
         }
         private void processCoverText(Graphics g, string tag)
         {
@@ -200,11 +199,11 @@ namespace Lab05
             }
             else authorCoverText_t = newText_t;
         }
-        private void paintCoverText(PaintEventArgs e)
+        private void paintCoverText(Graphics g)
         {
             // paint title & author on cover
-            e.Graphics.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + titleCoverText_t.xOff, CanvasCenter.Y + titleCoverText_t.yOff, titleCoverText_t.format);
-            e.Graphics.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + authorCoverText_t.xOff, CanvasCenter.Y + authorCoverText_t.yOff, authorCoverText_t.format);
+            g.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + titleCoverText_t.xOff, CanvasCenter.Y + titleCoverText_t.yOff, titleCoverText_t.format);
+            g.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + authorCoverText_t.xOff, CanvasCenter.Y + authorCoverText_t.yOff, authorCoverText_t.format);
         }
         private void processSplineText(Graphics g, string tag)
         {
@@ -232,24 +231,24 @@ namespace Lab05
             else if (tag.Equals("author"))
                 authorSplineText_t = newText_t;
         }
-        private void paintSpineText(PaintEventArgs e)
+        private void paintSpineText(Graphics g)
         {
             // paint title on spine
-            e.Graphics.RotateTransform(270);
-            e.Graphics.TranslateTransform(CanvasCenter.X + titleSplineText_t.xOff, CanvasCenter.Y + titleSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
-            e.Graphics.ResetTransform();
+            g.RotateTransform(270);
+            g.TranslateTransform(CanvasCenter.X + titleSplineText_t.xOff, CanvasCenter.Y + titleSplineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
+            g.ResetTransform();
 
             // paint author on spine
-            e.Graphics.RotateTransform(270);
-            e.Graphics.TranslateTransform(CanvasCenter.X + authorSplineText_t.xOff, CanvasCenter.Y + authorSplineText_t.yOff, MatrixOrder.Append);
-            e.Graphics.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
-            e.Graphics.ResetTransform();
+            g.RotateTransform(270);
+            g.TranslateTransform(CanvasCenter.X + authorSplineText_t.xOff, CanvasCenter.Y + authorSplineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
+            g.ResetTransform();
         }
-        private void paintAddedTexts(PaintEventArgs e)
+        private void paintAddedTexts(Graphics g)
         {
             foreach (var t in Book.AddedTexts)
-                e.Graphics.DrawString(t.text, getFont("Arial", t.fontSize), Brushes.Black, CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
+                g.DrawString(t.text, getFont("Arial", t.fontSize), Brushes.Black, CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
         }
         private Rectangle getTextRect(text_t text)
         {
