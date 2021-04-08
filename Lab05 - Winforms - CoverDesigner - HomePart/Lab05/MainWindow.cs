@@ -57,14 +57,6 @@ namespace Lab05
             Painter.paintCanvas(e.Graphics);
         }
 
-        private void cmdEnglish_Click(object sender, EventArgs e)
-        {
-            if (cmdPolish.Checked) cmdPolish.Checked = false;
-        }
-        private void cmdPolish_Click(object sender, EventArgs e)
-        {
-            if (cmdEnglish.Checked) cmdEnglish.Checked = false;
-        }
         private void cmdNew_Click(object sender, EventArgs e)
         {
             using (NewDialog newDialog = new NewDialog())
@@ -72,11 +64,67 @@ namespace Lab05
                 if (newDialog.ShowDialog() == DialogResult.OK)
                 {
                     Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+                    Painter.selectText(-1);
                     titleTextBox.Text = String.Empty;
                     authorTextBox.Text = String.Empty;
                     Canvas.Refresh();
                 }
             }
+        }
+        private void cmdOpen_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            { 
+                openFileDialog.Filter = "XML Save File|*.xml";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK && !openFileDialog.FileName.Equals(""))
+                {
+                    using (FileStream fileStream = new FileStream($"{openFileDialog.FileName}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                        
+                        try
+                        { 
+                            bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
+                            Book.LoadBook(loadedBook);
+
+                            titleTextBox.Text = loadedBook.title;
+                            authorTextBox.Text = loadedBook.author;
+
+                            Canvas.Refresh();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            MessageBox.Show("Error in file!", "Error!");
+                        }
+                    }
+                }
+            }
+        }
+        private void cmdSave_Click(object sender, EventArgs e)
+        {
+            Book.SaveBook();
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "XML Save File|*.xml";
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !saveFileDialog.FileName.Equals(""))
+                {
+                    using (System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile())
+                    {
+                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                        s.Serialize(fileStream, Book.bookData);
+                    }
+                }
+            }
+        }
+        private void cmdEnglish_Click(object sender, EventArgs e)
+        {
+            if (cmdPolish.Checked) cmdPolish.Checked = false;
+        }
+        private void cmdPolish_Click(object sender, EventArgs e)
+        {
+            if (cmdEnglish.Checked) cmdEnglish.Checked = false;
         }
 
         private void addTextButton_Click(object sender, EventArgs e)
@@ -163,44 +211,6 @@ namespace Lab05
             {
                 Painter.deleteSelectedText();
                 Canvas.Refresh();
-            }
-        }
-
-        private void cmdSave_Click(object sender, EventArgs e)
-        {
-            Book.SaveBook();
-
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Filter = "XML Save File|*.xml";
-                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !saveFileDialog.FileName.Equals(""))
-                {
-                    using (System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile())
-                    {
-                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                        s.Serialize(fileStream, Book.bookData);
-                    }
-                }
-            }
-        }
-
-        private void cmdOpen_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            { 
-                openFileDialog.Filter = "XML Save File|*.xml";
-                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !openFileDialog.FileName.Equals(""))
-                {
-                    using (FileStream fileStream = new FileStream($"{openFileDialog.FileName}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                        bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
-                        Book.LoadBook(loadedBook);
-                        titleTextBox.Text = loadedBook.title;
-                        authorTextBox.Text = loadedBook.author;
-                        Canvas.Refresh();
-                    }
-                }
             }
         }
     }
