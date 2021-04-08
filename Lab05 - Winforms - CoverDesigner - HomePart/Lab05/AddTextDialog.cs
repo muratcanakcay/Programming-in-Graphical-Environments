@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Lab05
 {
@@ -65,7 +58,6 @@ namespace Lab05
 
         private void buttonAddTextOK_Click(object sender, EventArgs e)
         {
-            Debug.Print($"add : final alignment: {format.Alignment.ToString()}\n");
             PreparedText = new text_t { text = addTextBox.Text, fontSize = (int)numericUpDownFontSize.Value, format = format };
         }
     }

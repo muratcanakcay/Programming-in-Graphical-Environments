@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
-using System.ComponentModel;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace Lab05
@@ -59,13 +51,13 @@ namespace Lab05
         public void addNewText(Graphics g, Point cursor, text_t newText)
         {
             SizeF textSize = g.MeasureString(newText.text, getFont("Arial", newText.fontSize));
-            
+
             // calculate offset from canvas center using cursor position and text alignment
             int yOff = cursor.Y - (int)textSize.Height / 2 - CanvasCenter.Y;
             int xOff = cursor.X - (int)textSize.Width / 2 - CanvasCenter.X;
             if (newText.format.Alignment.Equals(StringAlignment.Center)) xOff += (int)textSize.Width / 2;
             else if (newText.format.Alignment.Equals(StringAlignment.Far)) xOff += (int)textSize.Width;
-            
+
             // add text to list
             Book.AddedTexts.Add(new text_t { text = newText.text, height = (int)textSize.Height, width = (int)textSize.Width, xOff = xOff, yOff = yOff, fontSize = newText.fontSize, format = newText.format });
             addTextOff();
@@ -94,15 +86,15 @@ namespace Lab05
         public void modifyOldText(Graphics g, int idx, text_t newText)
         {
             text_t oldText = Book.AddedTexts[idx];
-            
+
             // calculate original cursor position using old text offset
-            
+
             int yCursor = oldText.yOff + oldText.height / 2 + CanvasCenter.Y;
             int xCursor = oldText.xOff + oldText.width / 2 + CanvasCenter.X;
-            
-            if (oldText.format.Alignment.Equals(StringAlignment.Center)) xCursor -= oldText.width / 2;            
+
+            if (oldText.format.Alignment.Equals(StringAlignment.Center)) xCursor -= oldText.width / 2;
             else if (oldText.format.Alignment.Equals(StringAlignment.Far)) xCursor -= oldText.width;
-            
+
             // remove old text and add new text
             Book.AddedTexts.RemoveAt(idx);
             addNewText(g, new Point(xCursor, yCursor), newText);
@@ -228,7 +220,7 @@ namespace Lab05
             SizeF textSize;
 
             // find right font size
-            do { textSize = g.MeasureString(text, getFont("Arial", --fontSize)); } 
+            do { textSize = g.MeasureString(text, getFont("Arial", --fontSize)); }
             while (textSize.Width > Book.BookHeight / 2 || textSize.Height > Book.SpineWidth);
 
             StringFormat textFormat = new StringFormat();
