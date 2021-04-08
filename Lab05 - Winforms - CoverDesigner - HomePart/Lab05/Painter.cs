@@ -29,7 +29,7 @@ namespace Lab05
         private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
 
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+");
-        private string ReplaceWhitespace(string input, string replacement) { return sWhitespace.Replace(input, replacement); }
+        private string ReduceWhitespace(string input) { return sWhitespace.Replace(input, " "); }
 
         public bool AddTextOn { get => addText; }
         public bool MoveTextOn { get => moveText; }
@@ -54,7 +54,7 @@ namespace Lab05
         public void processTexts(Graphics g, string tag)
         {
             processCoverText(g, tag);
-            processSplineText(g, tag);
+            processSpineText(g, tag);
         }
         public void addNewText(Graphics g, Point cursor, text_t newText)
         {
@@ -170,6 +170,26 @@ namespace Lab05
 
             if (selectedText > -1) g.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
         }
+        private void paintCoverText(Graphics g)
+        {
+            // paint title & author on cover
+            g.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + titleCoverText_t.xOff, CanvasCenter.Y + titleCoverText_t.yOff, titleCoverText_t.format);
+            g.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + authorCoverText_t.xOff, CanvasCenter.Y + authorCoverText_t.yOff, authorCoverText_t.format);
+        }
+        private void paintSpineText(Graphics g)
+        {
+            // paint title on spine
+            g.RotateTransform(270);
+            g.TranslateTransform(CanvasCenter.X + titleSplineText_t.xOff, CanvasCenter.Y + titleSplineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
+            g.ResetTransform();
+
+            // paint author on spine
+            g.RotateTransform(270);
+            g.TranslateTransform(CanvasCenter.X + authorSplineText_t.xOff, CanvasCenter.Y + authorSplineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
+            g.ResetTransform();
+        }
         private void processCoverText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
@@ -199,17 +219,11 @@ namespace Lab05
             }
             else authorCoverText_t = newText_t;
         }
-        private void paintCoverText(Graphics g)
-        {
-            // paint title & author on cover
-            g.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + titleCoverText_t.xOff, CanvasCenter.Y + titleCoverText_t.yOff, titleCoverText_t.format);
-            g.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + authorCoverText_t.xOff, CanvasCenter.Y + authorCoverText_t.yOff, authorCoverText_t.format);
-        }
-        private void processSplineText(Graphics g, string tag)
+        private void processSpineText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
-            text = ReplaceWhitespace(text, " ");
+            text = ReduceWhitespace(text);
             SizeF textSize;
 
             // find right font size
@@ -230,20 +244,6 @@ namespace Lab05
                 titleSplineText_t = newText_t;
             else if (tag.Equals("author"))
                 authorSplineText_t = newText_t;
-        }
-        private void paintSpineText(Graphics g)
-        {
-            // paint title on spine
-            g.RotateTransform(270);
-            g.TranslateTransform(CanvasCenter.X + titleSplineText_t.xOff, CanvasCenter.Y + titleSplineText_t.yOff, MatrixOrder.Append);
-            g.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
-            g.ResetTransform();
-
-            // paint author on spine
-            g.RotateTransform(270);
-            g.TranslateTransform(CanvasCenter.X + authorSplineText_t.xOff, CanvasCenter.Y + authorSplineText_t.yOff, MatrixOrder.Append);
-            g.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
-            g.ResetTransform();
         }
         private void paintAddedTexts(Graphics g)
         {
