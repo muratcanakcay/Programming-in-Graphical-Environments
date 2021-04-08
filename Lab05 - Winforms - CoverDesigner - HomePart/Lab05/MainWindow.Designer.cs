@@ -305,6 +305,7 @@ namespace Lab05
             this.cmdSave.Size = new System.Drawing.Size(146, 22);
             this.cmdSave.Text = "Save";
             this.cmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // menuSettings
             // 

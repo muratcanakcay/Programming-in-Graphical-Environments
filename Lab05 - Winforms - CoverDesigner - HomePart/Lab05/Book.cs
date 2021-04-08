@@ -21,6 +21,18 @@ namespace Lab05
         public int fontSize;
         public StringFormat format;
     }
+
+    public struct bookData_t
+    {
+        public int bookWidth;
+        public int bookHeight;
+        public int spineWidth;
+        public int textColor;
+        public int backgroundColor;
+        public string title;
+        public string author;
+        public List<text_t> addedTexts;
+    }
     
     public class Book
     {
@@ -40,16 +52,17 @@ namespace Lab05
         public Color BackgroundColor { get => backgroundColor; private set { backgroundColor = value; } }
         public string Title { get => title; private set => title = value; }
         public string Author { get => author; private set => author = value; }
-        public List<text_t> AddedTexts { get => addedTexts; private set { addedTexts = value; } } 
-        
+        public List<text_t> AddedTexts { get => addedTexts; private set { addedTexts = value; } }
 
+        public static bookData_t bookData;
+        
         public Book()
         {
             BookWidth = 300;
             BookHeight = 500;
             SpineWidth = 30;
             TextColor = Color.Black;
-            BackgroundColor = Color.White;
+            BackgroundColor = Color.MistyRose;
             AddedTexts = new();
         }
 
@@ -75,6 +88,30 @@ namespace Lab05
         {
             if (tag.Equals("background")) BackgroundColor = color;
             else TextColor = color;
+        }
+
+        public void SaveBook()
+        {
+            bookData.title = title;
+            bookData.author = author;
+            bookData.bookWidth = bookWidth;
+            bookData.bookHeight = bookHeight;
+            bookData.spineWidth = spineWidth;
+            bookData.textColor = textColor.ToArgb();
+            bookData.backgroundColor = backgroundColor.ToArgb();
+            bookData.addedTexts = addedTexts;
+        }
+
+        public void LoadBook()
+        {
+            title = bookData.title;
+            author = bookData.author;
+            bookWidth = bookData.bookWidth;
+            bookHeight = bookData.bookHeight;
+            spineWidth = bookData.spineWidth;
+            textColor = Color.FromArgb(bookData.textColor);
+            backgroundColor = Color.FromArgb(bookData.backgroundColor);
+            addedTexts = bookData.addedTexts;
         }
     }
 }

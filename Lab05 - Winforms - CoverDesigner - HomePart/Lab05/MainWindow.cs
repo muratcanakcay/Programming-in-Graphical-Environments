@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace Lab05
 {
@@ -157,12 +158,28 @@ namespace Lab05
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            Debug.Print("key\n");
             if (Painter.TextSelected && e.KeyCode == Keys.Delete)
             {
-                Debug.Print("Delete\n");
                 Painter.deleteSelectedText();
                 Canvas.Refresh();
+            }
+        }
+
+        private void cmdSave_Click(object sender, EventArgs e)
+        {
+            Book.SaveBook();
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "XML Save File|*.xml";
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !saveFileDialog.FileName.Equals(""))
+                {
+                    using (System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile())
+                    {
+                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                        s.Serialize(fileStream, Book.bookData);
+                    }
+                }
             }
         }
     }
