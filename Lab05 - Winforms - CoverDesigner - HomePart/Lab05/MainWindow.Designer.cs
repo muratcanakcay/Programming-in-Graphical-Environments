@@ -297,6 +297,7 @@ namespace Lab05
             this.cmdOpen.Size = new System.Drawing.Size(146, 22);
             this.cmdOpen.Text = "Open";
             this.cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cmdOpen.Click += new System.EventHandler(this.cmdOpen_Click);
             // 
             // cmdSave
             // 

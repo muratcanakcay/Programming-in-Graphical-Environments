@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using System.IO;
 
 namespace Lab05
 {
@@ -178,6 +179,26 @@ namespace Lab05
                     {
                         XmlSerializer s = new XmlSerializer(typeof(bookData_t));
                         s.Serialize(fileStream, Book.bookData);
+                    }
+                }
+            }
+        }
+
+        private void cmdOpen_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            { 
+                openFileDialog.Filter = "XML Save File|*.xml";
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !openFileDialog.FileName.Equals(""))
+                {
+                    using (FileStream fileStream = new FileStream($"{openFileDialog.FileName}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                        bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
+                        Book.LoadBook(loadedBook);
+                        titleTextBox.Text = loadedBook.title;
+                        authorTextBox.Text = loadedBook.author;
+                        Canvas.Refresh();
                     }
                 }
             }

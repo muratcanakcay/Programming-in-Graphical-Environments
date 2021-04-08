@@ -102,16 +102,16 @@ namespace Lab05
             bookData.addedTexts = addedTexts;
         }
 
-        public void LoadBook()
+        public void LoadBook(bookData_t loadedBook)
         {
-            title = bookData.title;
-            author = bookData.author;
-            bookWidth = bookData.bookWidth;
-            bookHeight = bookData.bookHeight;
-            spineWidth = bookData.spineWidth;
-            textColor = Color.FromArgb(bookData.textColor);
-            backgroundColor = Color.FromArgb(bookData.backgroundColor);
-            addedTexts = bookData.addedTexts;
+            title = loadedBook.title;
+            author = loadedBook.author;
+            bookWidth = loadedBook.bookWidth;
+            bookHeight = loadedBook.bookHeight;
+            spineWidth = loadedBook.spineWidth;
+            textColor = Color.FromArgb(loadedBook.textColor);
+            backgroundColor = Color.FromArgb(loadedBook.backgroundColor);
+            addedTexts = loadedBook.addedTexts;
         }
     }
 }

@@ -248,7 +248,7 @@ namespace Lab05
         private void paintAddedTexts(Graphics g)
         {
             foreach (var t in Book.AddedTexts)
-                g.DrawString(t.text, getFont("Arial", t.fontSize), Brushes.Black, CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
+                g.DrawString(t.text, getFont("Arial", t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
         }
         private Rectangle getTextRect(text_t text)
         {
