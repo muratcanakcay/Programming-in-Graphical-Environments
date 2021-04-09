@@ -201,7 +201,7 @@ namespace Lab05
             this.addTextButton.TabIndex = 6;
             this.addTextButton.Text = "Add Text";
             this.addTextButton.UseVisualStyleBackColor = false;
-            this.addTextButton.Click += new System.EventHandler(this.addTextButton_Click);
+            this.addTextButton.Click += new System.EventHandler(this.AddTextButton_Click);
             // 
             // titleTextBox
             // 
@@ -288,7 +288,7 @@ namespace Lab05
             this.cmdNew.Size = new System.Drawing.Size(146, 22);
             this.cmdNew.Text = "New";
             this.cmdNew.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
+            this.cmdNew.Click += new System.EventHandler(this.CmdNew_Click);
             // 
             // cmdOpen
             // 
@@ -297,7 +297,7 @@ namespace Lab05
             this.cmdOpen.Size = new System.Drawing.Size(146, 22);
             this.cmdOpen.Text = "Open";
             this.cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdOpen.Click += new System.EventHandler(this.cmdOpen_Click);
+            this.cmdOpen.Click += new System.EventHandler(this.CmdOpen_Click);
             // 
             // cmdSave
             // 
@@ -306,7 +306,7 @@ namespace Lab05
             this.cmdSave.Size = new System.Drawing.Size(146, 22);
             this.cmdSave.Text = "Save";
             this.cmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            this.cmdSave.Click += new System.EventHandler(this.CmdSave_Click);
             // 
             // menuSettings
             // 
@@ -335,7 +335,7 @@ namespace Lab05
             this.cmdEnglish.Size = new System.Drawing.Size(112, 22);
             this.cmdEnglish.Text = "English";
             this.cmdEnglish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdEnglish.Click += new System.EventHandler(this.cmdEnglish_Click);
+            this.cmdEnglish.Click += new System.EventHandler(this.CmdEnglish_Click);
             // 
             // cmdPolish
             // 
@@ -344,7 +344,7 @@ namespace Lab05
             this.cmdPolish.Size = new System.Drawing.Size(112, 22);
             this.cmdPolish.Text = "Polish";
             this.cmdPolish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdPolish.Click += new System.EventHandler(this.cmdPolish_Click);
+            this.cmdPolish.Click += new System.EventHandler(this.CmdPolish_Click);
             // 
             // MainWindow
             // 

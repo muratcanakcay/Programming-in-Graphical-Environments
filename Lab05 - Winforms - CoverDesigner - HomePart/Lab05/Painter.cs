@@ -14,20 +14,20 @@ namespace Lab05
         private Book Book { get; }
 
         private Point CanvasCenter { get; set; }
-        private Point cursorStartLoc { get; set; }
-        private Point textStartLoc { get; set; }
+        private Point CursorStartLoc { get; set; }
+        private Point TextStartLoc { get; set; }
 
-        private text_t titleCoverText_t { get; set; } = new text_t { fontSize = 1 };
-        private text_t authorCoverText_t { get; set; } = new text_t { fontSize = 1 };
-        private text_t titleSplineText_t { get; set; } = new text_t { fontSize = 1 };
-        private text_t authorSplineText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t TitleCoverText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t AuthorCoverText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t TitleSplineText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t AuthorSpineText_t { get; set; } = new text_t { fontSize = 1 };
 
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+");
         private string ReduceWhitespace(string input) { return sWhitespace.Replace(input, " "); }
 
-        public bool AddTextOn { get => addText; }
-        public bool MoveTextOn { get => moveText; }
-        public bool TextSelected { get => selectedText > -1; }
+        public bool IsAddTextOn { get => addText; }
+        public bool IsMoveTextOn { get => moveText; }
+        public bool IsTextSelected { get => selectedText > -1; }
 
         private Painter(Point _CanvasCenter)
         {
@@ -42,22 +42,22 @@ namespace Lab05
 
         //------------ public methods
 
-        public void paintCanvas(Graphics g)
+        public void PaintCanvas(Graphics g)
         {
-            paintBorders(g);
-            paintCoverText(g);
-            paintSpineText(g);
-            paintAddedTexts(g);
+            PaintBorders(g);
+            PaintCoverText(g);
+            PaintSpineText(g);
+            PaintAddedTexts(g);
         }
 
-        public void processTexts(Graphics g, string tag)
+        public void ProcessTexts(Graphics g, string tag)
         {
-            processCoverText(g, tag);
-            processSpineText(g, tag);
+            ProcessCoverText(g, tag);
+            ProcessSpineText(g, tag);
         }
-        public void addNewText(Graphics g, Point cursor, text_t newText)
+        public void AddNewText(Graphics g, Point cursor, text_t newText)
         {
-            SizeF textSize = g.MeasureString(newText.text, getFont("Arial", newText.fontSize));
+            SizeF textSize = g.MeasureString(newText.text, GetFont("Arial", newText.fontSize));
 
             // calculate offset from canvas center using cursor position and text alignment
             int yOff = cursor.Y - (int)textSize.Height / 2 - CanvasCenter.Y;
@@ -67,16 +67,16 @@ namespace Lab05
 
             // add text to list
             Book.AddedTexts.Add(new text_t { text = newText.text, height = (int)textSize.Height, width = (int)textSize.Width, xOff = xOff, yOff = yOff, fontSize = newText.fontSize, format = newText.format });
-            addTextOff();
+            AddTextOff();
         }
-        public bool findText(Point cursor, out text_t foundText, out int idx)
+        public bool FindText(Point cursor, out text_t foundText, out int idx)
         {
             Rectangle rect;
 
             for (int i = 0; i < Book.AddedTexts.Count; i++)
             {
                 text_t t = Book.AddedTexts[i];
-                rect = getTextRect(t);
+                rect = GetTextRect(t);
 
                 if (rect.Contains(cursor))
                 {
@@ -90,51 +90,46 @@ namespace Lab05
             foundText = new text_t();
             return false;
         }
-        public void modifyOldText(Graphics g, int idx, text_t newText)
+        public void ModifyOldText(Graphics g, int idx, text_t newText)
         {
+            // calculate original cursor position using old text's offset
             text_t oldText = Book.AddedTexts[idx];
-
-            // calculate original cursor position using old text offset
-
-            int yCursor = oldText.yOff + oldText.height / 2 + CanvasCenter.Y;
-            int xCursor = oldText.xOff + oldText.width / 2 + CanvasCenter.X;
-
-            if (oldText.format.Alignment.Equals(StringAlignment.Center)) xCursor -= oldText.width / 2;
-            else if (oldText.format.Alignment.Equals(StringAlignment.Far)) xCursor -= oldText.width;
+            Point cursorPos = GetCursorfromOffset(oldText);
 
             // remove old text and add new text
             Book.AddedTexts.RemoveAt(idx);
-            addNewText(g, new Point(xCursor, yCursor), newText);
+            AddNewText(g, cursorPos, newText);
         }
-        public void prepareMoveText(Point cursor)
+
+        public void PrepareMoveText(Point cursor)
         {
             // remember initial position of cursor and text
-            cursorStartLoc = cursor;
-            textStartLoc = new Point(Book.AddedTexts[selectedText].xOff, Book.AddedTexts[selectedText].yOff);
+            CursorStartLoc = cursor;
+            TextStartLoc = new Point(Book.AddedTexts[selectedText].xOff, Book.AddedTexts[selectedText].yOff);
         }
-        public void moveSelectedText(Point cursor)
+        public void MoveSelectedText(Point cursor)
         {
             text_t movedText = Book.AddedTexts[selectedText];
-            movedText.xOff = textStartLoc.X + cursor.X - cursorStartLoc.X;
-            movedText.yOff = textStartLoc.Y + cursor.Y - cursorStartLoc.Y;
+            movedText.xOff = TextStartLoc.X + cursor.X - CursorStartLoc.X;
+            movedText.yOff = TextStartLoc.Y + cursor.Y - CursorStartLoc.Y;
             Book.AddedTexts[selectedText] = movedText;
         }
-        public void deleteSelectedText()
+        public void DeleteSelectedText()
         {
             Book.AddedTexts.RemoveAt(selectedText);
             selectedText = -1;
         }
 
-        public void addTextOn() => addText = true;
-        public void addTextOff() => addText = false;
-        public void moveTextOn() => moveText = true;
-        public void moveTextOff() => moveText = false;
-        public void selectText(int idx) => selectedText = idx;
-        public void changeCenter(Point newCenter) => CanvasCenter = newCenter;
+        public void AddTextOn() => addText = true;
+        public void AddTextOff() => addText = false;
+        public void MoveTextOn() => moveText = true;
+        public void MoveTextOff() => moveText = false;
+        public void SelectText(int idx) => selectedText = idx;
+        public void ChangeCenter(Point newCenter) => CanvasCenter = newCenter;
 
         //------------ private methods
 
-        private Font getFont(string type, int size)
+        private Font GetFont(string type, int size)
         {
             FontFamily fontFamily = new FontFamily(type);
             Font font = new Font(
@@ -144,7 +139,7 @@ namespace Lab05
                        GraphicsUnit.Pixel);
             return font;
         }
-        private void paintBorders(Graphics g)
+        private void PaintBorders(Graphics g)
         {
             g.FillRectangle(new SolidBrush(Book.BackgroundColor), CanvasCenter.X - Book.BookWidth - Book.SpineWidth / 2, CanvasCenter.Y - Book.BookHeight / 2,
                 2 * Book.BookWidth + Book.SpineWidth, Book.BookHeight
@@ -168,29 +163,29 @@ namespace Lab05
             SolidBrush selectedTextBrush = new SolidBrush(Color.FromArgb(255 - Book.BackgroundColor.R, 255 - Book.BackgroundColor.G, 255 - Book.BackgroundColor.B));
             Pen selectedTextPen = new Pen(selectedTextBrush);
 
-            if (selectedText > -1) g.DrawRectangle(selectedTextPen, getTextRect(Book.AddedTexts[selectedText]));
+            if (selectedText > -1) g.DrawRectangle(selectedTextPen, GetTextRect(Book.AddedTexts[selectedText]));
         }
-        private void paintCoverText(Graphics g)
+        private void PaintCoverText(Graphics g)
         {
             // paint title & author on cover
-            g.DrawString(titleCoverText_t.text, getFont("Arial", titleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + titleCoverText_t.xOff, CanvasCenter.Y + titleCoverText_t.yOff, titleCoverText_t.format);
-            g.DrawString(authorCoverText_t.text, getFont("Arial", authorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + authorCoverText_t.xOff, CanvasCenter.Y + authorCoverText_t.yOff, authorCoverText_t.format);
+            g.DrawString(TitleCoverText_t.text, GetFont("Arial", TitleCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + TitleCoverText_t.xOff, CanvasCenter.Y + TitleCoverText_t.yOff, TitleCoverText_t.format);
+            g.DrawString(AuthorCoverText_t.text, GetFont("Arial", AuthorCoverText_t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + AuthorCoverText_t.xOff, CanvasCenter.Y + AuthorCoverText_t.yOff, AuthorCoverText_t.format);
         }
-        private void paintSpineText(Graphics g)
+        private void PaintSpineText(Graphics g)
         {
             // paint title on spine
             g.RotateTransform(270);
-            g.TranslateTransform(CanvasCenter.X + titleSplineText_t.xOff, CanvasCenter.Y + titleSplineText_t.yOff, MatrixOrder.Append);
-            g.DrawString(titleSplineText_t.text, getFont("Arial", titleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, titleSplineText_t.format);
+            g.TranslateTransform(CanvasCenter.X + TitleSplineText_t.xOff, CanvasCenter.Y + TitleSplineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(TitleSplineText_t.text, GetFont("Arial", TitleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, TitleSplineText_t.format);
             g.ResetTransform();
 
             // paint author on spine
             g.RotateTransform(270);
-            g.TranslateTransform(CanvasCenter.X + authorSplineText_t.xOff, CanvasCenter.Y + authorSplineText_t.yOff, MatrixOrder.Append);
-            g.DrawString(authorSplineText_t.text, getFont("Arial", authorSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, authorSplineText_t.format);
+            g.TranslateTransform(CanvasCenter.X + AuthorSpineText_t.xOff, CanvasCenter.Y + AuthorSpineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(AuthorSpineText_t.text, GetFont("Arial", AuthorSpineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, AuthorSpineText_t.format);
             g.ResetTransform();
         }
-        private void processCoverText(Graphics g, string tag)
+        private void ProcessCoverText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
             int quotient = tag.Equals("title") ? 3 : 6;
@@ -198,7 +193,7 @@ namespace Lab05
             SizeF textSize;
 
             // find right font size
-            do { textSize = g.MeasureString(text, getFont("Arial", --fontSize)); }
+            do { textSize = g.MeasureString(text, GetFont("Arial", --fontSize)); }
             while ((int)textSize.Height > Book.BookHeight / quotient || (int)textSize.Width > Book.BookWidth);
 
             StringFormat textFormat = new StringFormat();
@@ -207,19 +202,19 @@ namespace Lab05
             // calculate offset from canvas center
             int xOff = (Book.BookWidth + Book.SpineWidth - (int)textSize.Width) / 2;
             int yOff = Book.BookHeight / 10 - Book.BookHeight / 2;
-            if (tag.Equals("author")) yOff += titleCoverText_t.height + Book.BookHeight / 20; // author text should not overlap title text
+            if (tag.Equals("author")) yOff += TitleCoverText_t.height + Book.BookHeight / 20; // author text should not overlap title text
 
             text_t newText_t = new text_t { text = text, xOff = xOff, yOff = yOff, width = (int)textSize.Width, height = (int)textSize.Height, fontSize = fontSize, format = textFormat };
 
             // assign text to its field
             if (tag.Equals("title"))
             {
-                titleCoverText_t = newText_t;
-                processCoverText(g, "author"); // also process author text so that it moves down if needed
+                TitleCoverText_t = newText_t;
+                ProcessCoverText(g, "author"); // also process author text so that it moves down if needed
             }
-            else authorCoverText_t = newText_t;
+            else AuthorCoverText_t = newText_t;
         }
-        private void processSpineText(Graphics g, string tag)
+        private void ProcessSpineText(Graphics g, string tag)
         {
             int fontSize = tag.Equals("title") ? 33 : 25;
             string text = tag.Equals("title") ? Book.Title : Book.Author;
@@ -227,7 +222,7 @@ namespace Lab05
             SizeF textSize;
 
             // find right font size
-            do { textSize = g.MeasureString(text, getFont("Arial", --fontSize)); }
+            do { textSize = g.MeasureString(text, GetFont("Arial", --fontSize)); }
             while (textSize.Width > Book.BookHeight / 2 || textSize.Height > Book.SpineWidth);
 
             StringFormat textFormat = new StringFormat();
@@ -241,16 +236,16 @@ namespace Lab05
 
             // assign text to its field
             if (tag.Equals("title"))
-                titleSplineText_t = newText_t;
+                TitleSplineText_t = newText_t;
             else if (tag.Equals("author"))
-                authorSplineText_t = newText_t;
+                AuthorSpineText_t = newText_t;
         }
-        private void paintAddedTexts(Graphics g)
+        private void PaintAddedTexts(Graphics g)
         {
             foreach (var t in Book.AddedTexts)
-                g.DrawString(t.text, getFont("Arial", t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
+                g.DrawString(t.text, GetFont("Arial", t.fontSize), new SolidBrush(Book.TextColor), CanvasCenter.X + t.xOff, CanvasCenter.Y + t.yOff, t.format);
         }
-        private Rectangle getTextRect(text_t text)
+        private Rectangle GetTextRect(text_t text)
         {
             Rectangle rect = new();
 
@@ -263,6 +258,16 @@ namespace Lab05
             if (text.format.Alignment == StringAlignment.Far) rect.X -= text.width;
 
             return rect;
+        }
+        private Point GetCursorfromOffset(text_t text)
+        {
+            int yCursor = text.yOff + text.height / 2 + CanvasCenter.Y;
+            int xCursor = text.xOff + text.width / 2 + CanvasCenter.X;
+
+            if (text.format.Alignment.Equals(StringAlignment.Center)) xCursor -= text.width / 2;
+            else if (text.format.Alignment.Equals(StringAlignment.Far)) xCursor -= text.width;
+
+            return new Point(xCursor, yCursor);
         }
     }
 }

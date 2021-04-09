@@ -29,7 +29,7 @@ namespace Lab05
             TextBox box = (TextBox)sender;
             string tag = box.Tag.ToString();
             Book.ChangeCoverTexts(tag, box.Text);
-            Painter.processTexts(g, tag);
+            Painter.ProcessTexts(g, tag);
             Canvas.Refresh();
         }
         private void ColorsChanged(object sender, EventArgs e)
@@ -44,29 +44,29 @@ namespace Lab05
         }
         private void Canvas_SizeChanged(object sender, EventArgs e)
         {
-            Painter.changeCenter(new Point(Canvas.Width / 2, Canvas.Height / 2));
+            Painter.ChangeCenter(new Point(Canvas.Width / 2, Canvas.Height / 2));
             Canvas.Refresh();
         }
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            Painter.paintCanvas(e.Graphics);
+            Painter.PaintCanvas(e.Graphics);
         }
 
-        private void cmdNew_Click(object sender, EventArgs e)
+        private void CmdNew_Click(object sender, EventArgs e)
         {
             using (NewDialog newDialog = new NewDialog())
             {
                 if (newDialog.ShowDialog() == DialogResult.OK)
                 {
                     Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
-                    Painter.selectText(-1);
+                    Painter.SelectText(-1);
                     titleTextBox.Text = String.Empty;
                     authorTextBox.Text = String.Empty;
                     Canvas.Refresh();
                 }
             }
         }
-        private void cmdOpen_Click(object sender, EventArgs e)
+        private void CmdOpen_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             { 
@@ -96,7 +96,7 @@ namespace Lab05
                 }
             }
         }
-        private void cmdSave_Click(object sender, EventArgs e)
+        private void CmdSave_Click(object sender, EventArgs e)
         {
             Book.SaveBook();
 
@@ -113,30 +113,30 @@ namespace Lab05
                 }
             }
         }
-        private void cmdEnglish_Click(object sender, EventArgs e)
+        private void CmdEnglish_Click(object sender, EventArgs e)
         {
             if (cmdPolish.Checked) cmdPolish.Checked = false;
         }
-        private void cmdPolish_Click(object sender, EventArgs e)
+        private void CmdPolish_Click(object sender, EventArgs e)
         {
             if (cmdEnglish.Checked) cmdEnglish.Checked = false;
         }
 
-        private void addTextButton_Click(object sender, EventArgs e)
+        private void AddTextButton_Click(object sender, EventArgs e)
         {
             using (AddTextDialog addTextDialog = new AddTextDialog())
             {
                 if (addTextDialog.ShowDialog() == DialogResult.OK)
                 {
                     PreparedText = addTextDialog.PreparedText;
-                    if (addTextDialog.PreparedText.text != String.Empty) Painter.addTextOn();
+                    if (addTextDialog.PreparedText.text != String.Empty) Painter.AddTextOn();
                 }
             }
         }
 
         private void Canvas_DoubleClick(object sender, MouseEventArgs e)
         {
-            if (Painter.findText(e.Location, out text_t foundText, out int idx))
+            if (Painter.FindText(e.Location, out text_t foundText, out int idx))
             {
                 using (AddTextDialog modifyTextDialog = new AddTextDialog())
                 {
@@ -144,7 +144,7 @@ namespace Lab05
                     if (modifyTextDialog.ShowDialog() == DialogResult.OK)
                     {
                         PreparedText = modifyTextDialog.PreparedText;
-                        Painter.modifyOldText(g, idx, PreparedText);
+                        Painter.ModifyOldText(g, idx, PreparedText);
                         Canvas.Refresh();
                     }
                 }
@@ -152,7 +152,7 @@ namespace Lab05
         }
         private void Canvas_MouseEnter(object sender, EventArgs e)
         {
-            if (PreparedText.text != String.Empty && Painter.AddTextOn) Cursor = Cursors.Cross;
+            if (PreparedText.text != String.Empty && Painter.IsAddTextOn) Cursor = Cursors.Cross;
             else Cursor = Cursors.Arrow;
         }
         private void Canvas_MouseLeave(object sender, EventArgs e)
@@ -161,27 +161,27 @@ namespace Lab05
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Painter.AddTextOn && e.Button == MouseButtons.Left)
+            if (Painter.IsAddTextOn && e.Button == MouseButtons.Left)
             {
-                Painter.addNewText(g, e.Location, PreparedText);
+                Painter.AddNewText(g, e.Location, PreparedText);
                 Cursor = Cursors.Arrow;
                 Canvas.Refresh();
             }
-            else if (Painter.TextSelected && e.Button == MouseButtons.Middle)
+            else if (Painter.IsTextSelected && e.Button == MouseButtons.Middle)
             {
-                Painter.prepareMoveText(e.Location);
-                Painter.moveTextOn();
+                Painter.PrepareMoveText(e.Location);
+                Painter.MoveTextOn();
             }
         }
         private void Canvas_Click(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
             
-            if (Painter.findText(e.Location, out text_t foundText, out int idx))
+            if (Painter.FindText(e.Location, out text_t foundText, out int idx))
             {
-                Painter.selectText(idx);
+                Painter.SelectText(idx);
             }
-            else Painter.selectText(-1);
+            else Painter.SelectText(-1);
 
             Canvas.Refresh();
         }
@@ -189,22 +189,22 @@ namespace Lab05
         {
             if (e.Button == MouseButtons.Middle)
             {
-                Painter.moveTextOff();
+                Painter.MoveTextOff();
             }
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Painter.MoveTextOn)
+            if (Painter.IsMoveTextOn)
             {
-                Painter.moveSelectedText(e.Location);
+                Painter.MoveSelectedText(e.Location);
                 Canvas.Refresh();
             }
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Painter.TextSelected && e.KeyCode == Keys.Delete)
+            if (Painter.IsTextSelected && e.KeyCode == Keys.Delete)
             {
-                Painter.deleteSelectedText();
+                Painter.DeleteSelectedText();
                 Canvas.Refresh();
             }
         }
