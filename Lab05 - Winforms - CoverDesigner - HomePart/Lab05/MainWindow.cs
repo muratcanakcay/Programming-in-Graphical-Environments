@@ -19,8 +19,8 @@ namespace Lab05
             InitializeComponent();
 
             // get singletons
-            Book = Book.GetBook();
-            Painter = Painter.GetPainter(new Point(Canvas.Width/2, Canvas.Height/2));
+            Book = Book.GetBookInstance();
+            Painter = Painter.GetPainterInstance(new Point(Canvas.Width/2, Canvas.Height/2));
 
             g = Canvas.CreateGraphics();            
         }
@@ -39,7 +39,7 @@ namespace Lab05
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 Button button = (Button)sender;
-                Book.ChangeColors(button.Tag.ToString(), colorDialog.Color);
+                Book.ChangeBookColors(button.Tag.ToString(), colorDialog.Color);
                 Canvas.Refresh();
             }
         }
@@ -59,7 +59,7 @@ namespace Lab05
             {
                 if (newDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Book.NewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+                    Book.CreateNewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
                     Painter.SelectText(-1);
                     titleTextBox.Text = String.Empty;
                     authorTextBox.Text = String.Empty;
@@ -75,42 +75,27 @@ namespace Lab05
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK && !openFileDialog.FileName.Equals(""))
                 {
-                    using (FileStream fileStream = new FileStream($"{openFileDialog.FileName}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    Book.LoadBookFromFile(openFileDialog.FileName, out bool bookLoaded);
+
+                    if (bookLoaded)
                     {
-                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                        
-                        try
-                        { 
-                            bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
-                            Book.LoadBook(loadedBook);
-
-                            titleTextBox.Text = loadedBook.title;
-                            authorTextBox.Text = loadedBook.author;
-
-                            Canvas.Refresh();
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            MessageBox.Show("Error in file!", "Error!");
-                        }
+                        titleTextBox.Text = Book.Title;
+                        authorTextBox.Text = Book.Author;
+                        Canvas.Refresh();
                     }
+                    else MessageBox.Show("Error in file!", "Error!");
                 }
             }
         }
         private void CmdSave_Click(object sender, EventArgs e)
         {
-            Book.SaveBook();
-
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.Filter = "XML Save File|*.xml";
-                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !saveFileDialog.FileName.Equals(""))
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK && !saveFileDialog.FileName.Equals(""))
                 {
-                    using (System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile())
-                    {
-                        XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                        s.Serialize(fileStream, Book.bookData);
-                    }
+                    Book.SaveBookToFile(saveFileDialog.FileName); 
                 }
             }
         }

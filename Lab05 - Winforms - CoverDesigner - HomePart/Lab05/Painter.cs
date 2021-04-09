@@ -29,10 +29,10 @@ namespace Lab05
 
         private Painter(Point _CanvasCenter)
         {
-            Book = Book.GetBook();
+            Book = Book.GetBookInstance();
             CanvasCenter = _CanvasCenter;
         }
-        public static Painter GetPainter(Point _CanvasCenter)
+        public static Painter GetPainterInstance(Point _CanvasCenter)
         {
             if (Instance == null) Instance = new Painter(_CanvasCenter);
             return Instance;

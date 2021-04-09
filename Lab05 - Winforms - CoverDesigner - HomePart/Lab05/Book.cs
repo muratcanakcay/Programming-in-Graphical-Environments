@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Lab05
 {
@@ -64,13 +66,13 @@ namespace Lab05
             BackgroundColor = defaultBackgroundColor;
             AddedTexts = new();
         }
-        public static Book GetBook()
+        public static Book GetBookInstance()
         {
             if (Instance == null) Instance = new Book();
             return Instance;
         }
 
-        public void NewBook(int newWidth, int newHeight, int newSpineWidth)
+        public void CreateNewBook(int newWidth, int newHeight, int newSpineWidth)
         {
             BookWidth = newWidth;
             BookHeight = newHeight;
@@ -86,32 +88,54 @@ namespace Lab05
             if (tag.Equals("title")) Title = newText;
             else Author = newText;
         }
-        public void ChangeColors(string tag, Color color)
+        public void ChangeBookColors(string tag, Color color)
         {
             if (tag.Equals("background")) BackgroundColor = color;
             else TextColor = color;
         }
-        public void SaveBook()
+        public void SaveBookToFile(string filename)
         {
-            bookData.title = title;
-            bookData.author = author;
-            bookData.bookWidth = bookWidth;
-            bookData.bookHeight = bookHeight;
-            bookData.spineWidth = spineWidth;
-            bookData.textColor = textColor.ToArgb();
-            bookData.backgroundColor = backgroundColor.ToArgb();
-            bookData.addedTexts = addedTexts;
+            using (FileStream fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
+            {
+                bookData.title = title;
+                bookData.author = author;
+                bookData.bookWidth = bookWidth;
+                bookData.bookHeight = bookHeight;
+                bookData.spineWidth = spineWidth;
+                bookData.textColor = textColor.ToArgb();
+                bookData.backgroundColor = backgroundColor.ToArgb();
+                bookData.addedTexts = addedTexts;
+
+                XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                s.Serialize(fileStream, Book.bookData);
+            }
         }
-        public void LoadBook(bookData_t loadedBook)
+        public void LoadBookFromFile(string filename, out bool bookLoaded)
         {
-            title = loadedBook.title;
-            author = loadedBook.author;
-            bookWidth = loadedBook.bookWidth;
-            bookHeight = loadedBook.bookHeight;
-            spineWidth = loadedBook.spineWidth;
-            textColor = Color.FromArgb(loadedBook.textColor);
-            backgroundColor = Color.FromArgb(loadedBook.backgroundColor);
-            addedTexts = loadedBook.addedTexts;
+            using (FileStream fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+
+                try
+                {
+                    bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
+
+                    title = loadedBook.title;
+                    author = loadedBook.author;
+                    bookWidth = loadedBook.bookWidth;
+                    bookHeight = loadedBook.bookHeight;
+                    spineWidth = loadedBook.spineWidth;
+                    textColor = Color.FromArgb(loadedBook.textColor);
+                    backgroundColor = Color.FromArgb(loadedBook.backgroundColor);
+                    addedTexts = loadedBook.addedTexts;
+
+                    bookLoaded = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    bookLoaded = false;
+                }
+            }
         }
     }
 }
