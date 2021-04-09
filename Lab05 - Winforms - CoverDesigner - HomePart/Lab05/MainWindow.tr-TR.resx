@@ -1,0 +1,151 @@
+﻿<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing.Primitives" name="System.Drawing.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="colorSettingsLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>100, 19</value>
+  </data>
+  <data name="colorSettingsLabel.Text" xml:space="preserve">
+    <value>Renk Ayarları</value>
+  </data>
+  <data name="addTextButton.Text" xml:space="preserve">
+    <value>Metin Ekle</value>
+  </data>
+  <data name="addTextLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>83, 19</value>
+  </data>
+  <data name="addTextLabel.Text" xml:space="preserve">
+    <value>İlave Metin</value>
+  </data>
+  <data name="titleLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>48, 19</value>
+  </data>
+  <data name="titleLabel.Text" xml:space="preserve">
+    <value>Başlık</value>
+  </data>
+  <data name="authorLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>46, 19</value>
+  </data>
+  <data name="authorLabel.Text" xml:space="preserve">
+    <value>Yazar</value>
+  </data>
+  <data name="textLabel.Text" xml:space="preserve">
+    <value>Metin</value>
+  </data>
+  <data name="backgroundLabel.Text" xml:space="preserve">
+    <value>Arkaplan</value>
+  </data>
+  <data name="backgroundColorButton.Text" xml:space="preserve">
+    <value>Değiştir</value>
+  </data>
+  <data name="textColorButton.Text" xml:space="preserve">
+    <value>Değiştir</value>
+  </data>
+  <data name="menuFile.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>51, 20</value>
+  </data>
+  <data name="menuFile.Text" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="cmdNew.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>150, 22</value>
+  </data>
+  <data name="cmdNew.Text" xml:space="preserve">
+    <value>Yeni</value>
+  </data>
+  <data name="cmdOpen.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>150, 22</value>
+  </data>
+  <data name="cmdOpen.Text" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="cmdSave.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>150, 22</value>
+  </data>
+  <data name="cmdSave.Text" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>
+  <data name="menuSettings.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>56, 20</value>
+  </data>
+  <data name="menuSettings.Text" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="menuLanguage.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>88, 22</value>
+  </data>
+  <data name="menuLanguage.Text" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="cmdEnglish.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>117, 22</value>
+  </data>
+  <data name="cmdEnglish.Text" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="cmdTurkish.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>117, 22</value>
+  </data>
+  <data name="cmdTurkish.Text" xml:space="preserve">
+    <value>Türkçe</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Kitap Kapağı Tasarlayıcı</value>
+  </data>
+</root>

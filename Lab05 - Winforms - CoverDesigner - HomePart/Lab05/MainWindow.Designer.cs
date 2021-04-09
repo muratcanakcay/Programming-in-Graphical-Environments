@@ -29,10 +29,16 @@ namespace Lab05
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.Canvas = new System.Windows.Forms.PictureBox();
-            this.addButton = new System.Windows.Forms.Button();
-            this.addTextBox = new System.Windows.Forms.TextBox();
+            this.colorSettingsLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textLabel = new System.Windows.Forms.Label();
+            this.backgroundLabel = new System.Windows.Forms.Label();
+            this.backgroundColorButton = new System.Windows.Forms.Button();
+            this.textColorButton = new System.Windows.Forms.Button();
+            this.addTextButton = new System.Windows.Forms.Button();
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.addTextLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
@@ -46,20 +52,20 @@ namespace Lab05
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdEnglish = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmdPolish = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdTurkish = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.menuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
             // 
             this.splitContainer.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 24);
+            resources.ApplyResources(this.splitContainer, "splitContainer");
             this.splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -70,124 +76,117 @@ namespace Lab05
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.splitContainer.Panel2.Controls.Add(this.addButton);
-            this.splitContainer.Panel2.Controls.Add(this.addTextBox);
+            this.splitContainer.Panel2.Controls.Add(this.colorSettingsLabel);
+            this.splitContainer.Panel2.Controls.Add(this.tableLayoutPanel1);
+            this.splitContainer.Panel2.Controls.Add(this.addTextButton);
             this.splitContainer.Panel2.Controls.Add(this.titleTextBox);
             this.splitContainer.Panel2.Controls.Add(this.addTextLabel);
             this.splitContainer.Panel2.Controls.Add(this.titleLabel);
             this.splitContainer.Panel2.Controls.Add(this.authorLabel);
             this.splitContainer.Panel2.Controls.Add(this.authorTextBox);
-            this.splitContainer.Panel2MinSize = 200;
-            this.splitContainer.Size = new System.Drawing.Size(1384, 837);
-            this.splitContainer.SplitterDistance = 1170;
-            this.splitContainer.TabIndex = 0;
             // 
             // Canvas
             // 
             this.Canvas.BackColor = System.Drawing.Color.White;
-            this.Canvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Canvas.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.Canvas, "Canvas");
             this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(1170, 837);
-            this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             this.Canvas.SizeChanged += new System.EventHandler(this.Canvas_SizeChanged);
             this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.Canvas_Paint);
+            this.Canvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Canvas_Click);
+            this.Canvas.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Canvas_DoubleClick);
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
             this.Canvas.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
             this.Canvas.MouseLeave += new System.EventHandler(this.Canvas_MouseLeave);
+            this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
             // 
-            // addButton
+            // colorSettingsLabel
             // 
-            this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.addButton.Location = new System.Drawing.Point(3, 378);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(200, 23);
-            this.addButton.TabIndex = 6;
-            this.addButton.Text = "Add Text";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            resources.ApplyResources(this.colorSettingsLabel, "colorSettingsLabel");
+            this.colorSettingsLabel.Name = "colorSettingsLabel";
             // 
-            // addTextBox
+            // tableLayoutPanel1
             // 
-            this.addTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.addTextBox.Location = new System.Drawing.Point(3, 196);
-            this.addTextBox.MinimumSize = new System.Drawing.Size(200, 4);
-            this.addTextBox.Multiline = true;
-            this.addTextBox.Name = "addTextBox";
-            this.addTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.addTextBox.Size = new System.Drawing.Size(200, 175);
-            this.addTextBox.TabIndex = 5;
-            this.addTextBox.TextChanged += new System.EventHandler(this.addTextBox_TextChanged);
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.textLabel, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.backgroundLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.backgroundColorButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textColorButton, 1, 1);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // textLabel
+            // 
+            resources.ApplyResources(this.textLabel, "textLabel");
+            this.textLabel.Name = "textLabel";
+            // 
+            // backgroundLabel
+            // 
+            resources.ApplyResources(this.backgroundLabel, "backgroundLabel");
+            this.backgroundLabel.Name = "backgroundLabel";
+            // 
+            // backgroundColorButton
+            // 
+            resources.ApplyResources(this.backgroundColorButton, "backgroundColorButton");
+            this.backgroundColorButton.Name = "backgroundColorButton";
+            this.backgroundColorButton.Tag = "background";
+            this.backgroundColorButton.UseVisualStyleBackColor = true;
+            this.backgroundColorButton.Click += new System.EventHandler(this.ColorsChanged);
+            // 
+            // textColorButton
+            // 
+            resources.ApplyResources(this.textColorButton, "textColorButton");
+            this.textColorButton.Name = "textColorButton";
+            this.textColorButton.Tag = "text";
+            this.textColorButton.UseVisualStyleBackColor = true;
+            this.textColorButton.Click += new System.EventHandler(this.ColorsChanged);
+            // 
+            // addTextButton
+            // 
+            resources.ApplyResources(this.addTextButton, "addTextButton");
+            this.addTextButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.addTextButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.addTextButton.Name = "addTextButton";
+            this.addTextButton.UseVisualStyleBackColor = false;
+            this.addTextButton.Click += new System.EventHandler(this.AddTextButton_Click);
             // 
             // titleTextBox
             // 
-            this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.titleTextBox.Location = new System.Drawing.Point(3, 31);
-            this.titleTextBox.MinimumSize = new System.Drawing.Size(200, 4);
-            this.titleTextBox.Multiline = true;
+            resources.ApplyResources(this.titleTextBox, "titleTextBox");
             this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(200, 92);
-            this.titleTextBox.TabIndex = 4;
             this.titleTextBox.Tag = "title";
-            this.titleTextBox.TextChanged += new System.EventHandler(this.coverTextChanged);
+            this.titleTextBox.TextChanged += new System.EventHandler(this.CoverTextChanged);
             // 
             // addTextLabel
             // 
-            this.addTextLabel.AutoSize = true;
-            this.addTextLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.addTextLabel.Location = new System.Drawing.Point(3, 174);
+            resources.ApplyResources(this.addTextLabel, "addTextLabel");
             this.addTextLabel.Name = "addTextLabel";
-            this.addTextLabel.Size = new System.Drawing.Size(111, 19);
-            this.addTextLabel.TabIndex = 1;
-            this.addTextLabel.Text = "Additional Text";
             // 
             // titleLabel
             // 
-            this.titleLabel.AutoSize = true;
-            this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.titleLabel.Location = new System.Drawing.Point(3, 9);
+            resources.ApplyResources(this.titleLabel, "titleLabel");
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(38, 19);
-            this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "Title";
             // 
             // authorLabel
             // 
-            this.authorLabel.AutoSize = true;
-            this.authorLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.authorLabel.Location = new System.Drawing.Point(3, 126);
+            resources.ApplyResources(this.authorLabel, "authorLabel");
             this.authorLabel.Name = "authorLabel";
-            this.authorLabel.Size = new System.Drawing.Size(55, 19);
-            this.authorLabel.TabIndex = 2;
-            this.authorLabel.Text = "Author";
             // 
             // authorTextBox
             // 
             this.authorTextBox.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.authorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.authorTextBox.Location = new System.Drawing.Point(3, 148);
-            this.authorTextBox.MinimumSize = new System.Drawing.Size(200, 4);
+            resources.ApplyResources(this.authorTextBox, "authorTextBox");
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(200, 23);
-            this.authorTextBox.TabIndex = 3;
             this.authorTextBox.Tag = "author";
-            this.authorTextBox.TextChanged += new System.EventHandler(this.coverTextChanged);
+            this.authorTextBox.TextChanged += new System.EventHandler(this.CoverTextChanged);
             // 
             // menuBar
             // 
             this.menuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuSettings});
-            this.menuBar.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.menuBar, "menuBar");
             this.menuBar.Name = "menuBar";
-            this.menuBar.Size = new System.Drawing.Size(1384, 24);
-            this.menuBar.TabIndex = 1;
-            this.menuBar.Text = "menuStrip1";
             // 
             // menuFile
             // 
@@ -196,91 +195,73 @@ namespace Lab05
             this.cmdOpen,
             this.cmdSave});
             this.menuFile.Name = "menuFile";
-            this.menuFile.Size = new System.Drawing.Size(37, 20);
-            this.menuFile.Text = "File";
-            this.menuFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            resources.ApplyResources(this.menuFile, "menuFile");
             // 
             // cmdNew
             // 
             this.cmdNew.Name = "cmdNew";
-            this.cmdNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.cmdNew.Size = new System.Drawing.Size(146, 22);
-            this.cmdNew.Text = "New";
-            this.cmdNew.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
+            resources.ApplyResources(this.cmdNew, "cmdNew");
+            this.cmdNew.Click += new System.EventHandler(this.CmdNew_Click);
             // 
             // cmdOpen
             // 
             this.cmdOpen.Name = "cmdOpen";
-            this.cmdOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.cmdOpen.Size = new System.Drawing.Size(146, 22);
-            this.cmdOpen.Text = "Open";
-            this.cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            resources.ApplyResources(this.cmdOpen, "cmdOpen");
+            this.cmdOpen.Click += new System.EventHandler(this.CmdOpen_Click);
             // 
             // cmdSave
             // 
             this.cmdSave.Name = "cmdSave";
-            this.cmdSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.cmdSave.Size = new System.Drawing.Size(146, 22);
-            this.cmdSave.Text = "Save";
-            this.cmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            resources.ApplyResources(this.cmdSave, "cmdSave");
+            this.cmdSave.Click += new System.EventHandler(this.CmdSave_Click);
             // 
             // menuSettings
             // 
             this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuLanguage});
             this.menuSettings.Name = "menuSettings";
-            this.menuSettings.Size = new System.Drawing.Size(61, 20);
-            this.menuSettings.Text = "Settings";
-            this.menuSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            resources.ApplyResources(this.menuSettings, "menuSettings");
             // 
             // menuLanguage
             // 
             this.menuLanguage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmdEnglish,
-            this.cmdPolish});
+            this.cmdTurkish});
             this.menuLanguage.Name = "menuLanguage";
-            this.menuLanguage.Size = new System.Drawing.Size(126, 22);
-            this.menuLanguage.Text = "Language";
+            resources.ApplyResources(this.menuLanguage, "menuLanguage");
             // 
             // cmdEnglish
             // 
             this.cmdEnglish.Checked = true;
-            this.cmdEnglish.CheckOnClick = true;
             this.cmdEnglish.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cmdEnglish.Name = "cmdEnglish";
-            this.cmdEnglish.Size = new System.Drawing.Size(112, 22);
-            this.cmdEnglish.Text = "English";
-            this.cmdEnglish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdEnglish.Click += new System.EventHandler(this.cmdEnglish_Click);
+            resources.ApplyResources(this.cmdEnglish, "cmdEnglish");
+            this.cmdEnglish.Click += new System.EventHandler(this.CmdEnglish_Click);
             // 
-            // cmdPolish
+            // cmdTurkish
             // 
-            this.cmdPolish.CheckOnClick = true;
-            this.cmdPolish.Name = "cmdPolish";
-            this.cmdPolish.Size = new System.Drawing.Size(112, 22);
-            this.cmdPolish.Text = "Polish";
-            this.cmdPolish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdPolish.Click += new System.EventHandler(this.cmdPolish_Click);
+            this.cmdTurkish.Name = "cmdTurkish";
+            resources.ApplyResources(this.cmdTurkish, "cmdTurkish");
+            this.cmdTurkish.Click += new System.EventHandler(this.CmdTurkish_Click);
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1384, 861);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuBar);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "MainWindow";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Book Cover Designer";
-            this.Load += new System.EventHandler(this.MainWindowLoad);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             this.splitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.menuBar.ResumeLayout(false);
             this.menuBar.PerformLayout();
             this.ResumeLayout(false);
@@ -293,12 +274,11 @@ namespace Lab05
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.TextBox titleTextBox;
-        private System.Windows.Forms.TextBox addTextBox;
         private System.Windows.Forms.Label addTextLabel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label authorLabel;
         private System.Windows.Forms.TextBox authorTextBox;
-        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button addTextButton;
         private System.Windows.Forms.MenuStrip menuBar;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
         private System.Windows.Forms.ToolStripMenuItem cmdNew;
@@ -307,7 +287,13 @@ namespace Lab05
         private System.Windows.Forms.ToolStripMenuItem menuSettings;
         private System.Windows.Forms.ToolStripMenuItem menuLanguage;
         private System.Windows.Forms.ToolStripMenuItem cmdEnglish;
-        private System.Windows.Forms.ToolStripMenuItem cmdPolish;
+        private System.Windows.Forms.ToolStripMenuItem cmdTurkish;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label backgroundLabel;
+        private System.Windows.Forms.Label textLabel;
+        private System.Windows.Forms.Button backgroundColorButton;
+        private System.Windows.Forms.Button textColorButton;
+        private System.Windows.Forms.Label colorSettingsLabel;
     }
 }
 
