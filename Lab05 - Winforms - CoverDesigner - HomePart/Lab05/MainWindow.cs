@@ -142,6 +142,7 @@ namespace Lab05
             InitializeComponent();
             Size = oldSize;
             Location = oldLocation;
+            
             g = Canvas.CreateGraphics();
         }       
 
