@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.IO;
+using System.Threading;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace Lab05
 {
@@ -16,7 +19,7 @@ namespace Lab05
         public MainWindow()
         {
             InitializeComponent();
-            
+
             // get singletons
             Book = Book.GetBook();
             Painter = Painter.GetPainter(new Point(Canvas.Width/2, Canvas.Height/2));
@@ -44,7 +47,7 @@ namespace Lab05
         }
         private void Canvas_SizeChanged(object sender, EventArgs e)
         {
-            Painter.ChangeCenter(new Point(Canvas.Width / 2, Canvas.Height / 2));
+            Painter.UpdateCenter(new Point(Canvas.Width / 2, Canvas.Height / 2));
             Canvas.Refresh();
         }
         private void Canvas_Paint(object sender, PaintEventArgs e)
@@ -115,11 +118,31 @@ namespace Lab05
         }
         private void CmdEnglish_Click(object sender, EventArgs e)
         {
-            if (cmdPolish.Checked) cmdPolish.Checked = false;
+            if (cmdTurkish.Checked)
+            {
+                cmdTurkish.Checked = false;
+                ChangeLanguage("");
+            }
+
         }
-        private void CmdPolish_Click(object sender, EventArgs e)
+        private void CmdTurkish_Click(object sender, EventArgs e)
         {
-            if (cmdEnglish.Checked) cmdEnglish.Checked = false;
+            if (cmdEnglish.Checked)
+            {
+                cmdEnglish.Checked = false;
+                ChangeLanguage("tr-TR");
+            }
+        }
+        private void ChangeLanguage(string lang)
+        {
+            foreach (Control c in this.Controls)
+            {
+                //Thread.CurrentThread.CurrentUICulture = new CultureInfo("tr-TR");
+                //Thread.CurrentThread.CurrentCulture = new CultureInfo("tr-TR");
+
+                ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
+                resources.ApplyResources(c, c.Text, new CultureInfo(lang));
+            }
         }
 
         private void AddTextButton_Click(object sender, EventArgs e)

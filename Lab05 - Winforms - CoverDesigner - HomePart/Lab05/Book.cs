@@ -36,6 +36,8 @@ namespace Lab05
         private int spineWidth;
         private Color textColor;
         private Color backgroundColor;
+        private readonly Color defaultTextColor = Color.Black;
+        private readonly Color defaultBackgroundColor = Color.MistyRose;
         private string title;
         private string author;
         private List<text_t> addedTexts;
@@ -58,8 +60,8 @@ namespace Lab05
             BookWidth = 300;
             BookHeight = 500;
             SpineWidth = 30;
-            TextColor = Color.Black;
-            BackgroundColor = Color.MistyRose;
+            TextColor = defaultTextColor;
+            BackgroundColor = defaultBackgroundColor;
             AddedTexts = new();
         }
         public static Book GetBook()
@@ -73,8 +75,8 @@ namespace Lab05
             BookWidth = newWidth;
             BookHeight = newHeight;
             SpineWidth = newSpineWidth;
-            TextColor = Color.Black;
-            BackgroundColor = Color.White;
+            TextColor = defaultTextColor;
+            BackgroundColor = defaultBackgroundColor;
             Title = String.Empty;
             Author = String.Empty;
             AddedTexts.Clear();

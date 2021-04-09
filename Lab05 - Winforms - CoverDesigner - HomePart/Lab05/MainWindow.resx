@@ -57,4 +57,638 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="splitContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing.Primitives" name="System.Drawing.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="splitContainer.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>0, 24</value>
+  </data>
+  <data name="Canvas.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="Canvas.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>0, 0</value>
+  </data>
+  <data name="Canvas.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>1170, 837</value>
+  </data>
+  <assembly alias="System.Private.CoreLib" name="System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
+  <data name="Canvas.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Canvas.Name" xml:space="preserve">
+    <value>Canvas</value>
+  </data>
+  <data name="&gt;&gt;Canvas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Canvas.Parent" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;Canvas.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Name" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="colorSettingsLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+  <data name="colorSettingsLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 10pt, style=Bold</value>
+  </data>
+  <data name="colorSettingsLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>2, 222</value>
+  </data>
+  <data name="colorSettingsLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>103, 19</value>
+  </data>
+  <data name="colorSettingsLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>8</value>
+  </data>
+  <data name="colorSettingsLabel.Text" xml:space="preserve">
+    <value>Color Settings</value>
+  </data>
+  <data name="&gt;&gt;colorSettingsLabel.Name" xml:space="preserve">
+    <value>colorSettingsLabel</value>
+  </data>
+  <data name="&gt;&gt;colorSettingsLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;colorSettingsLabel.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;colorSettingsLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel1.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
+    <value>Single</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="textLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="textLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="textLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 11pt</value>
+  </data>
+  <data name="textLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>4, 50</value>
+  </data>
+  <data name="textLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>92, 49</value>
+  </data>
+  <data name="textLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="textLabel.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="textLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;textLabel.Name" xml:space="preserve">
+    <value>textLabel</value>
+  </data>
+  <data name="&gt;&gt;textLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textLabel.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;textLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="backgroundLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="backgroundLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="backgroundLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 11pt</value>
+  </data>
+  <data name="backgroundLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>4, 1</value>
+  </data>
+  <data name="backgroundLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>92, 48</value>
+  </data>
+  <data name="backgroundLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="backgroundLabel.Text" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="backgroundLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;backgroundLabel.Name" xml:space="preserve">
+    <value>backgroundLabel</value>
+  </data>
+  <data name="&gt;&gt;backgroundLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backgroundLabel.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;backgroundLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="backgroundColorButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="backgroundColorButton.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>117, 10</value>
+  </data>
+  <data name="backgroundColorButton.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>50, 29</value>
+  </data>
+  <data name="backgroundColorButton.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>64, 29</value>
+  </data>
+  <data name="backgroundColorButton.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="backgroundColorButton.Text" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="&gt;&gt;backgroundColorButton.Name" xml:space="preserve">
+    <value>backgroundColorButton</value>
+  </data>
+  <data name="&gt;&gt;backgroundColorButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backgroundColorButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;backgroundColorButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="textColorButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="textColorButton.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>117, 60</value>
+  </data>
+  <data name="textColorButton.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>50, 29</value>
+  </data>
+  <data name="textColorButton.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>64, 29</value>
+  </data>
+  <data name="textColorButton.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>3</value>
+  </data>
+  <data name="textColorButton.Text" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="&gt;&gt;textColorButton.Name" xml:space="preserve">
+    <value>textColorButton</value>
+  </data>
+  <data name="&gt;&gt;textColorButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textColorButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;textColorButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>4, 244</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>200, 100</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="textLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="backgroundLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="backgroundColorButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="textColorButton" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="addTextButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="addTextButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="addTextButton.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>4, 196</value>
+  </data>
+  <data name="addTextButton.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>200, 23</value>
+  </data>
+  <data name="addTextButton.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>6</value>
+  </data>
+  <data name="addTextButton.Text" xml:space="preserve">
+    <value>Add Text</value>
+  </data>
+  <data name="&gt;&gt;addTextButton.Name" xml:space="preserve">
+    <value>addTextButton</value>
+  </data>
+  <data name="&gt;&gt;addTextButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addTextButton.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;addTextButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="titleTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="titleTextBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 31</value>
+  </data>
+  <data name="titleTextBox.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>190, 4</value>
+  </data>
+  <data name="titleTextBox.Multiline" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="titleTextBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>200, 92</value>
+  </data>
+  <data name="titleTextBox.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Name" xml:space="preserve">
+    <value>titleTextBox</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="addTextLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="addTextLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 10pt, style=Bold</value>
+  </data>
+  <data name="addTextLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 174</value>
+  </data>
+  <data name="addTextLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>111, 19</value>
+  </data>
+  <data name="addTextLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="addTextLabel.Text" xml:space="preserve">
+    <value>Additional Text</value>
+  </data>
+  <data name="&gt;&gt;addTextLabel.Name" xml:space="preserve">
+    <value>addTextLabel</value>
+  </data>
+  <data name="&gt;&gt;addTextLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addTextLabel.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;addTextLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="titleLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="titleLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 10pt, style=Bold</value>
+  </data>
+  <data name="titleLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 9</value>
+  </data>
+  <data name="titleLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>38, 19</value>
+  </data>
+  <data name="titleLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="titleLabel.Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="&gt;&gt;titleLabel.Name" xml:space="preserve">
+    <value>titleLabel</value>
+  </data>
+  <data name="&gt;&gt;titleLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;titleLabel.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;titleLabel.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="authorLabel.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="authorLabel.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 10pt, style=Bold</value>
+  </data>
+  <data name="authorLabel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 126</value>
+  </data>
+  <data name="authorLabel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>55, 19</value>
+  </data>
+  <data name="authorLabel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="authorLabel.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="&gt;&gt;authorLabel.Name" xml:space="preserve">
+    <value>authorLabel</value>
+  </data>
+  <data name="&gt;&gt;authorLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;authorLabel.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;authorLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="authorTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="authorTextBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 148</value>
+  </data>
+  <data name="authorTextBox.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>190, 4</value>
+  </data>
+  <data name="authorTextBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>200, 23</value>
+  </data>
+  <data name="authorTextBox.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;authorTextBox.Name" xml:space="preserve">
+    <value>authorTextBox</value>
+  </data>
+  <data name="&gt;&gt;authorTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;authorTextBox.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;authorTextBox.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Name" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainer.Panel2MinSize" type="System.Int32, System.Private.CoreLib">
+    <value>200</value>
+  </data>
+  <data name="splitContainer.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>1384, 837</value>
+  </data>
+  <data name="splitContainer.SplitterDistance" type="System.Int32, System.Private.CoreLib">
+    <value>1170</value>
+  </data>
+  <data name="splitContainer.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Name" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cmdNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="cmdNew.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>146, 22</value>
+  </data>
+  <data name="cmdNew.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="cmdNew.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="cmdOpen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+O</value>
+  </data>
+  <data name="cmdOpen.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>146, 22</value>
+  </data>
+  <data name="cmdOpen.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="cmdOpen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="cmdSave.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+S</value>
+  </data>
+  <data name="cmdSave.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>146, 22</value>
+  </data>
+  <data name="cmdSave.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="cmdSave.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="menuFile.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>37, 20</value>
+  </data>
+  <data name="menuFile.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="menuFile.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="cmdEnglish.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>112, 22</value>
+  </data>
+  <data name="cmdEnglish.Text" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="cmdEnglish.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="cmdTurkish.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>112, 22</value>
+  </data>
+  <data name="cmdTurkish.Text" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="cmdTurkish.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="menuLanguage.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>126, 22</value>
+  </data>
+  <data name="menuLanguage.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="menuSettings.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>61, 20</value>
+  </data>
+  <data name="menuSettings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="menuSettings.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="menuBar.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>0, 0</value>
+  </data>
+  <data name="menuBar.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>1384, 24</value>
+  </data>
+  <data name="menuBar.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="menuBar.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuBar.Name" xml:space="preserve">
+    <value>menuBar</value>
+  </data>
+  <data name="&gt;&gt;menuBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuBar.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuBar.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>tr-TR</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing.Primitives">
+    <value>7, 15</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>1384, 861</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>800, 600</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Book Cover Designer</value>
+  </data>
+  <data name="&gt;&gt;menuFile.Name" xml:space="preserve">
+    <value>menuFile</value>
+  </data>
+  <data name="&gt;&gt;menuFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmdNew.Name" xml:space="preserve">
+    <value>cmdNew</value>
+  </data>
+  <data name="&gt;&gt;cmdNew.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmdOpen.Name" xml:space="preserve">
+    <value>cmdOpen</value>
+  </data>
+  <data name="&gt;&gt;cmdOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmdSave.Name" xml:space="preserve">
+    <value>cmdSave</value>
+  </data>
+  <data name="&gt;&gt;cmdSave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuSettings.Name" xml:space="preserve">
+    <value>menuSettings</value>
+  </data>
+  <data name="&gt;&gt;menuSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuLanguage.Name" xml:space="preserve">
+    <value>menuLanguage</value>
+  </data>
+  <data name="&gt;&gt;menuLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmdEnglish.Name" xml:space="preserve">
+    <value>cmdEnglish</value>
+  </data>
+  <data name="&gt;&gt;cmdEnglish.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmdTurkish.Name" xml:space="preserve">
+    <value>cmdTurkish</value>
+  </data>
+  <data name="&gt;&gt;cmdTurkish.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MainWindow</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

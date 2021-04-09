@@ -100,10 +100,10 @@ namespace Lab05
             // 
             // alignmentBox
             // 
+            resources.ApplyResources(this.alignmentBox, "alignmentBox");
             this.alignmentBox.Controls.Add(this.radioRight);
             this.alignmentBox.Controls.Add(this.radioCenter);
             this.alignmentBox.Controls.Add(this.radioLeft);
-            resources.ApplyResources(this.alignmentBox, "alignmentBox");
             this.alignmentBox.Name = "alignmentBox";
             this.alignmentBox.TabStop = false;
             // 
@@ -141,8 +141,8 @@ namespace Lab05
             // tableLayoutPanel4
             // 
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.buttonAddTextCancel, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.buttonAddTextOK, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.buttonAddTextOK, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.buttonAddTextCancel, 1, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
             // buttonAddTextCancel
