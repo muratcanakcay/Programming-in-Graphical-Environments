@@ -10,24 +10,22 @@ namespace Lab05
         private bool addText = false;
         private bool moveText = false;
         private int selectedText = -1;
-
+        private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+");
+                
         private Book Book { get; }
-
         private Point CanvasCenter { get; set; }
         private Point CursorStartLoc { get; set; }
         private Point TextStartLoc { get; set; }
-
         private text_t TitleCoverText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t AuthorCoverText_t { get; set; } = new text_t { fontSize = 1 };
-        private text_t TitleSplineText_t { get; set; } = new text_t { fontSize = 1 };
+        private text_t TitleSpineText_t { get; set; } = new text_t { fontSize = 1 };
         private text_t AuthorSpineText_t { get; set; } = new text_t { fontSize = 1 };
-
-        private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+");
-        private string ReduceWhitespace(string input) { return sWhitespace.Replace(input, " "); }
 
         public bool IsAddTextOn { get => addText; }
         public bool IsMoveTextOn { get => moveText; }
         public bool IsTextSelected { get => selectedText > -1; }
+
+        //------------ c-tor
 
         private Painter(Point _CanvasCenter)
         {
@@ -180,7 +178,7 @@ namespace Lab05
 
             // assign text to its field
             if (tag.Equals("title"))
-                TitleSplineText_t = newText_t;
+                TitleSpineText_t = newText_t;
             else if (tag.Equals("author"))
                 AuthorSpineText_t = newText_t;
         }
@@ -194,8 +192,8 @@ namespace Lab05
         {
             // paint title on spine
             g.RotateTransform(270);
-            g.TranslateTransform(CanvasCenter.X + TitleSplineText_t.xOff, CanvasCenter.Y + TitleSplineText_t.yOff, MatrixOrder.Append);
-            g.DrawString(TitleSplineText_t.text, GetFont("Arial", TitleSplineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, TitleSplineText_t.format);
+            g.TranslateTransform(CanvasCenter.X + TitleSpineText_t.xOff, CanvasCenter.Y + TitleSpineText_t.yOff, MatrixOrder.Append);
+            g.DrawString(TitleSpineText_t.text, GetFont("Arial", TitleSpineText_t.fontSize), new SolidBrush(Book.TextColor), 0, 0, TitleSpineText_t.format);
             g.ResetTransform();
 
             // paint author on spine
@@ -270,5 +268,6 @@ namespace Lab05
 
             return new Point(xCursor, yCursor);
         }
+        private string ReduceWhitespace(string input) { return sWhitespace.Replace(input, " "); }
     }
 }
