@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-using System.IO;
 using System.Globalization;
 
 namespace Lab05

@@ -53,8 +53,6 @@ namespace Lab05
         public string Author { get => author; private set => author = value; }
         public List<text_t> AddedTexts { get => addedTexts; private set { addedTexts = value; } }
 
-        public static bookData_t bookData;
-        
         //--------------
 
         private Book()
@@ -97,6 +95,8 @@ namespace Lab05
         {
             using (FileStream fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
             {
+                bookData_t bookData = new();
+
                 bookData.title = title;
                 bookData.author = author;
                 bookData.bookWidth = bookWidth;
@@ -107,7 +107,7 @@ namespace Lab05
                 bookData.addedTexts = addedTexts;
 
                 XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                s.Serialize(fileStream, Book.bookData);
+                s.Serialize(fileStream, bookData);
             }
         }
         public void LoadBookFromFile(string filename, out bool bookLoaded)
