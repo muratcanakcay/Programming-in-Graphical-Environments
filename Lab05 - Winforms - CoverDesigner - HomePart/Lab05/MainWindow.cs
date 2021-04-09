@@ -16,10 +16,12 @@ namespace Lab05
         public MainWindow()
         {
             InitializeComponent();
+            
+            // get singletons
+            Book = Book.GetBook();
+            Painter = Painter.GetPainter(new Point(Canvas.Width/2, Canvas.Height/2));
 
             g = Canvas.CreateGraphics();
-            Book = new();
-            Painter = new(Book, new Point(Canvas.Width/2, Canvas.Height/2));
         }
         
         private void CoverTextChanged(object sender, EventArgs e)

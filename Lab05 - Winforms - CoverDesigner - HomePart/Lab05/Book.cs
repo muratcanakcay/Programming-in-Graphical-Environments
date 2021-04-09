@@ -27,8 +27,10 @@ namespace Lab05
         public List<text_t> addedTexts;
     }
     
-    public class Book
+    public class Book // singleton
     {
+        private static Book Instance { get; set; }
+
         private int bookWidth;
         private int bookHeight;
         private int spineWidth;
@@ -49,7 +51,9 @@ namespace Lab05
 
         public static bookData_t bookData;
         
-        public Book()
+        //--------------
+
+        private Book()
         {
             BookWidth = 300;
             BookHeight = 500;
@@ -57,6 +61,11 @@ namespace Lab05
             TextColor = Color.Black;
             BackgroundColor = Color.MistyRose;
             AddedTexts = new();
+        }
+        public static Book GetBook()
+        {
+            if (Instance == null) Instance = new Book();
+            return Instance;
         }
 
         public void NewBook(int newWidth, int newHeight, int newSpineWidth)
@@ -70,19 +79,16 @@ namespace Lab05
             Author = String.Empty;
             AddedTexts.Clear();
         }
-
         public void ChangeCoverTexts(string tag, string newText)
         {
             if (tag.Equals("title")) Title = newText;
             else Author = newText;
         }
-
         public void ChangeColors(string tag, Color color)
         {
             if (tag.Equals("background")) BackgroundColor = color;
             else TextColor = color;
         }
-
         public void SaveBook()
         {
             bookData.title = title;
@@ -94,7 +100,6 @@ namespace Lab05
             bookData.backgroundColor = backgroundColor.ToArgb();
             bookData.addedTexts = addedTexts;
         }
-
         public void LoadBook(bookData_t loadedBook)
         {
             title = loadedBook.title;

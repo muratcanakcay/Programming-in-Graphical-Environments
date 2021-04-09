@@ -3,8 +3,10 @@ using System.Drawing.Drawing2D;
 
 namespace Lab05
 {
-    public class Painter
+    public class Painter  // singleton
     {
+        private static Painter Instance { get; set; } = null;
+        
         private bool addText = false;
         private bool moveText = false;
         private int selectedText = -1;
@@ -27,10 +29,15 @@ namespace Lab05
         public bool MoveTextOn { get => moveText; }
         public bool TextSelected { get => selectedText > -1; }
 
-        public Painter(Book _book, Point _CanvasCenter)
+        private Painter(Point _CanvasCenter)
         {
-            Book = _book;
+            Book = Book.GetBook();
             CanvasCenter = _CanvasCenter;
+        }
+        public static Painter GetPainter(Point _CanvasCenter)
+        {
+            if (Instance == null) Instance = new Painter(_CanvasCenter);
+            return Instance;
         }
 
         //------------ public methods
