@@ -24,7 +24,7 @@ namespace Lab05
             Book = Book.GetBook();
             Painter = Painter.GetPainter(new Point(Canvas.Width/2, Canvas.Height/2));
 
-            g = Canvas.CreateGraphics();
+            g = Canvas.CreateGraphics();            
         }
         
         private void CoverTextChanged(object sender, EventArgs e)
@@ -120,8 +120,9 @@ namespace Lab05
         {
             if (cmdTurkish.Checked)
             {
+                ChangeLanguage(""); 
                 cmdTurkish.Checked = false;
-                ChangeLanguage("");
+                cmdEnglish.Checked = true;
             }
 
         }
@@ -129,21 +130,22 @@ namespace Lab05
         {
             if (cmdEnglish.Checked)
             {
+                ChangeLanguage("tr-TR");                
                 cmdEnglish.Checked = false;
-                ChangeLanguage("tr-TR");
+                cmdTurkish.Checked = true;
             }
         }
-        private void ChangeLanguage(string lang)
+        private void ChangeLanguage(string language)
         {
-            foreach (Control c in this.Controls)
-            {
-                //Thread.CurrentThread.CurrentUICulture = new CultureInfo("tr-TR");
-                //Thread.CurrentThread.CurrentCulture = new CultureInfo("tr-TR");
-
-                ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
-                resources.ApplyResources(c, c.Text, new CultureInfo(lang));
-            }
-        }
+            CultureInfo.CurrentUICulture = new CultureInfo(language);
+            Size oldSize = Size;
+            Point oldLocation = Location;
+            Controls.Clear();
+            InitializeComponent();
+            Size = oldSize;
+            Location = oldLocation;
+            g = Canvas.CreateGraphics();
+        }       
 
         private void AddTextButton_Click(object sender, EventArgs e)
         {

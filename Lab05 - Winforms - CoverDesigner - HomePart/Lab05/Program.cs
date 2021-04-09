@@ -16,9 +16,6 @@ namespace Lab05
         [STAThread]
         static void Main()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("tr-TR");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("tr-TR"); 
-            
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

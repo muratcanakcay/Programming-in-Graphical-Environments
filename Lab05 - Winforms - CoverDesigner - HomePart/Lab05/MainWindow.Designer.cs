@@ -233,7 +233,6 @@ namespace Lab05
             // cmdEnglish
             // 
             this.cmdEnglish.Checked = true;
-            this.cmdEnglish.CheckOnClick = true;
             this.cmdEnglish.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cmdEnglish.Name = "cmdEnglish";
             resources.ApplyResources(this.cmdEnglish, "cmdEnglish");
@@ -241,7 +240,6 @@ namespace Lab05
             // 
             // cmdTurkish
             // 
-            this.cmdTurkish.CheckOnClick = true;
             this.cmdTurkish.Name = "cmdTurkish";
             resources.ApplyResources(this.cmdTurkish, "cmdTurkish");
             this.cmdTurkish.Click += new System.EventHandler(this.CmdTurkish_Click);
@@ -252,6 +250,7 @@ namespace Lab05
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuBar);
+            this.DoubleBuffered = true;
             this.KeyPreview = true;
             this.Name = "MainWindow";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
