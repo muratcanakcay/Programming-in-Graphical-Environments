@@ -41,8 +41,8 @@ namespace Lab05
             this.radioLeft = new System.Windows.Forms.RadioButton();
             this.addTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonAddTextCancel = new System.Windows.Forms.Button();
             this.buttonAddTextOK = new System.Windows.Forms.Button();
+            this.buttonAddTextCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -145,13 +145,6 @@ namespace Lab05
             this.tableLayoutPanel4.Controls.Add(this.buttonAddTextCancel, 1, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
-            // buttonAddTextCancel
-            // 
-            resources.ApplyResources(this.buttonAddTextCancel, "buttonAddTextCancel");
-            this.buttonAddTextCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonAddTextCancel.Name = "buttonAddTextCancel";
-            this.buttonAddTextCancel.UseVisualStyleBackColor = true;
-            // 
             // buttonAddTextOK
             // 
             resources.ApplyResources(this.buttonAddTextOK, "buttonAddTextOK");
@@ -159,6 +152,13 @@ namespace Lab05
             this.buttonAddTextOK.Name = "buttonAddTextOK";
             this.buttonAddTextOK.UseVisualStyleBackColor = true;
             this.buttonAddTextOK.Click += new System.EventHandler(this.buttonAddTextOK_Click);
+            // 
+            // buttonAddTextCancel
+            // 
+            resources.ApplyResources(this.buttonAddTextCancel, "buttonAddTextCancel");
+            this.buttonAddTextCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonAddTextCancel.Name = "buttonAddTextCancel";
+            this.buttonAddTextCancel.UseVisualStyleBackColor = true;
             // 
             // AddTextDialog
             // 

@@ -57,270 +57,198 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;okButtonNewDialog.Name" xml:space="preserve">
-    <value>okButtonNewDialog</value>
-  </data>
-  <data name="&gt;&gt;newHeight.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;heightLabelNewDialog.Name" xml:space="preserve">
-    <value>heightLabelNewDialog</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
   </data>
   <assembly alias="System.Private.CoreLib" name="System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
-  <data name="widthLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="spineWidthLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;okButtonNewDialog.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;newSpineWidth.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;widthLabelNewDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="newHeight.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>4</value>
+  <data name="newWidth.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>3</value>
   </data>
   <assembly alias="System.Drawing.Primitives" name="System.Drawing.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="heightLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>111, 52</value>
+  <data name="cancelButtonNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>138, 172</value>
   </data>
-  <data name="newSpineWidth.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>129, 118</value>
-  </data>
-  <data name="&gt;&gt;newWidth.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;spineWidthLabelNewDialog.Name" xml:space="preserve">
-    <value>spineWidthLabelNewDialog</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="newSpineWidth.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>92, 23</value>
-  </data>
-  <data name="widthLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="cancelButtonNewDialog" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="widthLabelNewDialog" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="heightLabelNewDialog" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="spineWidthLabelNewDialog" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="newWidth" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="newHeight" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="newSpineWidth" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="okButtonNewDialog" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>New Cover...</value>
-  </data>
-  <data name="&gt;&gt;newHeight.Name" xml:space="preserve">
-    <value>newHeight</value>
-  </data>
-  <data name="&gt;&gt;spineWidthLabelNewDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;widthLabelNewDialog.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>250, 250</value>
-  </data>
-  <data name="heightLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 52</value>
-  </data>
-  <data name="&gt;&gt;cancelButtonNewDialog.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;newWidth.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;heightLabelNewDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="cancelButtonNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="&gt;&gt;heightLabelNewDialog.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;newWidth.Name" xml:space="preserve">
-    <value>newWidth</value>
-  </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>250, 250</value>
-  </data>
-  <data name="okButtonNewDialog.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="widthLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
-  </data>
-  <data name="widthLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>111, 52</value>
-  </data>
-  <data name="&gt;&gt;cancelButtonNewDialog.Name" xml:space="preserve">
-    <value>cancelButtonNewDialog</value>
-  </data>
-  <data name="&gt;&gt;newSpineWidth.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="newHeight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="&gt;&gt;spineWidthLabelNewDialog.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="newSpineWidth.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="cancelButtonNewDialog.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;okButtonNewDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="heightLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="widthLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 0</value>
   </data>
   <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
   <data name="heightLabelNewDialog.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
     <value>MiddleCenter</value>
   </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, System.Private.CoreLib">
-    <value>4</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>New Cover...</value>
   </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>0, 0</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing.Primitives">
+    <value>7, 15</value>
   </data>
-  <data name="&gt;&gt;spineWidthLabelNewDialog.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="okButtonNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>21, 172</value>
-  </data>
-  <data name="&gt;&gt;okButtonNewDialog.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="heightLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
-  </data>
-  <data name="widthLabelNewDialog.Text" xml:space="preserve">
-    <value>Width</value>
-  </data>
-  <data name="&gt;&gt;widthLabelNewDialog.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="widthLabelNewDialog.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="spineWidthLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>111, 52</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>NewDialog</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>234, 211</value>
-  </data>
-  <data name="widthLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 0</value>
-  </data>
-  <data name="spineWidthLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
-  </data>
-  <data name="spineWidthLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
-  </data>
-  <data name="spineWidthLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 104</value>
-  </data>
-  <data name="newWidth.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="&gt;&gt;newWidth.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;cancelButtonNewDialog.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;newHeight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="newWidth.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+  <data name="newHeight.Size" type="System.Drawing.Size, System.Drawing.Primitives">
     <value>92, 23</value>
   </data>
   <data name="&gt;&gt;heightLabelNewDialog.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
   </data>
-  <data name="okButtonNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterParent</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>234, 211</value>
-  </data>
-  <data name="newWidth.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>3</value>
-  </data>
-  <data name="heightLabelNewDialog.Text" xml:space="preserve">
-    <value>Height</value>
-  </data>
-  <data name="cancelButtonNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>138, 172</value>
-  </data>
-  <data name="newSpineWidth.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="&gt;&gt;newSpineWidth.Name" xml:space="preserve">
-    <value>newSpineWidth</value>
-  </data>
-  <data name="newWidth.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>129, 14</value>
-  </data>
-  <data name="okButtonNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>75, 23</value>
-  </data>
-  <data name="newHeight.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>92, 23</value>
-  </data>
-  <data name="okButtonNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>6</value>
-  </data>
-  <data name="spineWidthLabelNewDialog.Text" xml:space="preserve">
-    <value>Spine Width</value>
-  </data>
-  <data name="&gt;&gt;newSpineWidth.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;cancelButtonNewDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="heightLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="cancelButtonNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
     <value>7</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing.Primitives">
-    <value>7, 15</value>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>234, 211</value>
+  </data>
+  <data name="okButtonNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>21, 172</value>
+  </data>
+  <data name="&gt;&gt;newWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="okButtonNewDialog.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="okButtonNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="newSpineWidth.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>92, 23</value>
+  </data>
+  <data name="&gt;&gt;cancelButtonNewDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="newSpineWidth.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>129, 118</value>
+  </data>
+  <data name="&gt;&gt;newSpineWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>250, 250</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>NewDialog</value>
+  </data>
+  <data name="&gt;&gt;newHeight.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="heightLabelNewDialog.Text" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="okButtonNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>75, 23</value>
+  </data>
+  <data name="widthLabelNewDialog.Text" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="cancelButtonNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;newSpineWidth.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;widthLabelNewDialog.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="newHeight.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;cancelButtonNewDialog.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;newWidth.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;okButtonNewDialog.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="widthLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 104</value>
+  </data>
+  <data name="newSpineWidth.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cancelButtonNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>75, 23</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, System.Private.CoreLib">
     <value>2</value>
+  </data>
+  <data name="newHeight.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>129, 66</value>
+  </data>
+  <data name="&gt;&gt;spineWidthLabelNewDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="heightLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;okButtonNewDialog.Name" xml:space="preserve">
+    <value>okButtonNewDialog</value>
+  </data>
+  <data name="&gt;&gt;cancelButtonNewDialog.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.Text" xml:space="preserve">
+    <value>Spine Width</value>
+  </data>
+  <data name="&gt;&gt;heightLabelNewDialog.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;newHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>250, 250</value>
+  </data>
+  <data name="&gt;&gt;spineWidthLabelNewDialog.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>111, 52</value>
+  </data>
+  <data name="widthLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;newSpineWidth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;newWidth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="okButtonNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>6</value>
+  </data>
+  <data name="heightLabelNewDialog.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 52</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>234, 211</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="heightLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>111, 52</value>
+  </data>
+  <data name="widthLabelNewDialog.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;spineWidthLabelNewDialog.Name" xml:space="preserve">
+    <value>spineWidthLabelNewDialog</value>
   </data>
   <data name="&gt;&gt;newHeight.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -328,25 +256,97 @@
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, System.Private.CoreLib">
     <value>0</value>
   </data>
-  <data name="newHeight.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>129, 66</value>
+  <data name="&gt;&gt;spineWidthLabelNewDialog.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="cancelButtonNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>75, 23</value>
+  <data name="widthLabelNewDialog.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
   </data>
-  <data name="heightLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
+  <data name="newSpineWidth.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="newWidth.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>92, 23</value>
+  </data>
+  <data name="&gt;&gt;widthLabelNewDialog.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;widthLabelNewDialog.Name" xml:space="preserve">
     <value>widthLabelNewDialog</value>
   </data>
-  <data name="spineWidthLabelNewDialog.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
-    <value>MiddleCenter</value>
+  <data name="cancelButtonNewDialog.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
-    <value>tr-TR</value>
-  </metadata>
+  <data name="widthLabelNewDialog.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>111, 52</value>
+  </data>
+  <data name="&gt;&gt;newWidth.Name" xml:space="preserve">
+    <value>newWidth</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, System.Private.CoreLib">
+    <value>4</value>
+  </data>
+  <data name="newHeight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="newWidth.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>129, 14</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="cancelButtonNewDialog" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="widthLabelNewDialog" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="heightLabelNewDialog" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="spineWidthLabelNewDialog" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="newWidth" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="newHeight" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="newSpineWidth" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="okButtonNewDialog" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;newHeight.Name" xml:space="preserve">
+    <value>newHeight</value>
+  </data>
+  <data name="heightLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="newWidth.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cancelButtonNewDialog.Name" xml:space="preserve">
+    <value>cancelButtonNewDialog</value>
+  </data>
+  <data name="&gt;&gt;okButtonNewDialog.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;widthLabelNewDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;heightLabelNewDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="spineWidthLabelNewDialog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;okButtonNewDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;heightLabelNewDialog.Name" xml:space="preserve">
+    <value>heightLabelNewDialog</value>
+  </data>
+  <data name="&gt;&gt;newSpineWidth.Name" xml:space="preserve">
+    <value>newSpineWidth</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>tr-TR</value>
   </metadata>
 </root>

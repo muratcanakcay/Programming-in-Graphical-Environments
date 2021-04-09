@@ -6,12 +6,12 @@ namespace Lab05
     public class Painter  // singleton
     {
         private static Painter Instance { get; set; } = null;
-        
+
         private bool addText = false;
         private bool moveText = false;
         private int selectedText = -1;
         private readonly System.Text.RegularExpressions.Regex sWhitespace = new System.Text.RegularExpressions.Regex(@"\s+");
-                
+
         private Book Book { get; }
         private Point CanvasCenter { get; set; }
         private Point CursorStartLoc { get; set; }

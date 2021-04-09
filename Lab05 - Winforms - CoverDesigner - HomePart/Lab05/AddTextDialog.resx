@@ -57,428 +57,428 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <assembly alias="System.Private.CoreLib" name="System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" />
-  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
-  </data>
-  <assembly alias="System.Drawing.Primitives" name="System.Drawing.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>384, 281</value>
-  </data>
-  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>378, 43</value>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="buttonAddTextOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>378, 92</value>
-  </data>
-  <data name="buttonAddTextCancel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>75, 23</value>
-  </data>
-  <data name="labelFontSize.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;addTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;alignmentBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;radioCenter.Parent" xml:space="preserve">
-    <value>alignmentBox</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="buttonAddTextCancel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>57, 10</value>
-  </data>
-  <data name="labelFontSize.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
-  </data>
-  <data name="alignmentBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="radioRight.Text" xml:space="preserve">
-    <value>Sağ</value>
-  </data>
-  <data name="addTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="radioLeft.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>41, 19</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Name" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="radioCenter.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>7, 40</value>
-  </data>
-  <data name="numericUpDownFontSize.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>86, 23</value>
-  </data>
-  <data name="buttonAddTextOK.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>246, 10</value>
-  </data>
-  <data name="&gt;&gt;labelFontSize.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="radioRight.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="numericUpDownFontSize.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>94, 31</value>
-  </data>
-  <data name="radioCenter.Text" xml:space="preserve">
-    <value>Orta</value>
-  </data>
   <data name="radioCenter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>400, 320</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Text Settings...</value>
   </data>
-  <data name="&gt;&gt;radioLeft.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;numericUpDownFontSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="tableLayoutPanel3.RowCount" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="buttonAddTextOK" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="buttonAddTextCancel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="&gt;&gt;buttonAddTextOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Drawing.Primitives" name="System.Drawing.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing.Primitives">
+    <value>7, 15</value>
   </data>
-  <data name="addTextBox.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
+  <data name="&gt;&gt;radioRight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="labelFontSize.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>85, 86</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="addTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownFontSize.Name" xml:space="preserve">
-    <value>numericUpDownFontSize</value>
-  </data>
-  <data name="&gt;&gt;radioLeft.Parent" xml:space="preserve">
-    <value>alignmentBox</value>
+  <data name="buttonAddTextCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
   <data name="labelFontSize.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing.Common">
     <value>MiddleCenter</value>
   </data>
-  <data name="&gt;&gt;labelFontSize.Name" xml:space="preserve">
-    <value>labelFontSize</value>
-  </data>
-  <data name="labelFontSize.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 0</value>
-  </data>
-  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>183, 86</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextOK.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;radioRight.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownFontSize.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="radioRight.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>7, 60</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, System.Private.CoreLib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
-  </data>
-  <data name="&gt;&gt;alignmentBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;radioRight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterParent</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextOK.Name" xml:space="preserve">
-    <value>buttonAddTextOK</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownFontSize.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="addTextBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>378, 128</value>
-  </data>
-  <data name="&gt;&gt;addTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="buttonAddTextOK.Text" xml:space="preserve">
-    <value>Tamam</value>
-  </data>
-  <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelFontSize" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="numericUpDownFontSize" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;labelFontSize.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tableLayoutPanel3.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
-  </data>
-  <data name="alignmentBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>183, 86</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextCancel.Name" xml:space="preserve">
-    <value>buttonAddTextCancel</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="radioRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="radioLeft.Text" xml:space="preserve">
-    <value>Sol</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="radioCenter.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>48, 19</value>
-  </data>
-  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>400, 320</value>
-  </data>
-  <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="radioRight.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>44, 19</value>
-  </data>
-  <data name="&gt;&gt;alignmentBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>AddTextDialog</value>
-  </data>
-  <data name="alignmentBox.Text" xml:space="preserve">
-    <value>Metin Hizası</value>
-  </data>
-  <data name="&gt;&gt;radioCenter.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="radioLeft.AutoSize" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing.Primitives">
     <value>384, 281</value>
   </data>
-  <data name="labelFontSize.Text" xml:space="preserve">
-    <value>Yazıtipi Boyutu</value>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>378, 92</value>
   </data>
-  <data name="&gt;&gt;radioRight.Name" xml:space="preserve">
-    <value>radioRight</value>
+  <data name="alignmentBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>183, 86</value>
   </data>
-  <data name="&gt;&gt;labelFontSize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="labelFontSize.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 0</value>
   </data>
-  <data name="addTextBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 101</value>
-  </data>
-  <data name="addTextBox.Multiline" type="System.Boolean, System.Private.CoreLib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel4.RowCount" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;alignmentBox.Name" xml:space="preserve">
-    <value>alignmentBox</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownFontSize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="buttonAddTextOK.Size" type="System.Drawing.Size, System.Drawing.Primitives">
-    <value>75, 23</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Metin Ayarları...</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel3" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="alignmentBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="radioRight.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>6</value>
-  </data>
-  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="alignmentBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="alignmentBox.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
+  <data name="alignmentBox.Text" xml:space="preserve">
+    <value>Text Alignment</value>
   </data>
-  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, System.Private.CoreLib">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;addTextBox.Name" xml:space="preserve">
-    <value>addTextBox</value>
-  </data>
-  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 235</value>
+  <data name="radioRight.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
   </data>
   <data name="radioCenter.AutoSize" type="System.Boolean, System.Private.CoreLib">
     <value>True</value>
   </data>
-  <data name="buttonAddTextOK.TabIndex" type="System.Int32, System.Private.CoreLib">
+  <data name="radioCenter.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextOK.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelFontSize.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>85, 86</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>400, 320</value>
+  </data>
+  <data name="numericUpDownFontSize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AddTextDialog</value>
+  </data>
+  <data name="&gt;&gt;radioLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="buttonAddTextCancel.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>75, 23</value>
+  </data>
+  <data name="addTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="&gt;&gt;labelFontSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericUpDownFontSize.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="radioLeft.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;addTextBox.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;addTextBox.Name" xml:space="preserve">
+    <value>addTextBox</value>
+  </data>
+  <data name="alignmentBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>192, 3</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioCenter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioCenter.Parent" xml:space="preserve">
+    <value>alignmentBox</value>
+  </data>
+  <data name="labelFontSize.Text" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="radioCenter.Text" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="buttonAddTextCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="radioRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;alignmentBox.Name" xml:space="preserve">
+    <value>alignmentBox</value>
+  </data>
+  <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="numericUpDownFontSize.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>86, 23</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextCancel.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelFontSize" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="numericUpDownFontSize" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="labelFontSize.AutoSize" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>400, 320</value>
+  </data>
+  <data name="buttonAddTextOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="numericUpDownFontSize.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>94, 31</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextCancel.Name" xml:space="preserve">
+    <value>buttonAddTextCancel</value>
+  </data>
+  <data name="&gt;&gt;labelFontSize.Parent" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;alignmentBox.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="addTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="alignmentBox.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioCenter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;radioLeft.Parent" xml:space="preserve">
+    <value>alignmentBox</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="radioCenter.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>7, 40</value>
+  </data>
+  <data name="addTextBox.Multiline" type="System.Boolean, System.Private.CoreLib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="buttonAddTextCancel.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>246, 10</value>
+  </data>
+  <data name="radioRight.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;radioLeft.Name" xml:space="preserve">
+    <value>radioLeft</value>
+  </data>
+  <data name="radioCenter.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>60, 19</value>
+  </data>
+  <data name="buttonAddTextOK.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>57, 10</value>
+  </data>
+  <data name="&gt;&gt;radioLeft.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;numericUpDownFontSize.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="numericUpDownFontSize.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>3</value>
+  </data>
+  <data name="radioLeft.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>7, 20</value>
+  </data>
+  <data name="labelFontSize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="radioLeft.Text" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;radioRight.Name" xml:space="preserve">
+    <value>radioRight</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 235</value>
+  </data>
+  <data name="&gt;&gt;alignmentBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="radioRight.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>53, 19</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>384, 281</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="buttonAddTextOK.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>75, 23</value>
+  </data>
+  <data name="&gt;&gt;addTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioCenter.Name" xml:space="preserve">
+    <value>radioCenter</value>
+  </data>
+  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>183, 86</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Name" xml:space="preserve">
+    <value>tableLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="labelFontSize.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextOK.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;addTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="addTextBox.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>378, 128</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;numericUpDownFontSize.Name" xml:space="preserve">
+    <value>numericUpDownFontSize</value>
+  </data>
+  <data name="radioRight.Text" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="buttonAddTextOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, System.Private.CoreLib">
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing.Primitives">
     <value>0, 0</value>
   </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;radioRight.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="numericUpDownFontSize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
   <data name="tableLayoutPanel2.RowCount" type="System.Int32, System.Private.CoreLib">
     <value>1</value>
   </data>
-  <data name="buttonAddTextCancel.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
+  <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="radioLeft.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>7, 20</value>
-  </data>
-  <data name="buttonAddTextCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="&gt;&gt;addTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;radioLeft.Name" xml:space="preserve">
-    <value>radioLeft</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextCancel.Parent" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
-  </data>
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, System.Private.CoreLib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextOK.Parent" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
-  </data>
-  <data name="&gt;&gt;radioLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="radioCenter.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>5</value>
-  </data>
-  <data name="buttonAddTextCancel.Text" xml:space="preserve">
-    <value>İptal</value>
-  </data>
-  <data name="&gt;&gt;radioCenter.Name" xml:space="preserve">
-    <value>radioCenter</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="addTextBox" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel4" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,35,Percent,48,Percent,17" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;buttonAddTextCancel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="alignmentBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
-    <value>192, 3</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioRight.Parent" xml:space="preserve">
-    <value>alignmentBox</value>
+  <data name="addTextBox.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 101</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="labelFontSize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="buttonAddTextCancel.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
   </data>
-  <data name="numericUpDownFontSize.TabIndex" type="System.Int32, System.Private.CoreLib">
-    <value>3</value>
-  </data>
-  <data name="labelFontSize.Font" type="System.Drawing.Font, System.Drawing.Common">
-    <value>Segoe UI, 10pt</value>
-  </data>
-  <data name="&gt;&gt;radioCenter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing.Primitives">
-    <value>7, 15</value>
-  </data>
-  <data name="buttonAddTextOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;buttonAddTextCancel.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="radioLeft.TabIndex" type="System.Int32, System.Private.CoreLib">
     <value>4</value>
   </data>
-  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="buttonAddTextOK" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="buttonAddTextCancel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 3</value>
   </data>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
-    <value>tr-TR</value>
-  </metadata>
+  <data name="tableLayoutPanel3.RowCount" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>378, 43</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, System.Private.CoreLib">
+    <value>3</value>
+  </data>
+  <data name="buttonAddTextOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;alignmentBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>3, 3</value>
+  </data>
+  <data name="tableLayoutPanel4.RowCount" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="buttonAddTextOK.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>2</value>
+  </data>
+  <data name="radioLeft.Size" type="System.Drawing.Size, System.Drawing.Primitives">
+    <value>45, 19</value>
+  </data>
+  <data name="&gt;&gt;radioRight.Parent" xml:space="preserve">
+    <value>alignmentBox</value>
+  </data>
+  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=5.0.4.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="labelFontSize.Font" type="System.Drawing.Font, System.Drawing.Common">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="radioRight.Location" type="System.Drawing.Point, System.Drawing.Primitives">
+    <value>7, 60</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="tableLayoutPanel3.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;labelFontSize.Name" xml:space="preserve">
+    <value>labelFontSize</value>
+  </data>
+  <data name="&gt;&gt;labelFontSize.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel3" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="alignmentBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="addTextBox" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel4" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,35,Percent,48,Percent,17" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="addTextBox.TabIndex" type="System.Int32, System.Private.CoreLib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;buttonAddTextOK.Name" xml:space="preserve">
+    <value>buttonAddTextOK</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>tr-TR</value>
   </metadata>
 </root>
