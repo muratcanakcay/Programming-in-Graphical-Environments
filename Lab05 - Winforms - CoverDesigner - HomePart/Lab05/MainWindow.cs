@@ -53,18 +53,18 @@ namespace Lab05
 
         private void CmdNew_Click(object sender, EventArgs e)
         {
-            using NewDialog newDialog = new NewDialog();
+            using var newDialog = new NewDialog();
             if (newDialog.ShowDialog() != DialogResult.OK) return;
 
             Book.CreateNewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
             Painter.SelectText(-1);
-            titleTextBox.Text = String.Empty;
-            authorTextBox.Text = String.Empty;
+            titleTextBox.Text = string.Empty;
+            authorTextBox.Text = string.Empty;
             Canvas.Refresh();
         }
         private void CmdOpen_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            using var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "XML Save File|*.xml";
 
             if (openFileDialog.ShowDialog() != DialogResult.OK || openFileDialog.FileName.Equals("")) return;
@@ -82,7 +82,7 @@ namespace Lab05
         }
         private void CmdSave_Click(object sender, EventArgs e)
         {
-            using SaveFileDialog saveFileDialog = new SaveFileDialog();
+            using var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "XML Save File|*.xml";      // how to localize these?
 
             if (saveFileDialog.ShowDialog() != DialogResult.OK || saveFileDialog.FileName.Equals("")) return;
@@ -121,18 +121,18 @@ namespace Lab05
 
         private void AddTextButton_Click(object sender, EventArgs e)
         {
-            using AddTextDialog addTextDialog = new AddTextDialog();
+            using var addTextDialog = new AddTextDialog();
             if (addTextDialog.ShowDialog() != DialogResult.OK) return;
             
             PreparedText = addTextDialog.PreparedText;
-            if (addTextDialog.PreparedText.text != String.Empty) Painter.SetAddTextOn();
+            if (addTextDialog.PreparedText.text != string.Empty) Painter.SetAddTextOn();
         }
 
         private void Canvas_DoubleClick(object sender, MouseEventArgs e)
         {
-            if (!Painter.FindText(e.Location, out TextT foundText, out int idx)) return;
+            if (!Painter.FindText(e.Location, out var foundText, out var idx)) return;
 
-            using AddTextDialog modifyTextDialog = new AddTextDialog();
+            using var modifyTextDialog = new AddTextDialog();
             modifyTextDialog.ImportText(foundText);
             
             if (modifyTextDialog.ShowDialog() != DialogResult.OK) return;
@@ -168,10 +168,7 @@ namespace Lab05
         {
             if (e.Button != MouseButtons.Right) return;
             
-            if (Painter.FindText(e.Location, out TextT foundText, out int idx))
-            {
-                Painter.SelectText(idx);
-            }
+            if (Painter.FindText(e.Location, out var foundText, out var idx)) Painter.SelectText(idx);
             else Painter.SelectText(-1);
 
             Canvas.Refresh();
