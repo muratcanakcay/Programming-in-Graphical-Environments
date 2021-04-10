@@ -14,7 +14,7 @@ namespace Lab05
             InitializeComponent();
         }
 
-        private void okButtonNewDialog_Click(object sender, EventArgs e)
+        private void OkButtonNewDialog_Click(object sender, EventArgs e)
         {
             NewWidth = (int)newWidth.Value;
             NewHeight = (int)newHeight.Value;

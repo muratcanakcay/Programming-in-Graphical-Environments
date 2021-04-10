@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Lab05
 {
-    public struct text_t
+    public struct TextT
     {
         public string text;
         public int xOff;
@@ -17,7 +17,7 @@ namespace Lab05
         public StringFormat format;
     }
 
-    public struct bookData_t
+    public struct BookDataT
     {
         public int bookWidth;
         public int bookHeight;
@@ -26,32 +26,23 @@ namespace Lab05
         public int backgroundColor;
         public string title;
         public string author;
-        public List<text_t> addedTexts;
+        public List<TextT> addedTexts;
     }
     
     public class Book // singleton
     {
         private static Book Instance { get; set; }
-
-        private int bookWidth;
-        private int bookHeight;
-        private int spineWidth;
-        private Color textColor;
-        private Color backgroundColor;
         private readonly Color defaultTextColor = Color.Black;
         private readonly Color defaultBackgroundColor = Color.MistyRose;
-        private string title;
-        private string author;
-        private List<text_t> addedTexts;
 
-        public int BookWidth { get => bookWidth; private set { bookWidth = value; } } 
-        public int BookHeight { get => bookHeight; private set { bookHeight = value; } }
-        public int SpineWidth { get => spineWidth; private set { spineWidth = value; } } 
-        public Color TextColor { get => textColor; private set { textColor = value; } }
-        public Color BackgroundColor { get => backgroundColor; private set { backgroundColor = value; } }
-        public string Title { get => title; private set => title = value; }
-        public string Author { get => author; private set => author = value; }
-        public List<text_t> AddedTexts { get => addedTexts; private set { addedTexts = value; } }
+        public int BookWidth { get; private set; } 
+        public int BookHeight { get; private set; }
+        public int SpineWidth { get; private set; } 
+        public Color TextColor { get; private set; }
+        public Color BackgroundColor { get; private set; }
+        public string Title { get; private set; }
+        public string Author { get; private set; }
+        public List<TextT> AddedTexts { get; private set; }
 
         //--------------
 
@@ -62,11 +53,11 @@ namespace Lab05
             SpineWidth = 30;
             TextColor = defaultTextColor;
             BackgroundColor = defaultBackgroundColor;
-            AddedTexts = new();
+            AddedTexts = new List<TextT>();
         }
         public static Book GetBookInstance()
         {
-            if (Instance == null) Instance = new Book();
+            Instance ??= new Book();
             return Instance;
         }
 
@@ -77,8 +68,8 @@ namespace Lab05
             SpineWidth = newSpineWidth;
             TextColor = defaultTextColor;
             BackgroundColor = defaultBackgroundColor;
-            Title = String.Empty;
-            Author = String.Empty;
+            Title = string.Empty;
+            Author = string.Empty;
             AddedTexts.Clear();
         }
         public void ChangeCoverTexts(string tag, string newText)
@@ -93,48 +84,46 @@ namespace Lab05
         }
         public void SaveBookToFile(string filename)
         {
-            using (FileStream fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
+            using var fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+            var bookData = new BookDataT
             {
-                bookData_t bookData = new();
+                title = Title,
+                author = Author,
+                bookWidth = BookWidth,
+                bookHeight = BookHeight,
+                spineWidth = SpineWidth,
+                textColor = TextColor.ToArgb(),
+                backgroundColor = BackgroundColor.ToArgb(),
+                addedTexts = AddedTexts
+            };
 
-                bookData.title = title;
-                bookData.author = author;
-                bookData.bookWidth = bookWidth;
-                bookData.bookHeight = bookHeight;
-                bookData.spineWidth = spineWidth;
-                bookData.textColor = textColor.ToArgb();
-                bookData.backgroundColor = backgroundColor.ToArgb();
-                bookData.addedTexts = addedTexts;
-
-                XmlSerializer s = new XmlSerializer(typeof(bookData_t));
-                s.Serialize(fileStream, bookData);
-            }
+            var s = new XmlSerializer(typeof(BookDataT));
+            s.Serialize(fileStream, bookData);
         }
         public void LoadBookFromFile(string filename, out bool bookLoaded)
         {
-            using (FileStream fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            
+            using var fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var s = new XmlSerializer(typeof(BookDataT));
+
+            try
             {
-                XmlSerializer s = new XmlSerializer(typeof(bookData_t));
+                var loadedBook = (BookDataT)s.Deserialize(fileStream); // should I also try-catch ArgumentNullException here ?
 
-                try
-                {
-                    bookData_t loadedBook = (bookData_t)s.Deserialize(fileStream);
+                Title = loadedBook.title;
+                Author = loadedBook.author;
+                BookWidth = loadedBook.bookWidth;
+                BookHeight = loadedBook.bookHeight;
+                SpineWidth = loadedBook.spineWidth;
+                TextColor = Color.FromArgb(loadedBook.textColor);
+                BackgroundColor = Color.FromArgb(loadedBook.backgroundColor);
+                AddedTexts = loadedBook.addedTexts;
 
-                    title = loadedBook.title;
-                    author = loadedBook.author;
-                    bookWidth = loadedBook.bookWidth;
-                    bookHeight = loadedBook.bookHeight;
-                    spineWidth = loadedBook.spineWidth;
-                    textColor = Color.FromArgb(loadedBook.textColor);
-                    backgroundColor = Color.FromArgb(loadedBook.backgroundColor);
-                    addedTexts = loadedBook.addedTexts;
-
-                    bookLoaded = true;
-                }
-                catch (InvalidOperationException)
-                {
-                    bookLoaded = false;
-                }
+                bookLoaded = true;
+            }
+            catch (InvalidOperationException)
+            {
+                bookLoaded = false;
             }
         }
     }

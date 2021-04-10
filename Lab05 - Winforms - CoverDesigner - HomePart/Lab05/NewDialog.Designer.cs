@@ -146,7 +146,7 @@ namespace Lab05
             this.okButtonNewDialog.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButtonNewDialog.Name = "okButtonNewDialog";
             this.okButtonNewDialog.UseVisualStyleBackColor = true;
-            this.okButtonNewDialog.Click += new System.EventHandler(this.okButtonNewDialog_Click);
+            this.okButtonNewDialog.Click += new System.EventHandler(this.OkButtonNewDialog_Click);
             // 
             // NewDialog
             // 

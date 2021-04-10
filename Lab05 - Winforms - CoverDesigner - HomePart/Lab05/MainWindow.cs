@@ -7,9 +7,9 @@ namespace Lab05
 {
     public partial class MainWindow : Form
     {
-        private Book Book { get; set; }
-        private Painter Painter { get; set; }
-        private text_t PreparedText { get; set; }
+        private Book Book { get; }
+        private Painter Painter { get; }
+        private TextT PreparedText { get; set; }
         private Graphics g { get; set; }
 
         public MainWindow()
@@ -25,7 +25,7 @@ namespace Lab05
         
         private void CoverTextChanged(object sender, EventArgs e)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             string tag = box.Tag.ToString();
             Book.ChangeCoverTexts(tag, box.Text);
             Painter.ProcessTexts(g, tag);
@@ -33,13 +33,13 @@ namespace Lab05
         }
         private void ColorsChanged(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                Button button = (Button)sender;
-                Book.ChangeBookColors(button.Tag.ToString(), colorDialog.Color);
-                Canvas.Refresh();
-            }
+            var colorDialog = new ColorDialog();
+            if (colorDialog.ShowDialog() != DialogResult.OK) return;
+            
+            var button = (Button)sender;
+            Book.ChangeBookColors(button.Tag.ToString(), colorDialog.Color);
+            Canvas.Refresh();
+            
         }
         private void Canvas_SizeChanged(object sender, EventArgs e)
         {
@@ -53,74 +53,64 @@ namespace Lab05
 
         private void CmdNew_Click(object sender, EventArgs e)
         {
-            using (NewDialog newDialog = new NewDialog())
-            {
-                if (newDialog.ShowDialog() == DialogResult.OK)
-                {
-                    Book.CreateNewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
-                    Painter.SelectText(-1);
-                    titleTextBox.Text = String.Empty;
-                    authorTextBox.Text = String.Empty;
-                    Canvas.Refresh();
-                }
-            }
+            using NewDialog newDialog = new NewDialog();
+            if (newDialog.ShowDialog() != DialogResult.OK) return;
+
+            Book.CreateNewBook(newDialog.NewWidth, newDialog.NewHeight, newDialog.NewSpineWidth);
+            Painter.SelectText(-1);
+            titleTextBox.Text = String.Empty;
+            authorTextBox.Text = String.Empty;
+            Canvas.Refresh();
         }
         private void CmdOpen_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            { 
-                openFileDialog.Filter = "XML Save File|*.xml";
+            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML Save File|*.xml";
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK && !openFileDialog.FileName.Equals(""))
-                {
-                    Book.LoadBookFromFile(openFileDialog.FileName, out bool bookLoaded);
+            if (openFileDialog.ShowDialog() != DialogResult.OK || openFileDialog.FileName.Equals("")) return;
+            
+            Book.LoadBookFromFile(openFileDialog.FileName, out bool bookLoaded);
 
-                    if (bookLoaded)
-                    {
-                        titleTextBox.Text = Book.Title;
-                        authorTextBox.Text = Book.Author;
-                        Canvas.Refresh();
-                    }
-                    else MessageBox.Show("Error in file!", "Error!");
-                }
+            if (bookLoaded)
+            {
+                titleTextBox.Text = Book.Title;
+                authorTextBox.Text = Book.Author;
+                Canvas.Refresh();
             }
+            else MessageBox.Show("Error in file!", "Error!"); // how to localize these?
+            
         }
         private void CmdSave_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Filter = "XML Save File|*.xml";
+            using SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML Save File|*.xml";      // how to localize these?
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK && !saveFileDialog.FileName.Equals(""))
-                {
-                    Book.SaveBookToFile(saveFileDialog.FileName); 
-                }
-            }
+            if (saveFileDialog.ShowDialog() != DialogResult.OK || saveFileDialog.FileName.Equals("")) return;
+            
+            Book.SaveBookToFile(saveFileDialog.FileName);
+            
         }
         private void CmdEnglish_Click(object sender, EventArgs e)
         {
-            if (cmdTurkish.Checked)
-            {
-                ChangeLanguage(""); 
-                cmdTurkish.Checked = false;
-                cmdEnglish.Checked = true;
-            }
-
+            if (cmdEnglish.Checked) return;
+            
+            ChangeLanguage(""); 
+            cmdTurkish.Checked = false;
+            cmdEnglish.Checked = true;
         }
         private void CmdTurkish_Click(object sender, EventArgs e)
         {
-            if (cmdEnglish.Checked)
-            {
-                ChangeLanguage("tr-TR");                
-                cmdEnglish.Checked = false;
-                cmdTurkish.Checked = true;
-            }
+            if (cmdTurkish.Checked) return;
+            
+            ChangeLanguage("tr-TR");                
+            cmdEnglish.Checked = false;
+            cmdTurkish.Checked = true;
         }
         private void ChangeLanguage(string language)
         {
             CultureInfo.CurrentUICulture = new CultureInfo(language);
-            Size oldSize = Size;
-            Point oldLocation = Location;
+            var oldSize = Size;
+            var oldLocation = Location;
             Controls.Clear();
             InitializeComponent();
             Size = oldSize;
@@ -131,35 +121,29 @@ namespace Lab05
 
         private void AddTextButton_Click(object sender, EventArgs e)
         {
-            using (AddTextDialog addTextDialog = new AddTextDialog())
-            {
-                if (addTextDialog.ShowDialog() == DialogResult.OK)
-                {
-                    PreparedText = addTextDialog.PreparedText;
-                    if (addTextDialog.PreparedText.text != String.Empty) Painter.AddTextOn();
-                }
-            }
+            using AddTextDialog addTextDialog = new AddTextDialog();
+            if (addTextDialog.ShowDialog() != DialogResult.OK) return;
+            
+            PreparedText = addTextDialog.PreparedText;
+            if (addTextDialog.PreparedText.text != String.Empty) Painter.SetAddTextOn();
         }
 
         private void Canvas_DoubleClick(object sender, MouseEventArgs e)
         {
-            if (Painter.FindText(e.Location, out text_t foundText, out int idx))
-            {
-                using (AddTextDialog modifyTextDialog = new AddTextDialog())
-                {
-                    modifyTextDialog.ImportText(foundText);
-                    if (modifyTextDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        PreparedText = modifyTextDialog.PreparedText;
-                        Painter.ModifyOldText(g, idx, PreparedText);
-                        Canvas.Refresh();
-                    }
-                }
-            }
+            if (!Painter.FindText(e.Location, out TextT foundText, out int idx)) return;
+
+            using AddTextDialog modifyTextDialog = new AddTextDialog();
+            modifyTextDialog.ImportText(foundText);
+            
+            if (modifyTextDialog.ShowDialog() != DialogResult.OK) return;
+            
+            PreparedText = modifyTextDialog.PreparedText;
+            Painter.ModifyOldText(g, idx, PreparedText);
+            Canvas.Refresh();
         }
         private void Canvas_MouseEnter(object sender, EventArgs e)
         {
-            if (PreparedText.text != String.Empty && Painter.IsAddTextOn) Cursor = Cursors.Cross;
+            if (PreparedText.text != string.Empty && Painter.AddTextOn) Cursor = Cursors.Cross;
             else Cursor = Cursors.Arrow;
         }
         private void Canvas_MouseLeave(object sender, EventArgs e)
@@ -168,7 +152,7 @@ namespace Lab05
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Painter.IsAddTextOn && e.Button == MouseButtons.Left)
+            if (Painter.AddTextOn && e.Button == MouseButtons.Left)
             {
                 Painter.AddNewText(g, e.Location, PreparedText);
                 Cursor = Cursors.Arrow;
@@ -177,14 +161,14 @@ namespace Lab05
             else if (Painter.IsTextSelected && e.Button == MouseButtons.Middle)
             {
                 Painter.PrepareMoveText(e.Location);
-                Painter.MoveTextOn();
+                Painter.SetMoveTextOn();
             }
         }
         private void Canvas_Click(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
             
-            if (Painter.FindText(e.Location, out text_t foundText, out int idx))
+            if (Painter.FindText(e.Location, out TextT foundText, out int idx))
             {
                 Painter.SelectText(idx);
             }
@@ -196,24 +180,22 @@ namespace Lab05
         {
             if (e.Button == MouseButtons.Middle)
             {
-                Painter.MoveTextOff();
+                Painter.SetMoveTextOff();
             }
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Painter.IsMoveTextOn)
-            {
-                Painter.MoveSelectedText(e.Location);
-                Canvas.Refresh();
-            }
+            if (!Painter.MoveTextOn) return;
+            
+            Painter.MoveSelectedText(e.Location);
+            Canvas.Refresh();
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Painter.IsTextSelected && e.KeyCode == Keys.Delete)
-            {
-                Painter.DeleteSelectedText();
-                Canvas.Refresh();
-            }
+            if (!Painter.IsTextSelected || e.KeyCode != Keys.Delete) return;
+            
+            Painter.DeleteSelectedText();
+            Canvas.Refresh();
         }
     }    
 }

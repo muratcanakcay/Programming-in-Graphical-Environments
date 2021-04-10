@@ -6,23 +6,23 @@ namespace Lab05
 {
     public partial class AddTextDialog : Form
     {
-        public text_t PreparedText { get; set; }
-        public StringFormat format { get; set; }
+        public TextT PreparedText { get; set; }
+        public StringFormat Format { get; set; }
 
         public AddTextDialog()
         {
             InitializeComponent();
-            format = new();
-            format.Alignment = StringAlignment.Near;
+            Format = new();
+            Format.Alignment = StringAlignment.Near;
         }
 
-        public void ImportText(text_t importText)
+        public void ImportText(TextT importText)
         {
             addTextBox.Text = importText.text;
             numericUpDownFontSize.Value = importText.fontSize;
-            format = (StringFormat)importText.format.Clone();
+            Format = (StringFormat)importText.format.Clone();
 
-            switch (format.Alignment)
+            switch (Format.Alignment)
             {
                 case StringAlignment.Center:
                     addTextBox.TextAlign = HorizontalAlignment.Center;
@@ -43,22 +43,22 @@ namespace Lab05
             {
                 case "left":
                     addTextBox.TextAlign = HorizontalAlignment.Left;
-                    format.Alignment = StringAlignment.Near;
+                    Format.Alignment = StringAlignment.Near;
                     break;
                 case "center":
                     addTextBox.TextAlign = HorizontalAlignment.Center;
-                    format.Alignment = StringAlignment.Center;
+                    Format.Alignment = StringAlignment.Center;
                     break;
                 case "right":
                     addTextBox.TextAlign = HorizontalAlignment.Right;
-                    format.Alignment = StringAlignment.Far;
+                    Format.Alignment = StringAlignment.Far;
                     break;
             }
         }
 
         private void buttonAddTextOK_Click(object sender, EventArgs e)
         {
-            PreparedText = new text_t { text = addTextBox.Text, fontSize = (int)numericUpDownFontSize.Value, format = format };
+            PreparedText = new TextT { text = addTextBox.Text, fontSize = (int)numericUpDownFontSize.Value, format = Format };
         }
     }
 }
