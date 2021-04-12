@@ -26,7 +26,7 @@ namespace Lab05
         private void CoverTextChanged(object sender, EventArgs e)
         {
             var box = (TextBox)sender;
-            string tag = box.Tag.ToString();
+            var tag = box.Tag.ToString();
             Book.ChangeCoverTexts(tag, box.Text);
             Painter.ProcessTexts(g, tag);
             Canvas.Refresh();
@@ -111,11 +111,13 @@ namespace Lab05
             CultureInfo.CurrentUICulture = new CultureInfo(language);
             var oldSize = Size;
             var oldLocation = Location;
+            var (oldTitle, oldAuthor) = (titleTextBox.Text, (authorTextBox.Text));
             Controls.Clear();
             InitializeComponent();
             Size = oldSize;
             Location = oldLocation;
-            
+            (titleTextBox.Text, (authorTextBox.Text)) = (oldTitle, oldAuthor);
+
             g = Canvas.CreateGraphics();
         }       
 
@@ -175,10 +177,7 @@ namespace Lab05
         }
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
-            {
-                Painter.SetMoveTextOff();
-            }
+            if (e.Button == MouseButtons.Middle) Painter.SetMoveTextOff();
         }
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
