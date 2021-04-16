@@ -84,7 +84,8 @@ namespace Lab05
         }
         public void SaveBookToFile(string filename)
         {
-            using var fileStream = new FileStream($"{filename}", FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+            using FileStream fileStream = new FileStream($"{filename}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+        
             var bookData = new BookDataT
             {
                 title = Title,
@@ -99,6 +100,7 @@ namespace Lab05
 
             var s = new XmlSerializer(typeof(BookDataT));
             s.Serialize(fileStream, bookData);
+            
         }
         public void LoadBookFromFile(string filename, out bool bookLoaded)
         {

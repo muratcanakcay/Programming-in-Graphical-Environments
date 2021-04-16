@@ -117,8 +117,6 @@ namespace Lab05
             Size = oldSize;
             Location = oldLocation;
             (titleTextBox.Text, (authorTextBox.Text)) = (oldTitle, oldAuthor);
-
-            g = Canvas.CreateGraphics();
         }       
 
         private void AddTextButton_Click(object sender, EventArgs e)
