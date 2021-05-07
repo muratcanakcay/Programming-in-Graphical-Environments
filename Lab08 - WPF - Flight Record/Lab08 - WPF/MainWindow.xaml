@@ -1,0 +1,124 @@
+﻿<Window x:Class="Lab08___WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab08___WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    
+    <Window.Resources>
+        
+        <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}"/>
+
+        <Style x:Key="FlightListStyle" TargetType="{x:Type ListView}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+        
+        <Style x:Key="CrewListStyle" TargetType="{x:Type ListView}">
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        
+        <Style x:Key="BoldItalicTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+        
+        <local:timeConvert x:Key="timeConvert"/>
+        <local:nameConvert x:Key="nameConvert"/>
+        
+    </Window.Resources>
+    
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="2*" />
+            <ColumnDefinition Width ="3*" />
+            <ColumnDefinition Width ="3*" />
+        </Grid.ColumnDefinitions>
+        
+        <GroupBox Header ="Flight List" Grid.Column="0">
+            <ListView Name="FlightList" ItemsSource="{Binding}" Style="{StaticResource FlightListStyle}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Number}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        
+        <Grid Grid.Column="1">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="2*" />
+                <RowDefinition Height ="2*" />
+                <RowDefinition Height ="4*" />
+            </Grid.RowDefinitions>
+            
+            <GroupBox Header="Origin Airport" Grid.Row="0" DataContext="{Binding SelectedItem, ElementName=FlightList}">
+                <TextBlock Text="{Binding Origin}" Style="{StaticResource BoldItalicTextBlockStyle}"/>
+            </GroupBox>
+            
+            <GroupBox Header="Destination Airport" Grid.Row="1" DataContext="{Binding SelectedItem, ElementName=FlightList}">
+                <TextBlock Text="{Binding Destination}" Style="{StaticResource BoldItalicTextBlockStyle}"/>
+            </GroupBox>
+            
+            <GroupBox Header="Crew List" Grid.Row="2" DataContext="{Binding SelectedItem, ElementName=FlightList}">
+                
+                <ListView Name="CrewList" ItemsSource="{Binding Members}" Style="{StaticResource CrewListStyle}">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource nameConvert}">
+                                        <Binding Path="Name"/>
+                                        <Binding Path="Surname"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    
+                </ListView>
+            </GroupBox>
+        </Grid>
+        
+        <Grid Grid.Column="2">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="4*" />
+                <RowDefinition Height ="2*" />
+                <RowDefinition Height ="2*" />
+            </Grid.RowDefinitions>
+            
+            <GroupBox Header="Duration" Grid.Row="0" DataContext="{Binding SelectedItem, ElementName=FlightList}">
+                <TextBlock Text="{Binding Duration, Converter={StaticResource timeConvert}}" Style="{StaticResource TextBlockStyle}"/>
+            </GroupBox>
+            <GroupBox Header="Age" Grid.Row="1" DataContext="{Binding SelectedItem, ElementName=CrewList}">
+                <TextBlock Text="{Binding Age}" Style="{StaticResource TextBlockStyle}"/>
+            </GroupBox>
+            <GroupBox Header="Role" Grid.Row="2" DataContext="{Binding SelectedItem, ElementName=CrewList}">
+                <TextBlock Text="{Binding Role}" Style="{StaticResource TextBlockStyle}"/>
+            </GroupBox>
+            
+        </Grid>
+       
+    </Grid>
+</Window>

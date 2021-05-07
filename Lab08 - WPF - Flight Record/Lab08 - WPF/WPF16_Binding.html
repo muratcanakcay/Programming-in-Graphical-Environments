@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<title>Windows Presentation Foundation - Binding</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<h1>Flight Details Viewer</h1>
+<p>
+Your task is to create simple flight details viewer, that allows the user to view some of the basic information. It's laboratory task only (12pts). If any doubts according to task, please follow the sample application or ask your teacher.
+</p>
+<h2>Laboratory Part</h2>
+<ul>
+	<li><a href="WPF16_Binding.exe">Sample Application</a></li>
+	<li>Layout:
+		<ul>
+			<li>The application startup location is set to screen center.</li>
+			<li>Application's size is set and fixed at 600x350.</li>
+			<li>Application is divided into two areas.</li>
+			<ul>
+				<li>Left one containing list of flights.</li>
+				<li>Right one containing details about selected flight.</li>
+			</ul>
+		</ul>
+	</li>
+	<li>Input Data:
+		<ul>
+			<li>Data is given as a list inside your MainWindow class.</li>
+			<li>Required for the solution classes are located in Flights.cs file.</li>
+		</ul>
+	</li>
+	<li>Binding:
+		<ul>
+			<li>Use Binding for all elements and UI changes.</li>
+			<li>In C# you can only implement Converters.</li>
+			<li>No code-behind in C# is allowed. Except that which loads data.</li>
+		</ul>
+	</li>
+	<li>Converters:
+		<ul>
+			<li>Use converter to display duration of the flight as total minutes instead of timespan format.</li>
+			<li>Use converter to display full name of the crew member based on their name and surname.</li>
+		</ul>
+	</li>
+	<li>Styles:
+		<ul>
+			<li>Your application should use the same styling as sample application.
+				<ul>
+					<li>Use Bold and Italic font for Flights and Crew Lists and Airports.</li>
+					<li>Use Vertical and Horizontal text alignment for every text block in the application.</li>
+				</ul>
+			</li>
+			<li>Define at least one style to avoid repeating styling code.</li>
+		</ul>
+	</li>
+	<li>Hints:
+		<ul>
+			<li>GroupBox, ListView, TextBlock, IValueConverter, IMultiValueConverter, MultiBinding, DataContext with ElementName, StaticResource, DataTemplate.</li>
+		</ul>
+	</li>
+</ul>
+<ul>
+	<li>Points:
+	<ul>
+		<li>User Interface:
+			<ul>
+				<li>Left panel with list - <b>1p</b></li>
+				<li>Right panel with details - <b>2p</b></li>
+				<li>List horizontal content alignment - <b>1p</b></li>
+			</ul>
+		</li>
+		<li>Styles:
+			<ul>
+				<li>Styles definition and usage - <b>1p</b></li>
+			</ul>
+		</li>
+		<li>Binding:
+			<ul>
+				<li>C# defined data binding - <b>1p</b></li>
+				<li>Flight details binding - <b>1.5p</b></li>
+				<li>Crew details binding - <b>1.5p</b></li>
+			</ul>
+		</li>
+		<li>Converters:
+			<ul>
+				<li>Duration Converter C# - <b>1p</b></li>
+				<li>Full name Converter C# - <b>1p</b></li>
+				<li>Converters' XAML - <b>1p</b></li>
+			</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+
+</body>
+
+</html>
