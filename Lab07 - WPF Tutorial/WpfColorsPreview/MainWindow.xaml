@@ -29,6 +29,12 @@
                     </StackPanel >
                 </DataTemplate >
             </ListView.ItemTemplate >
+            
+            <ListView.ItemsPanel>
+            <ItemsPanelTemplate >
+                <WrapPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListView}}" />
+            </ItemsPanelTemplate >
+        </ListView.ItemsPanel >
         </ListView >
     </Grid>
 </Window>
