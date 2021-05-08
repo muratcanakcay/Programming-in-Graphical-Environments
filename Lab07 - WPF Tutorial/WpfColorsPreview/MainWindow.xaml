@@ -1,0 +1,34 @@
+﻿<Window x:Class="WpfColorsPreview.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfColorsPreview"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        Loaded =" Window_Loaded ">
+    <Window.Resources>
+        <local:ColorToBrushConverter x:Key ="colorToBrushConverter"/>
+    </Window.Resources >
+    
+    <Grid>
+        <ListView ItemsSource ="{ Binding }">
+            <ListView.ItemTemplate >
+                <DataTemplate >
+                    <StackPanel Orientation =" Vertical " Width =" 120 " Height =" 100 ">
+                        <Border Width ="60" Height ="60" 
+                                HorizontalAlignment =" Left "
+                                BorderBrush =" Black " 
+                                BorderThickness ="2">
+                            <Rectangle HorizontalAlignment =" Stretch " 
+                                       VerticalAlignment =" Stretch "
+                                       Fill ="{Binding Rgb, Converter={StaticResource colorToBrushConverter}}" />
+                        </Border >
+                        <TextBlock Text ="{Binding Name}" />
+                        <TextBlock Text ="{Binding RgbInfo}" />
+                    </StackPanel >
+                </DataTemplate >
+            </ListView.ItemTemplate >
+        </ListView >
+    </Grid>
+</Window>

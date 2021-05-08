@@ -81,7 +81,7 @@
                     <Binding ElementName ="greenSlider" Path = "Value" />
                     <Binding ElementName ="blueSlider" Path = "Value" />
                 </MultiBinding>
-            </Rectangle.Fill>
+            </Rectangle.Fill>            
         </Rectangle>
 
     </Grid>
