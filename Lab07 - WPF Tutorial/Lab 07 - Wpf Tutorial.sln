@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfColorPicker", "WpfColorP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfColorsPreview", "WpfColorsPreview\WpfColorsPreview.csproj", "{4C328AFF-13C0-4AE1-AD8D-1E808F5179A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf3DCube", "Wpf3DCube\Wpf3DCube.csproj", "{66B8CE0A-D9AC-4FB4-BEBB-530E678D4A6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4C328AFF-13C0-4AE1-AD8D-1E808F5179A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C328AFF-13C0-4AE1-AD8D-1E808F5179A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C328AFF-13C0-4AE1-AD8D-1E808F5179A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B8CE0A-D9AC-4FB4-BEBB-530E678D4A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B8CE0A-D9AC-4FB4-BEBB-530E678D4A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B8CE0A-D9AC-4FB4-BEBB-530E678D4A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B8CE0A-D9AC-4FB4-BEBB-530E678D4A6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
