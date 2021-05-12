@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,12 +26,13 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
     {
         private DispatcherTimer timer = new DispatcherTimer();
         private int tickCount = 0;
+        private ObservableCollection<UIElement> UIElements = new ObservableCollection<UIElement>();
         
         public MainWindow()
         {
             InitializeComponent();
 
-            this.DataContext = new List<RowData>{new RowData() { col1=50, col2=80, col3=100 } };
+            DataContext = new List<RowData>{new RowData() { col1=50, col2=80, col3=100 } };
 
             timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             timer.Tick += new EventHandler(Tick);
@@ -39,7 +41,7 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
 
         private void ExitButtonClicked(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 
@@ -64,15 +66,18 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
         private void ResetButtonClicked(object sender, RoutedEventArgs e)
         {
             timer.Stop();
+            tickCount = 0;
             progressBar.Value=0;
+            
+            //foreach(var element  in UIElements)
+                theCanvas.Children.Clear();
         }
 
         public void Tick(object sender, EventArgs e)
         {
             if(++tickCount > 101) return;
-            progressBar.Value++;
             
-            if (progressBar.Value == 100)
+            if (++progressBar.Value == 100)
             {
                 Ellipse myEllipse = new Ellipse();
                 myEllipse.Cursor = Cursors.Hand;
@@ -82,10 +87,13 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
                 myEllipse.Width = ((List<RowData>)this.DataContext)[0].col1;
                 myEllipse.Height = ((List<RowData>)this.DataContext)[0].col1;
             
+                UIElements.Add(myEllipse);
+                
                 Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth - myEllipse.Width) / 2) ;
                 Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - myEllipse.Height) / 2);
 
                 theCanvas.Children.Add(myEllipse);
+                UIElements.Add(myEllipse);
             }
         }
     }
