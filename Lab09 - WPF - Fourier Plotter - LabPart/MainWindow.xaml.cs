@@ -69,35 +69,23 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
 
         public void Tick(object sender, EventArgs e)
         {
-            if(++tickCount > 1001) return;
+            if(++tickCount > 101) return;
             progressBar.Value++;
             
-            if (progressBar.Value == 1000)
-            //{
-            //    Ellipse circle = new Ellipse()
-            //    {
-            //        Width = 50, //theCanvas.ActualWidth,
-            //        Height = 50, // theCanvas.ActualHeight,
-            //    };
-
-            //    Canvas.SetLeft(circle, theCanvas.ActualWidth);
-            //    Canvas.SetTop(circle, theCanvas.ActualHeight);
-
-            //}
+            if (progressBar.Value == 100)
             {
-
-            Ellipse myEllipse = new Ellipse();
-            myEllipse.Cursor = Cursors.Hand;
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Color.FromArgb(255, 0, 0, 0);
-            myEllipse.Stroke = brush;
-            myEllipse.Width = 50;
-            myEllipse.Height = 50;            
+                Ellipse myEllipse = new Ellipse();
+                myEllipse.Cursor = Cursors.Hand;
+                SolidColorBrush brush = new SolidColorBrush();
+                brush.Color = Color.FromArgb(255, 0, 0, 0);
+                myEllipse.Stroke = brush;
+                myEllipse.Width = ((List<RowData>)this.DataContext)[0].col1;
+                myEllipse.Height = ((List<RowData>)this.DataContext)[0].col1;
             
-            Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth -50) / 2) ;
-            Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - 50)/ 2);
+                Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth - myEllipse.Width) / 2) ;
+                Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - myEllipse.Height) / 2);
 
-            theCanvas.Children.Add(myEllipse);
+                theCanvas.Children.Add(myEllipse);
             }
         }
     }
