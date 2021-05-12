@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+
+namespace Lab09___WPF___Fourier_Plotter___LabPart
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private DispatcherTimer timer = new DispatcherTimer();
+        private int tickCount = 0;
+        
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            this.DataContext = new List<RowData>{new RowData() { col1=50, col2=80, col3=100 } };
+
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timer.Tick += new EventHandler(Tick);
+        }
+
+
+        private void ExitButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
+        // dataGrid data
+        public class RowData
+        {
+            public int col1 {get; set;}
+            public int col2 {get; set;}
+            public int col3 {get; set;}
+        }
+
+        private void StartButtonClicked(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+        }
+
+        private void PauseButtonClicked(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+        }
+
+        private void ResetButtonClicked(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+            progressBar.Value=0;
+        }
+
+        public void Tick(object sender, EventArgs e)
+        {
+            if(++tickCount > 1001) return;
+            progressBar.Value++;
+            
+            if (progressBar.Value == 1000)
+            //{
+            //    Ellipse circle = new Ellipse()
+            //    {
+            //        Width = 50, //theCanvas.ActualWidth,
+            //        Height = 50, // theCanvas.ActualHeight,
+            //    };
+
+            //    Canvas.SetLeft(circle, theCanvas.ActualWidth);
+            //    Canvas.SetTop(circle, theCanvas.ActualHeight);
+
+            //}
+            {
+
+            Ellipse myEllipse = new Ellipse();
+            myEllipse.Cursor = Cursors.Hand;
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = Color.FromArgb(255, 0, 0, 0);
+            myEllipse.Stroke = brush;
+            myEllipse.Width = 50;
+            myEllipse.Height = 50;            
+            
+            Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth -50) / 2) ;
+            Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - 50)/ 2);
+
+            theCanvas.Children.Add(myEllipse);
+            }
+        }
+    }
+
+
+
+
+    
+
+}

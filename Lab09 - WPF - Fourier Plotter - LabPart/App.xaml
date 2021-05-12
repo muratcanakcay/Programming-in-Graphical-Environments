@@ -1,0 +1,9 @@
+﻿<Application x:Class="Lab09___WPF___Fourier_Plotter___LabPart.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Lab09___WPF___Fourier_Plotter___LabPart"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
