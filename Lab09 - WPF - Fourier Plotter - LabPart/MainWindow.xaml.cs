@@ -68,9 +68,7 @@ namespace Lab09___WPF___Fourier_Plotter___LabPart
             timer.Stop();
             tickCount = 0;
             progressBar.Value=0;
-            
-            //foreach(var element  in UIElements)
-                theCanvas.Children.Clear();
+            theCanvas.Children.Clear();
         }
 
         public void Tick(object sender, EventArgs e)
