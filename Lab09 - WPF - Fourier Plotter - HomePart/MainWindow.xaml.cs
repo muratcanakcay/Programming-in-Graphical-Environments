@@ -30,17 +30,30 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private DispatcherTimer timer = new DispatcherTimer();
         private int tickCount = 0;
         private ObservableCollection<UIElement> UIElements = new ObservableCollection<UIElement>();
-        public static MainWindow mw;
+        private GeometryGroup circlesGeometry = new GeometryGroup();
+        private Point CanvasCenter = new Point();
+        private GeometryDrawing CircleGeometries = new GeometryDrawing();
        
+        public static MainWindow mw;
 
         public MainWindow()
         {
             InitializeComponent();
+        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             timer.Tick += new EventHandler(Tick);
 
-            mw = this;
+            CircleGeometries.Geometry = circlesGeometry;
+            CircleGeometries.Pen = new Pen(new SolidColorBrush(Colors.Black), 1);
+            DrawingImage DrawnCircles = new DrawingImage(CircleGeometries);
+            DrawnCircles.Drawing = CircleGeometries;
+            theCanvas.Source = DrawnCircles;
+
+            //mw = this;
 
 
             // ----------------
@@ -59,17 +72,26 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 Debug.WriteLine($"{c.radius}, {c.frequency}");
             }
 
+            cl.circleList[0].center = CanvasCenter;
+            cl.circleList[0].tip = new Point(CanvasCenter.X + cl.circleList[0].radius, CanvasCenter.Y);
+            
+            for (int i=1; i< cl.circleList.Count; i++)
+            {
+                cl.circleList[i].center = cl.circleList[i-1].tip;
+                cl.circleList[i].tip = new Point(cl.circleList[i].center.X + cl.circleList[i].radius, cl.circleList[i].center.Y);
+            }
+            
             DataContext = cl.circleList;
+
+            foreach(var c in cl.circleList)
+                AddCircleToGeometryGroup(c);
 
 
             // -----------
 
         }
 
-        public class CircleList
-        {
-            public ObservableCollection<Circle> circleList;
-        }
+        
 
        
 
@@ -81,7 +103,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
 
 
-        // dataGrid data
+        public class CircleList
+        {
+            public ObservableCollection<Circle> circleList;
+        }
+        
         public class Circle : INotifyPropertyChanged
         {
             private int _radius;
@@ -94,7 +120,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 set
                 {
                     _radius = value;
-                    OnPropertyRaised("col1");
+                    OnPropertyRaised("radius");
                 }
             }
             private int _frequency;
@@ -107,9 +133,13 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 set
                 {
                     _frequency = value;
-                    OnPropertyRaised("col1");
+                    OnPropertyRaised("frequency");
                 }
             }
+
+            public Point center;
+            public Point tip;
+            public EllipseGeometry geometry = new EllipseGeometry();
             
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -119,33 +149,27 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-                    mw.Tick();
+                    
+                    // is it needed?
+                    if(propertyname.Equals("radius"))
+                    {
+                        geometry = new EllipseGeometry(new Rect(new Size(radius, radius)));
+                    }
+                    
+                    //mw.Tick();
                 }
             }
         }
 
-        public void Tick()
+         private void AddCircleToGeometryGroup(Circle c)
         {
-            
-            
-            
-            
-                Ellipse myEllipse = new Ellipse();
-                myEllipse.Cursor = Cursors.Hand;
-                SolidColorBrush brush = new SolidColorBrush();
-                brush.Color = Color.FromArgb(255, 0, 0, 0);
-                myEllipse.Stroke = brush;
-                myEllipse.Width = ((ObservableCollection<Circle>)this.DataContext)[0].radius;
-                myEllipse.Height = ((ObservableCollection<Circle>)this.DataContext)[0].radius;
-            
-                UIElements.Add(myEllipse);
-                
-                Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth - myEllipse.Width) / 2) ;
-                Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - myEllipse.Height) / 2);
+            if (c != null)
+            {
+                CanvasCenter.X += c.radius - c.radius/2;
+                c.geometry = new EllipseGeometry(c.center, c.radius, c.radius);
+                circlesGeometry.Children.Add(c.geometry);
+            }
 
-                theCanvas.Children.Add(myEllipse);
-                UIElements.Add(myEllipse);
-            
         }
 
         private void StartButtonClicked(object sender, RoutedEventArgs e)
@@ -163,32 +187,41 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             timer.Stop();
             tickCount = 0;
             progressBar.Value=0;
-            theCanvas.Children.Clear();            
+            //theCanvas.Children.Clear();            
         }
 
         public void Tick(object sender, EventArgs e)
         {
             if(++tickCount > 101) return;
+            ++progressBar.Value;
             
-            if (++progressBar.Value == 100)
-            {
-                Ellipse myEllipse = new Ellipse();
-                myEllipse.Cursor = Cursors.Hand;
-                SolidColorBrush brush = new SolidColorBrush();
-                brush.Color = Color.FromArgb(255, 0, 0, 0);
-                myEllipse.Stroke = brush;
-                myEllipse.Width = ((ObservableCollection<Circle>)this.DataContext)[0].radius;
-                myEllipse.Height = ((ObservableCollection<Circle>)this.DataContext)[0].radius;
             
-                UIElements.Add(myEllipse);
+            //if (progressBar.Value == 100)
+            //{
+            //    var previousCircle = (Circle)null;
                 
-                Canvas.SetLeft(myEllipse, (theCanvas.ActualWidth - myEllipse.Width) / 2) ;
-                Canvas.SetTop(myEllipse, (theCanvas.ActualHeight - myEllipse.Height) / 2);
+            //    foreach(var item in dataGrid.Items.SourceCollection)
+            //    {
+            //        var circle = item as Circle;
 
-                theCanvas.Children.Add(myEllipse);
-                UIElements.Add(myEllipse);
-            }
+            //        Ellipse myEllipse = new Ellipse();
+            //        myEllipse.Cursor = Cursors.Hand;
+            //        SolidColorBrush brush = new SolidColorBrush();
+            //        brush.Color = Color.FromArgb(255, 0, 0, 0);
+            //        myEllipse.Stroke = brush;
+            //        myEllipse.Width = circle.Radius;
+            //        myEllipse.Height = circle.Radius;
+                
+            //        Canvas.SetLeft(myEllipse, CanvasCenter.X - myEllipse.Width / 2) ;
+            //        Canvas.SetTop(myEllipse, CanvasCenter.Y - myEllipse.Height / 2) ;
+
+            //        theCanvas.Children.Add(myEllipse);
+            //        UIElements.Add(myEllipse);
+            //    }
+            //}
         }
+
+        
     }
 
 
