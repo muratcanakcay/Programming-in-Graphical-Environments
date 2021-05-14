@@ -53,7 +53,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
 
             TextReader reader = new StreamReader("test.xml");
-
             
             circleList = (CircleList)deserializer.Deserialize(reader);
 
@@ -64,19 +63,18 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 Debug.WriteLine($"{c.radius}, {c.frequency}");
             }
 
-            circleList.circleList[0].center = CanvasCenter;
-            circleList.circleList[0].tip = new Point(CanvasCenter.X + circleList.circleList[0].radius, CanvasCenter.Y);
-            
-            for (int i=1; i< circleList.circleList.Count; i++)
+            circleList.circleList[0].center = new Point(0, 0);
+            circleList.circleList[0].tip = new Point(circleList.circleList[0].radius, 0);
+
+            for (int i = 1; i < circleList.circleList.Count; i++)
             {
-                circleList.circleList[i].center = circleList.circleList[i-1].tip;
+                circleList.circleList[i].center = circleList.circleList[i - 1].tip;
                 circleList.circleList[i].tip = new Point(circleList.circleList[i].center.X + circleList.circleList[i].radius, circleList.circleList[i].center.Y);
             }
-            
+
             DataContext = circleList.circleList;
 
-            foreach(var c in circleList.circleList)
-                DrawCircle(c);
+            foreach(var c in circleList.circleList) DrawCircle(c);
 
 
             // -----------
@@ -93,7 +91,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             public ObservableCollection<Circle> circleList;
         }
         
-        public class Circle : UIElement, INotifyPropertyChanged 
+        public class Circle : INotifyPropertyChanged 
         {
             private int _radius;
             public int radius
@@ -178,6 +176,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             if(++tickCount > 1001) return;
             ++progressBar.Value;
             
+            theCanvas.Children.Clear();
+                
             Circle previousCircle = (Circle)null;
             foreach (Circle c in circleList.circleList)
             {
@@ -202,15 +202,15 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 SolidColorBrush brush = new SolidColorBrush();
                 brush.Color = Color.FromArgb(255, 0, 0, 0);
                 myEllipse.Stroke = brush;
-                myEllipse.Width = c.radius;
-                myEllipse.Height = c.radius;
+                myEllipse.Width = 2 * c.radius;
+                myEllipse.Height = 2 * c.radius;
             
                 UIElements.Add(myEllipse);
                 
-                Canvas.SetLeft(myEllipse, CanvasCenter.X / 2 + c.center.X) ;
-                Canvas.SetTop(myEllipse, CanvasCenter.Y / 2 + c.center.Y) ;
-
+                Canvas.SetLeft(myEllipse, CanvasCenter.X + c.center.X - c.radius) ;
+                Canvas.SetTop(myEllipse, CanvasCenter.Y + c.center.Y - c.radius) ;
                 theCanvas.Children.Add(myEllipse);
+                
         }
 
         
