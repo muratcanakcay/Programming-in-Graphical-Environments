@@ -164,8 +164,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             public void Rotate(int tickCount)
             {
-                tip.X = center.X + radius * Math.Cos(tickCount * frequency * 360 / 1000);
-                tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 360 / 1000);
+                tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 1000);
+                tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 1000);
             }
         }
 
