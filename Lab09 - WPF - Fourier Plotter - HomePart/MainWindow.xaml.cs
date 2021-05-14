@@ -63,18 +63,22 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 Debug.WriteLine($"{c.radius}, {c.frequency}");
             }
 
-            circleList.circleList[0].center = new Point(0, 0);
+            circleList.circleList[0].StartingCenter = new Point(0, 0);
             circleList.circleList[0].tip = new Point(circleList.circleList[0].radius, 0);
 
             for (int i = 1; i < circleList.circleList.Count; i++)
             {
-                circleList.circleList[i].center = circleList.circleList[i - 1].tip;
-                circleList.circleList[i].tip = new Point(circleList.circleList[i].center.X + circleList.circleList[i].radius, circleList.circleList[i].center.Y);
+                circleList.circleList[i].StartingCenter = circleList.circleList[i - 1].tip;
+                circleList.circleList[i].tip = new Point(circleList.circleList[i].StartingCenter.X + circleList.circleList[i].radius, circleList.circleList[i].StartingCenter.Y);
             }
 
             DataContext = circleList.circleList;
 
-            foreach(var c in circleList.circleList) DrawCircle(c);
+            foreach(var c in circleList.circleList) 
+            {
+                DrawCircle(c);
+                DrawLine(c);
+            }
 
 
             // -----------
@@ -120,6 +124,21 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 }
             }
 
+            private Point _StartingCenter;
+            public Point StartingCenter
+            {
+                get 
+                {
+                    return _StartingCenter;
+                }
+                set
+                {
+                    _StartingCenter = value;
+                    center = StartingCenter;
+                }
+                    
+            }
+
             public Point center;
             public Point tip;
 
@@ -137,21 +156,17 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             public void Rotate(int tickCount)
             {
-                tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 1000);
-                tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 1000);
+                tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 666);
+                tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 666);
+            }
+
+            public void Reset()
+            {
+                center = StartingCenter;
+                tip.X = center.X + radius;
+                tip.Y = center.Y;
             }
         }
-
-        //private void AddCircleToGeometryGroup(Circle c)
-        //{
-        //    if (c != null)
-        //    {
-        //        CanvasCenter.X += c.radius - c.radius/2;
-        //        c.geometry = new EllipseGeometry(c.center, c.radius, c.radius);
-        //        circlesGeometry.Children.Add(c.geometry);
-        //    }
-
-        //}
 
         private void StartButtonClicked(object sender, RoutedEventArgs e)
         {
@@ -169,13 +184,24 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             tickCount = 0;
             progressBar.Value=0;
             theCanvas.Children.Clear();
+            
+            foreach(var c in circleList.circleList) 
+            {
+                c.Reset();
+                DrawCircle(c);
+                DrawLine(c);
+            }
         }
 
         public void Tick(object sender, EventArgs e)
         {
-            if(++tickCount > 1001) return;
-            ++progressBar.Value;
+            if(++tickCount >= 666)
+            {
+                timer.Stop();
+                return;
+            }
             
+            ++progressBar.Value;
             theCanvas.Children.Clear();
                 
             Circle previousCircle = (Circle)null;
@@ -185,6 +211,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 {
                     c.Rotate(tickCount);
                     DrawCircle(c);
+                    DrawLine(c);
                     previousCircle = c;
                     continue;
                 }
@@ -192,6 +219,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 c.Rotate(tickCount);
                 previousCircle = c;
                 DrawCircle(c);
+                DrawLine(c);
             }
         }
 
@@ -210,10 +238,25 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 Canvas.SetLeft(myEllipse, CanvasCenter.X + c.center.X - c.radius) ;
                 Canvas.SetTop(myEllipse, CanvasCenter.Y + c.center.Y - c.radius) ;
                 theCanvas.Children.Add(myEllipse);
-                
         }
 
-        
+        public void DrawLine(Circle c)
+        {
+                Line myLine = new Line();
+                SolidColorBrush brush = new SolidColorBrush();
+                brush.Color = Color.FromArgb(255, 0, 0, 0);
+                myLine.Stroke = brush;
+                myLine.X1 = c.center.X;
+                myLine.Y1 = c.center.Y;
+                myLine.X2 = c.tip.X;
+                myLine.Y2 = c.tip.Y;
+            
+                UIElements.Add(myLine);
+                
+                Canvas.SetLeft(myLine, CanvasCenter.X) ;
+                Canvas.SetTop(myLine, CanvasCenter.Y) ;
+                theCanvas.Children.Add(myLine);
+        }
     }
 
 
