@@ -42,17 +42,17 @@
                  </GroupBox>
                 
                 <GroupBox Grid.Column="1" Header="Circles">
-                    <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" 
+                    <DataGrid Name="dataGrid"
+                        ItemsSource="{Binding }" AutoGenerateColumns="False" 
                               Height="Auto" 
                               HorizontalAlignment="Left" 
-                              Name="dataGrid" 
                               VerticalAlignment="Top" 
                               Width="Auto"
                               >
                         <DataGrid.Columns >
-                            <DataGridTextColumn Binding="{Binding col1}" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding col2}" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding col3}" Width="3*"/>
+                            <DataGridTextColumn Binding="{Binding radius, Mode=TwoWay}" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding frequency, Mode=TwoWay}" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding col3, Mode=TwoWay}" Width="3*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </GroupBox>
