@@ -67,10 +67,12 @@
                               Height="Auto" 
                               VerticalAlignment="Top" 
                               Width="Auto"
-                              KeyUp="DataGrid_KeyUp">
+                              KeyUp="DataGrid_KeyUp"
+                              Binding.SourceUpdated="Circles_Modified"
+                              >
                         <DataGrid.Columns >
-                            <DataGridTextColumn Header="Radius" Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50" Width="*"/>
-                            <DataGridTextColumn Header="Frequency" Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50" Width="*"/>
+                            <DataGridTextColumn Header="Radius" Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged, NotifyOnSourceUpdated=True}" MinWidth="50" Width="*"/>
+                            <DataGridTextColumn Header="Frequency" Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged, NotifyOnSourceUpdated=True}" MinWidth="50" Width="*"/>
                             <DataGridTextColumn Width="2*" IsReadOnly="true"/>
                         </DataGrid.Columns>
                     </DataGrid>

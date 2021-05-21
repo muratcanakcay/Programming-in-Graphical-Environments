@@ -17,6 +17,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    public delegate void CircleModifiedNotification();
+    
     public partial class MainWindow : Window
     {
         private int tickCount = 0;
@@ -30,81 +32,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         
         private bool DrawCircles = true;
         private bool DrawLines = true;
-
-        private static MainWindow MainWin;
         
-        //public class CircleList
-        //{
-        //    public ObservableCollection<Circle> circles = new ObservableCollection<Circle>();
-
-        //    public void Reset()
-        //    {
-        //        circles.Clear();
-        //    }
-        //}
-        //public class Circle : INotifyPropertyChanged
-        //{
-        //    [XmlIgnore]
-        //    public Point center;
-        //    [XmlIgnore]
-        //    public Point tip; // tip of the line
-            
-        //    private int _radius;
-        //    public int radius
-        //    {
-        //        get =>_radius;
-        //        set
-        //        {
-        //            _radius = value;
-        //            OnPropertyRaised("radius");
-        //        }
-        //    }
-        //    private int _frequency;
-        //    public int frequency
-        //    {
-        //        get => _frequency;
-        //        set
-        //        {
-        //            _frequency = value;
-        //            OnPropertyRaised("frequency");
-        //        }
-        //    }
-        //    [XmlIgnore]
-        //    private Point _StartingCenter;
-        //    [XmlIgnore]
-        //    public Point StartingCenter
-        //    {
-        //        get => _StartingCenter;                
-        //        set
-        //        {
-        //            _StartingCenter = value;
-        //            center = StartingCenter;
-        //        }
-        //    }
-
-        //    public event PropertyChangedEventHandler PropertyChanged;
-
-        //    private void OnPropertyRaised(string propertyname)
-        //    {
-        //        if (PropertyChanged != null)
-        //        {
-        //            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-        //            //MainWin.InitializePlot();
-        //        }
-        //    }
-        //    public void Rotate(int tickCount)
-        //    {
-        //        tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 666);
-        //        tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 666);
-        //    }
-        //    public void Reset()
-        //    {
-        //        center = StartingCenter;
-        //        tip.X = center.X + radius;
-        //        tip.Y = center.Y;
-        //    }
-        //}
-
         //-----------------
         
         public MainWindow()
@@ -114,8 +42,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWin = this;
-            
             CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             timer.Tick += new EventHandler(Tick);
@@ -365,6 +291,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void DataGrid_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete) InitializePlot();
+        }
+
+        private void Circles_Modified(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            InitializePlot();
         }
     }
 }
