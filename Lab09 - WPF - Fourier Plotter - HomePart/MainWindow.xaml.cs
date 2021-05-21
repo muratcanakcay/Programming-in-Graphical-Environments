@@ -25,7 +25,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private Point CanvasCenter = new Point();
         private Stopwatch Stopwatch = new Stopwatch();
         private CircleList CircleList = new CircleList();
-        private readonly Polyline TrailPoly = new Polyline();
+        private readonly Polyline Trail = new Polyline();
         private readonly PointCollection TrailPoints = new PointCollection();
         private readonly DispatcherTimer Timer = new DispatcherTimer(DispatcherPriority.Render);
         private readonly ObservableCollection<UIElement> DrawnLines = new ObservableCollection<UIElement>();
@@ -64,6 +64,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         {
             if (CircleList.circles.Count == 0) return;
             
+            // first circle is centered on the canvas
             CircleList.circles[0].StartingCenter = new Point(0, 0);
             CircleList.circles[0].tip = new Point(CircleList.circles[0].radius, 0);
 
@@ -89,30 +90,30 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void InitializeTrailAndPen()
         {
             TrailPoints.Clear();
-            TrailPoly.Points.Clear();
+            Trail.Points.Clear();
             
-            TrailPoly.Stroke = new SolidColorBrush(Colors.Blue);
-            TrailPoly.StrokeThickness = 1;
+            Trail.Stroke = new SolidColorBrush(Colors.Blue);
+            Trail.StrokeThickness = 1;
 
             Point tipPoint;
             if (CircleList.circles.Count == 0) tipPoint = CanvasCenter; 
             else tipPoint = CircleList.circles.Last().tip;
 
             TrailPoints.Add(tipPoint);
-            TrailPoly.Points = TrailPoints;
+            Trail.Points = TrailPoints;
             
-            Canvas.SetLeft(TrailPoly, CanvasCenter.X);
-            Canvas.SetTop(TrailPoly, CanvasCenter.Y);
-            theCanvas.Children.Add(TrailPoly);
+            Canvas.SetLeft(Trail, CanvasCenter.X);
+            Canvas.SetTop(Trail, CanvasCenter.Y);
+            theCanvas.Children.Add(Trail);
 
             DrawTrailPen();
         }
 
-        private void Tick(object sender, EventArgs e)
+        private void Tick(object sender, EventArgs e) // at each tick (10 ms interval) elapsed time calculated using stopwatch which is accurate
         {
             long elapsedTime = Stopwatch.ElapsedMilliseconds;
             
-            if (elapsedTime > 9999) elapsedTime = 10000;
+            if (elapsedTime > 9995) elapsedTime = 10000; // 10 seconds plusminus 5 milliseconds accuracy
             
             tickCount = elapsedTime;
             progressBar.Value = elapsedTime;
@@ -122,7 +123,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             DrawTrailPen();
             DrawTrail();
 
-            if(elapsedTime == 10000)
+            if(elapsedTime == 10000) 
             {
                 Timer.Stop();
                 Stopwatch.Stop();
@@ -212,7 +213,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             CircleList.Reset();
             InitializePlotter();
         }
-        private void OpenButon_Click(object sender, RoutedEventArgs e)
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "XML Save File|*.xml";
@@ -227,14 +228,18 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             }
             catch (Exception)
             {
-                MessageBox.Show("Error in file!", "Error!");
+                MessageBox.Show("There's an error in the file!", "Error!");
                 return;
             }
 
+            if (CircleList.circles.Count == 0)
+                MessageBox.Show("No circles loaded. There might be an error in the file!", "Warning!");
+            
             DataContext = CircleList.circles;
+
             InitializePlotter();
         }
-        private void SaveButon_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "XML Save File|*.xml";
@@ -278,7 +283,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             foreach(var circle in DrawnCircles)
                 circle.Visibility = Visibility.Hidden;
-            DrawnCircles.Last().Visibility = Visibility.Visible;
+            DrawnCircles.Last().Visibility = Visibility.Visible; // last circle is the trailPen which should always be visible
         }
         private void DrawLines_OnChecked(object sender, RoutedEventArgs e)
         {
@@ -295,12 +300,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 line.Visibility = Visibility.Hidden;
         }
         
-        private void DataGrid_KeyUp(object sender, KeyEventArgs e)
+        private void DataGrid_KeyUp(object sender, KeyEventArgs e) // delete row from datagrid
         {
             if (e.Key == Key.Delete) InitializePlotter();
         }
 
-        private void Circles_Modified(object sender, System.Windows.Data.DataTransferEventArgs e)
+        private void Circles_Modified(object sender, System.Windows.Data.DataTransferEventArgs e) // edit a value in the datagrid
         {
             InitializePlotter();
         }
