@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -17,11 +17,9 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public delegate void CircleModifiedNotification();
-    
     public partial class MainWindow : Window
     {
-        private int tickCount = 0;
+        private long tickCount = 0;
         private Point CanvasCenter = new Point();
         private CircleList circleList = new CircleList();
         private readonly Polyline TrailPoly = new Polyline();
@@ -32,6 +30,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         
         private bool DrawCircles = true;
         private bool DrawLines = true;
+
+        private Stopwatch stopwatch = new Stopwatch();
         
         //-----------------
         
@@ -43,7 +43,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += new EventHandler(Tick);
 
             DataContext = circleList.circles;
@@ -53,6 +53,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void InitializePlot()
         {
             timer.Stop();
+            stopwatch.Stop();
+            stopwatch.Reset();
             tickCount = 0;
             progressBar.Value = 0;
             
@@ -110,18 +112,24 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         private void Tick(object sender, EventArgs e)
         {
-            if (++tickCount > 666)
-            {
-                timer.Stop();
-                return;
-            }
-
-            ++progressBar.Value;
-
+            long elapsed = stopwatch.ElapsedMilliseconds;
+            
+            if (elapsed > 9999) elapsed = 10000;
+            
+            tickCount = elapsed;
+            progressBar.Value = elapsed;
+                
             ClearCirclesAndLines(); // also clears the TrailPen
             DrawCirclesAndLines();
             DrawTrailPen();
             DrawTrail();
+
+            if(elapsed == 10000)
+            {
+                timer.Stop();
+                stopwatch.Stop();
+                return;
+            }
         }
 
         private void ClearCirclesAndLines()
@@ -199,7 +207,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             if (circleList.circles.Count > 0) TrailPoints.Add(circleList.circles.Last().tip);
         }
         
-
         // ----------
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -240,20 +247,22 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             XmlSerializer serializer = new XmlSerializer(typeof(CircleList));
             serializer.Serialize(fileStream, circleList);
         }
-        private void ExitButtonClicked(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to leave?", "Exit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 Close();
         }
-        private void StartButtonClicked(object sender, RoutedEventArgs e)
+        private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             timer.Start();
+            stopwatch.Start();
         }
-        private void PauseButtonClicked(object sender, RoutedEventArgs e)
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
+            stopwatch.Stop();;
         }
-        private void ResetButtonClicked(object sender, RoutedEventArgs e)
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             InitializePlot();
         }

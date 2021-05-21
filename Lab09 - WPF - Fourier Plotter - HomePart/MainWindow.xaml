@@ -28,7 +28,7 @@
                     <MenuItem Header = "_Open" Click="OpenButon_Click" InputGestureText="Alt+O"/>
                     <MenuItem Header = "_Save" Click="SaveButon_Click" InputGestureText="Alt+S"/>
                 </MenuItem>
-                <MenuItem Header = "E_xit" Click="ExitButtonClicked" InputGestureText="Alt+E"/>
+                <MenuItem Header = "E_xit" Click="ExitButton_Click" InputGestureText="Alt+E"/>
                 <MenuItem Header="_Options" InputGestureText="Alt+O" >
                     <MenuItem Header="Draw _Circles" InputGestureText="Alt+C" IsCheckable="True" IsChecked="True" Checked="DrawCircles_OnChecked" Unchecked="DrawCircles_OnUnchecked">
 
@@ -101,7 +101,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <ProgressBar x:Name="progressBar" Grid.Row="1" Grid.Column="1" Maximum="666"/>
+                    <ProgressBar x:Name="progressBar" Grid.Row="1" Grid.Column="1" Maximum="10000"/>
 
                 </Grid>
 
@@ -114,13 +114,13 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0" Click="StartButtonClicked">
+                        <Button Grid.Row="0" Click="StartButton_Click">
                             <TextBlock Text="Start"/>
                         </Button>
-                        <Button Grid.Row="1"  Click="PauseButtonClicked">
+                        <Button Grid.Row="1"  Click="PauseButton_Click">
                             <TextBlock Text="Pause"/>
                         </Button>
-                        <Button Grid.Row="2" Click="ResetButtonClicked">
+                        <Button Grid.Row="2" Click="ResetButton_Click">
                             <TextBlock Text="Reset" />
                         </Button>
 
