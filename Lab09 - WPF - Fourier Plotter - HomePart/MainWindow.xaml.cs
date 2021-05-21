@@ -55,29 +55,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             MainWin = this;
 
-            // ----------------
-
-            XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
-
-            TextReader reader = new StreamReader("test2.xml");
-
-            circleList = (CircleList)deserializer.Deserialize(reader);
-
-            reader.Close();
-
-            foreach (var c in circleList.circles)
-            {
-                Debug.WriteLine($"{c.radius}, {c.frequency}");
-            }
-
-            InitializePlot();
             DataContext = circleList.circles;
-
-
-
-
-            // -----------
-
+            InitializePlot();
         }
 
         public void InitializePlot()
@@ -148,18 +127,19 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         public class CircleList
         {
-            public ObservableCollection<Circle> circles;
+            public ObservableCollection<Circle> circles = new ObservableCollection<Circle>();
 
             public void Reset()
             {
                 circles.Clear();
             }
-
         }
 
         public class Circle : INotifyPropertyChanged
         {
+            [XmlIgnore]
             public Point center;
+            [XmlIgnore]
             public Point tip; // tip of the line
             
             private int _radius;
@@ -184,6 +164,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             }
             [XmlIgnore]
             private Point _StartingCenter;
+            [XmlIgnore]
             public Point StartingCenter
             {
                 get => _StartingCenter;                
@@ -378,13 +359,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             openFileDialog.Filter = "XML Save File|*.xml";
 
             if (openFileDialog.ShowDialog() != true || openFileDialog.FileName.Equals("")) return;
-                
-            XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
-            TextReader reader = new StreamReader(openFileDialog.FileName);
-
+            
+            using var fileStream = new FileStream($"{openFileDialog.FileName}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             try
             {
-                circleList = (CircleList)deserializer.Deserialize(reader);
+                XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
+                circleList = (CircleList)deserializer.Deserialize(fileStream);
             }
             catch (Exception)
             {
@@ -392,8 +372,20 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 return;
             }
 
+            DataContext = circleList.circles;
             InitializePlot();
         }
-        
+
+        private void SaveButon_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML Save File|*.xml";
+
+            if (saveFileDialog.ShowDialog() != true || saveFileDialog.FileName.Equals("")) return;
+
+            using var fileStream = new FileStream($"{saveFileDialog.FileName}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            XmlSerializer serializer = new XmlSerializer(typeof(CircleList));
+            serializer.Serialize(fileStream, circleList);
+        }
     }
 }

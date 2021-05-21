@@ -26,7 +26,7 @@
                 <MenuItem Header = "_File" InputGestureText="Alt+F">
                     <MenuItem Header = "_New" Click="NewButton_Click" InputGestureText="Alt+N"  />
                     <MenuItem Header = "_Open" Click="OpenButon_Click" InputGestureText="Alt+O"/>
-                    <MenuItem Header = "_Save" InputGestureText="Alt+S"/>
+                    <MenuItem Header = "_Save" Click="SaveButon_Click" InputGestureText="Alt+S"/>
                 </MenuItem>
                 <MenuItem Header = "E_xit" Click="ExitButtonClicked" InputGestureText="Alt+E"/>
                 <MenuItem Header="_Options" InputGestureText="Alt+O" >
