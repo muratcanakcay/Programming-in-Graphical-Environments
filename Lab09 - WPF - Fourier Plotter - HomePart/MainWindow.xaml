@@ -67,7 +67,7 @@
                               Height="Auto" 
                               VerticalAlignment="Top" 
                               Width="Auto"
-                              KeyUp="dataGrid_KeyUp">
+                              KeyUp="DataGrid_KeyUp">
                         <DataGrid.Columns >
                             <DataGridTextColumn Header="Radius" Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50" Width="*"/>
                             <DataGridTextColumn Header="Frequency" Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50" Width="*"/>

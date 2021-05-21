@@ -40,91 +40,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private bool DrawCircles = true;
         private bool DrawLines = true;
 
-        public static MainWindow MainWin;
-
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
-            timer.Tick += new EventHandler(Tick);
-
-            MainWin = this;
-
-            DataContext = circleList.circles;
-            InitializePlot();
-        }
-
-        public void InitializePlot()
-        {
-            timer.Stop();
-            tickCount = 0;
-            progressBar.Value = 0;
-            
-            CalculateTipsAndCenters();
-            InitializeCirclesAndLines();
-            InitializeTrailAndPen();
-        }
+        private static MainWindow MainWin;
         
-        private void CalculateTipsAndCenters()
-        {
-            if (circleList.circles.Count == 0) return;
-            
-            circleList.circles[0].StartingCenter = new Point(0, 0);
-            circleList.circles[0].tip = new Point(circleList.circles[0].radius, 0);
-
-            for (int i = 1; i < circleList.circles.Count; i++)
-            {
-                circleList.circles[i].StartingCenter = circleList.circles[i - 1].tip;
-                circleList.circles[i].tip = new Point(circleList.circles[i].StartingCenter.X + circleList.circles[i].radius, circleList.circles[i].StartingCenter.Y);
-            }
-        }
-
-        private void InitializeCirclesAndLines()
-        {
-            theCanvas.Children.Clear();
-            DrawnCircles.Clear();
-            DrawnLines.Clear();
-            
-            foreach (var c in circleList.circles)
-            {
-                c.Reset();
-                DrawCircle(c);
-                DrawLine(c);
-            }
-        }
-
-        public void InitializeTrailAndPen()
-        {
-            TrailPoints.Clear();
-            TrailPoly.Points.Clear();
-            
-            TrailPoly.Stroke = new SolidColorBrush(Colors.Blue);
-            TrailPoly.StrokeThickness = 1;
-
-            Point tipPoint;
-            if (circleList.circles.Count == 0) tipPoint = CanvasCenter; 
-            else tipPoint = circleList.circles.Last().tip;
-
-            TrailPoints.Add(tipPoint);
-            TrailPoly.Points = TrailPoints;
-            
-            Canvas.SetLeft(TrailPoly, CanvasCenter.X);
-            Canvas.SetTop(TrailPoly, CanvasCenter.Y);
-            theCanvas.Children.Add(TrailPoly);
-
-            DrawTrailPen();
-        }
-
-        private void ExitButtonClicked(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         public class CircleList
         {
             public ObservableCollection<Circle> circles = new ObservableCollection<Circle>();
@@ -134,7 +51,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 circles.Clear();
             }
         }
-
         public class Circle : INotifyPropertyChanged
         {
             [XmlIgnore]
@@ -185,13 +101,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                     MainWin.InitializePlot();
                 }
             }
-
             public void Rotate(int tickCount)
             {
                 tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 666);
                 tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 666);
             }
-
             public void Reset()
             {
                 center = StartingCenter;
@@ -200,7 +114,84 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             }
         }
 
-        public void Tick(object sender, EventArgs e)
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+        
+        //-----------------
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timer.Tick += new EventHandler(Tick);
+
+            MainWin = this;
+
+            DataContext = circleList.circles;
+            InitializePlot();
+        }
+
+        private void InitializePlot()
+        {
+            timer.Stop();
+            tickCount = 0;
+            progressBar.Value = 0;
+            
+            CalculateTipsAndCenters();
+            InitializeCirclesAndLines();
+            InitializeTrailAndPen();
+        }
+        private void CalculateTipsAndCenters()
+        {
+            if (circleList.circles.Count == 0) return;
+            
+            circleList.circles[0].StartingCenter = new Point(0, 0);
+            circleList.circles[0].tip = new Point(circleList.circles[0].radius, 0);
+
+            for (int i = 1; i < circleList.circles.Count; i++)
+            {
+                circleList.circles[i].StartingCenter = circleList.circles[i - 1].tip;
+                circleList.circles[i].tip = new Point(circleList.circles[i].StartingCenter.X + circleList.circles[i].radius, circleList.circles[i].StartingCenter.Y);
+            }
+        }
+        private void InitializeCirclesAndLines()
+        {
+            theCanvas.Children.Clear();
+            DrawnCircles.Clear();
+            DrawnLines.Clear();
+            
+            foreach (var c in circleList.circles)
+            {
+                c.Reset();
+                DrawCircle(c);
+                DrawLine(c);
+            }
+        }
+        private void InitializeTrailAndPen()
+        {
+            TrailPoints.Clear();
+            TrailPoly.Points.Clear();
+            
+            TrailPoly.Stroke = new SolidColorBrush(Colors.Blue);
+            TrailPoly.StrokeThickness = 1;
+
+            Point tipPoint;
+            if (circleList.circles.Count == 0) tipPoint = CanvasCenter; 
+            else tipPoint = circleList.circles.Last().tip;
+
+            TrailPoints.Add(tipPoint);
+            TrailPoly.Points = TrailPoints;
+            
+            Canvas.SetLeft(TrailPoly, CanvasCenter.X);
+            Canvas.SetTop(TrailPoly, CanvasCenter.Y);
+            theCanvas.Children.Add(TrailPoly);
+
+            DrawTrailPen();
+        }
+
+        private void Tick(object sender, EventArgs e)
         {
             if (++tickCount > 666)
             {
@@ -224,7 +215,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             foreach (var line in DrawnLines)
                 theCanvas.Children.Remove(line);
         }
-
         private void DrawCirclesAndLines()
         {
             Circle lastCircle = null;
@@ -239,13 +229,37 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 lastCircle = c;
             }
         }
-
-        public void DrawTrail()
+        private void DrawCircle(Circle c)
         {
-            if (circleList.circles.Count > 0) TrailPoints.Add(circleList.circles.Last().tip);
-        }
+            Ellipse Circle = new Ellipse();
+            Circle.Stroke = new SolidColorBrush(Colors.Black);
+            Circle.Width = 2 * c.radius;
+            Circle.Height = 2 * c.radius;
+            if (!DrawCircles) Circle.Visibility = Visibility.Hidden;
 
-        public void DrawTrailPen()
+            DrawnCircles.Add(Circle);
+
+            Canvas.SetLeft(Circle, CanvasCenter.X + c.center.X - c.radius);
+            Canvas.SetTop(Circle, CanvasCenter.Y + c.center.Y - c.radius);
+            theCanvas.Children.Add(Circle);
+        }
+        private void DrawLine(Circle c)
+        {
+            Line Line = new Line();
+            Line.Stroke = new SolidColorBrush(Colors.Black);
+            Line.X1 = c.center.X;
+            Line.Y1 = c.center.Y;
+            Line.X2 = c.tip.X;
+            Line.Y2 = c.tip.Y;
+            if (!DrawLines) Line.Visibility = Visibility.Hidden;
+
+            DrawnLines.Add(Line);
+
+            Canvas.SetLeft(Line, CanvasCenter.X);
+            Canvas.SetTop(Line, CanvasCenter.Y);
+            theCanvas.Children.Add(Line);
+        }
+        private void DrawTrailPen()
         {
             Ellipse Pen = new Ellipse();
             Pen.Stroke = new SolidColorBrush(Colors.Red);
@@ -263,96 +277,19 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Canvas.SetTop(Pen, CanvasCenter.Y + penPos.Y - 2);
             theCanvas.Children.Add(Pen);
         }
-        
-        public void DrawCircle(Circle c)
+        private void DrawTrail()
         {
-            Ellipse Circle = new Ellipse();
-            Circle.Stroke = new SolidColorBrush(Colors.Black);
-            Circle.Width = 2 * c.radius;
-            Circle.Height = 2 * c.radius;
-            if (!DrawCircles) Circle.Visibility = Visibility.Hidden;
-
-            DrawnCircles.Add(Circle);
-
-            Canvas.SetLeft(Circle, CanvasCenter.X + c.center.X - c.radius);
-            Canvas.SetTop(Circle, CanvasCenter.Y + c.center.Y - c.radius);
-            theCanvas.Children.Add(Circle);
+            if (circleList.circles.Count > 0) TrailPoints.Add(circleList.circles.Last().tip);
         }
         
-        public void DrawLine(Circle c)
-        {
-            Line Line = new Line();
-            Line.Stroke = new SolidColorBrush(Colors.Black);
-            Line.X1 = c.center.X;
-            Line.Y1 = c.center.Y;
-            Line.X2 = c.tip.X;
-            Line.Y2 = c.tip.Y;
-            if (!DrawLines) Line.Visibility = Visibility.Hidden;
 
-            DrawnLines.Add(Line);
-
-            Canvas.SetLeft(Line, CanvasCenter.X);
-            Canvas.SetTop(Line, CanvasCenter.Y);
-            theCanvas.Children.Add(Line);
-        }
-        
-        private void StartButtonClicked(object sender, RoutedEventArgs e)
-        {
-            timer.Start();
-        }
-        private void PauseButtonClicked(object sender, RoutedEventArgs e)
-        {
-            timer.Stop();
-        }
-        private void ResetButtonClicked(object sender, RoutedEventArgs e)
-        {
-            InitializePlot();
-        }
-
-        private void dataGrid_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete) InitializePlot();
-        }
-
-        private void DrawCircles_OnChecked(object sender, RoutedEventArgs e)
-        {
-            DrawCircles = true;
-            
-            foreach(var circle in DrawnCircles)
-                circle.Visibility = Visibility.Visible;
-        }
-
-        private void DrawCircles_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            DrawCircles = false;
-
-            foreach(var circle in DrawnCircles)
-                circle.Visibility = Visibility.Hidden;
-            DrawnCircles.Last().Visibility = Visibility.Visible;
-        }
-
-        private void DrawLines_OnChecked(object sender, RoutedEventArgs e)
-        {
-            DrawLines = true;
-            
-            foreach(var line in DrawnLines)
-                line.Visibility = Visibility.Visible;
-        }
-
-        private void DrawLines_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            DrawLines = false;
-             
-            foreach(var line in DrawnLines)
-                line.Visibility = Visibility.Hidden;
-        }
+        // ----------
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             circleList.Reset();
             InitializePlot();
         }
-
         private void OpenButon_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -375,7 +312,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             DataContext = circleList.circles;
             InitializePlot();
         }
-
         private void SaveButon_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
@@ -386,6 +322,58 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             using var fileStream = new FileStream($"{saveFileDialog.FileName}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             XmlSerializer serializer = new XmlSerializer(typeof(CircleList));
             serializer.Serialize(fileStream, circleList);
+        }
+        private void ExitButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to leave?", "Exit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                Close();
+        }
+        private void StartButtonClicked(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+        }
+        private void PauseButtonClicked(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+        }
+        private void ResetButtonClicked(object sender, RoutedEventArgs e)
+        {
+            InitializePlot();
+        }
+        
+        private void DrawCircles_OnChecked(object sender, RoutedEventArgs e)
+        {
+            DrawCircles = true;
+            
+            foreach(var circle in DrawnCircles)
+                circle.Visibility = Visibility.Visible;
+        }
+        private void DrawCircles_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            DrawCircles = false;
+
+            foreach(var circle in DrawnCircles)
+                circle.Visibility = Visibility.Hidden;
+            DrawnCircles.Last().Visibility = Visibility.Visible;
+        }
+        private void DrawLines_OnChecked(object sender, RoutedEventArgs e)
+        {
+            DrawLines = true;
+            
+            foreach(var line in DrawnLines)
+                line.Visibility = Visibility.Visible;
+        }
+        private void DrawLines_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            DrawLines = false;
+             
+            foreach(var line in DrawnLines)
+                line.Visibility = Visibility.Hidden;
+        }
+        
+        private void DataGrid_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete) InitializePlot();
         }
     }
 }
