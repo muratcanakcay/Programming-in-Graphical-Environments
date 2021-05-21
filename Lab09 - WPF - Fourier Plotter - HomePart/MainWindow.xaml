@@ -51,10 +51,12 @@
                               HorizontalAlignment="Left" 
                               VerticalAlignment="Top" 
                               Width="Auto"
+                              KeyUp="dataGrid_KeyUp"
+
                               >
                         <DataGrid.Columns >
                             <DataGridTextColumn Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding frequency, Mode=TwoWay}" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" Width="*"/>
                             <DataGridTextColumn Binding="{Binding col3, Mode=TwoWay}" Width="3*"/>
                         </DataGrid.Columns>
                     </DataGrid>
