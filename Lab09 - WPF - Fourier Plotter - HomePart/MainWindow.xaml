@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab09___WPF___Fourier_Plotter___HomePart"
         mc:Ignorable="d"
-        Title="Fourier Plotter" Height="600" Width="800" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="Fourier Plotter" Height="600" Width="800" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -44,14 +44,16 @@
                 
                 <GroupBox Grid.Column="1" Header="Circles">
                     <DataGrid Name="dataGrid"
-                        ItemsSource="{Binding }" AutoGenerateColumns="False" 
+                              ItemsSource="{Binding }" 
+                              AutoGenerateColumns="False" 
+                              
                               Height="Auto" 
                               HorizontalAlignment="Left" 
                               VerticalAlignment="Top" 
                               Width="Auto"
                               >
                         <DataGrid.Columns >
-                            <DataGridTextColumn Binding="{Binding radius, Mode=TwoWay}" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" Width="*"/>
                             <DataGridTextColumn Binding="{Binding frequency, Mode=TwoWay}" Width="*"/>
                             <DataGridTextColumn Binding="{Binding col3, Mode=TwoWay}" Width="3*"/>
                         </DataGrid.Columns>
