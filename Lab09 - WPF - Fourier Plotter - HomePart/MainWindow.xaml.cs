@@ -35,6 +35,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private ObservableCollection<UIElement> DrawnLines = new ObservableCollection<UIElement>();
         private Polyline TrailPoly = new Polyline();
         private PointCollection TrailPoints = new PointCollection();
+        private Ellipse TrailCursor = new Ellipse();
 
         public static MainWindow mw;
 
@@ -67,7 +68,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             }
 
             CalculateTipsAndCenters();
-            InitializeTrail();
+            InitializeCirclesAndLines();
+            InitializePolyTrail();
 
             DataContext = circleList.circleList;
 
@@ -88,7 +90,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 circleList.circleList[i].StartingCenter = circleList.circleList[i - 1].tip;
                 circleList.circleList[i].tip = new Point(circleList.circleList[i].StartingCenter.X + circleList.circleList[i].radius, circleList.circleList[i].StartingCenter.Y);
             }
+        }
 
+        private void InitializeCirclesAndLines()
+        {
+            theCanvas.Children.Clear();
+            
             foreach (var c in circleList.circleList)
             {
                 DrawCircle(c);
@@ -161,7 +168,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                     PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
 
                     Debug.WriteLine($"Property changed");
-                    mw.CalculateTipsAndCenters();
+                    mw.InitializePlot();
                 }
             }
 
@@ -177,6 +184,13 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 tip.X = center.X + radius;
                 tip.Y = center.Y;
             }
+        }
+
+        public void InitializePlot()
+        {
+            CalculateTipsAndCenters();
+            InitializeCirclesAndLines();
+            InitializePolyTrail();
         }
 
         private void StartButtonClicked(object sender, RoutedEventArgs e)
@@ -203,15 +217,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 DrawLine(c);
             }
 
-            InitializeTrail();
+            InitializePolyTrail();
         }
-
-
 
         public void Tick(object sender, EventArgs e)
         {
-
-
             if (++tickCount >= 666)
             {
                 timer.Stop();
@@ -226,10 +236,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             foreach (var line in DrawnLines)
                 theCanvas.Children.Remove(line);
 
-            Circle lastCircle = (Circle)null;
+            Circle lastCircle = null;
             foreach (Circle c in circleList.circleList)
             {
                 if (lastCircle != null) c.center = lastCircle.tip;
+                
                 c.Rotate(tickCount);
                 lastCircle = c;
 
@@ -237,11 +248,29 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 DrawLine(c);
             }
 
-            //DrawPlot(lastCircle);
-            DrawTrail(lastCircle);
+            DrawTrailCursor(lastCircle);
+
+            //DrawPlotTrail(lastCircle);
+            DrawPolyTrail(lastCircle);
         }
 
-        public void DrawPlot(Circle c)
+        public void DrawTrailCursor(Circle c)
+        {
+            Ellipse Circle = new Ellipse();
+            //myEllipse.Cursor = Cursors.Hand;
+            Circle.Stroke = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+            Circle.Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+            Circle.Width = 4;
+            Circle.Height = 4;
+
+            DrawnCircles.Add(Circle);
+
+            Canvas.SetLeft(Circle, CanvasCenter.X + c.tip.X - 2);
+            Canvas.SetTop(Circle, CanvasCenter.Y + c.tip.Y - 2);
+            theCanvas.Children.Add(Circle);
+        }
+
+        public void DrawPlotTrail(Circle c)
         {
             Ellipse trailEllipse = new Ellipse();
             //myEllipse.Cursor = Cursors.Hand;
@@ -254,13 +283,13 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             theCanvas.Children.Add(trailEllipse);
         }
 
-        public void InitializeTrail()
+        public void InitializePolyTrail()
         {
             TrailPoints.Clear();
             TrailPoly.Points.Clear();
             
-            TrailPoly.Stroke = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-            TrailPoly.StrokeThickness = 3;
+            TrailPoly.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255));
+            TrailPoly.StrokeThickness = 2;
 
             Point tipPoint;
             if (circleList.circleList.Count == 0) tipPoint = CanvasCenter; 
@@ -272,14 +301,14 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Canvas.SetLeft(TrailPoly, CanvasCenter.X);
             Canvas.SetTop(TrailPoly, CanvasCenter.Y);
             theCanvas.Children.Add(TrailPoly);
+
+            DrawTrailCursor(circleList.circleList.Last());
         }
 
-        public void DrawTrail(Circle c)
+        public void DrawPolyTrail(Circle c)
         {
-            //theCanvas.Children.Remove(TrailPoly);
             TrailPoints.Add(c.tip);
             TrailPoly.Points = TrailPoints;
-            //theCanvas.Children.Add(TrailPoly);
         }
 
         public void DrawCircle(Circle c)
