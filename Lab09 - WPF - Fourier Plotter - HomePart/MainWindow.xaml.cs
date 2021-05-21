@@ -138,6 +138,9 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             foreach (var line in DrawnLines)
                 theCanvas.Children.Remove(line);
+
+            DrawnCircles.Clear();
+            DrawnLines.Clear();
         }
         private void DrawCirclesAndLines()
         {
