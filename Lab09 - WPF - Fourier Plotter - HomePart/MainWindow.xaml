@@ -71,6 +71,7 @@
                               Width="Auto"
                               KeyUp="DataGrid_KeyUp"
                               Binding.SourceUpdated="Circles_Modified">
+                        
                         <DataGrid.Columns >
                             <DataGridTextColumn Header="Radius" 
                                                 Binding="{Binding radius, 
@@ -88,6 +89,7 @@
                                                 Width="*"/>
                             <DataGridTextColumn Width="2*" IsReadOnly="true"/>
                         </DataGrid.Columns>
+                        
                     </DataGrid>
                 </GroupBox>
 

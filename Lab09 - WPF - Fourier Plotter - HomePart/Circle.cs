@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
+using System.ComponentModel;
 using System.Xml.Serialization;
+using System.Collections.ObjectModel;
 
 namespace Lab09___WPF___Fourier_Plotter___HomePart
 {
@@ -57,7 +57,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void OnPropertyRaised(string propertyname)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));

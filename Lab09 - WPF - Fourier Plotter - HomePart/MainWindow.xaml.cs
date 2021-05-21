@@ -1,16 +1,16 @@
 ﻿
 using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using System.Diagnostics;
 using System.Windows.Media;
+using System.Windows.Input;
 using System.Windows.Shapes;
-
+using System.Windows.Controls;
+using System.Windows.Threading;
 using System.Xml.Serialization;
+using System.Collections.ObjectModel;
 
 namespace Lab09___WPF___Fourier_Plotter___HomePart
 {
