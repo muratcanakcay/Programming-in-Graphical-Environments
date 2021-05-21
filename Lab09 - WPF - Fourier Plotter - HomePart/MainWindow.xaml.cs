@@ -67,7 +67,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             }
 
             CalculateTipsAndCenters();
-            InitiateTrail();
+            InitializeTrail();
 
             DataContext = circleList.circleList;
 
@@ -202,6 +202,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 DrawCircle(c);
                 DrawLine(c);
             }
+
+            InitializeTrail();
         }
 
 
@@ -262,8 +264,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             theCanvas.Children.Add(trailEllipse);
         }
 
-        public void InitiateTrail()
+        public void InitializeTrail()
         {
+            TrailPoints.Clear();
+            TrailPoly.Points.Clear();
+            
             TrailPoly.Stroke = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             TrailPoly.StrokeThickness = 3;
 
@@ -279,47 +284,58 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             theCanvas.Children.Add(TrailPoly);
         }
 
+        public void ResetTrail()
+        {
+            TrailPoints.Clear();
+            TrailPoly.Points.Clear();
+            
+            Point tipPoint;
+            if (circleList.circleList.Count == 0) tipPoint = CanvasCenter; 
+            else tipPoint = circleList.circleList.Last().tip;
+
+            TrailPoints.Add(tipPoint);
+            TrailPoly.Points = TrailPoints;
+
+            theCanvas.Children.Add(TrailPoly);
+        }
+
         public void DrawTrail(Circle c)
         {
-            theCanvas.Children.Remove(TrailPoly);
+            //theCanvas.Children.Remove(TrailPoly);
             TrailPoints.Add(c.tip);
             TrailPoly.Points = TrailPoints;
-            theCanvas.Children.Add(TrailPoly);
+            //theCanvas.Children.Add(TrailPoly);
         }
 
         public void DrawCircle(Circle c)
         {
-            Ellipse myEllipse = new Ellipse();
+            Ellipse Circle = new Ellipse();
             //myEllipse.Cursor = Cursors.Hand;
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Color.FromArgb(255, 0, 0, 0);
-            myEllipse.Stroke = brush;
-            myEllipse.Width = 2 * c.radius;
-            myEllipse.Height = 2 * c.radius;
+            Circle.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+            Circle.Width = 2 * c.radius;
+            Circle.Height = 2 * c.radius;
 
-            DrawnCircles.Add(myEllipse);
+            DrawnCircles.Add(Circle);
 
-            Canvas.SetLeft(myEllipse, CanvasCenter.X + c.center.X - c.radius);
-            Canvas.SetTop(myEllipse, CanvasCenter.Y + c.center.Y - c.radius);
-            theCanvas.Children.Add(myEllipse);
+            Canvas.SetLeft(Circle, CanvasCenter.X + c.center.X - c.radius);
+            Canvas.SetTop(Circle, CanvasCenter.Y + c.center.Y - c.radius);
+            theCanvas.Children.Add(Circle);
         }
 
         public void DrawLine(Circle c)
         {
-            Line myLine = new Line();
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Color.FromArgb(255, 0, 0, 0);
-            myLine.Stroke = brush;
-            myLine.X1 = c.center.X;
-            myLine.Y1 = c.center.Y;
-            myLine.X2 = c.tip.X;
-            myLine.Y2 = c.tip.Y;
+            Line Line = new Line();
+            Line.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+            Line.X1 = c.center.X;
+            Line.Y1 = c.center.Y;
+            Line.X2 = c.tip.X;
+            Line.Y2 = c.tip.Y;
 
-            DrawnLines.Add(myLine);
+            DrawnLines.Add(Line);
 
-            Canvas.SetLeft(myLine, CanvasCenter.X);
-            Canvas.SetTop(myLine, CanvasCenter.Y);
-            theCanvas.Children.Add(myLine);
+            Canvas.SetLeft(Line, CanvasCenter.X);
+            Canvas.SetTop(Line, CanvasCenter.Y);
+            theCanvas.Children.Add(Line);
         }
     }
 
