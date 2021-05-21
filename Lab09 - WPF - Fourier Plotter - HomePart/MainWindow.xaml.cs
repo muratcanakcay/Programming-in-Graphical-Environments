@@ -36,6 +36,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private Polyline TrailPoly = new Polyline();
         private PointCollection TrailPoints = new PointCollection();
         private Ellipse TrailCursor = new Ellipse();
+        private bool DrawCircles = true;
+        private bool DrawLines = true;
 
         public static MainWindow mw;
 
@@ -138,8 +140,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Canvas.SetTop(TrailPoly, CanvasCenter.Y);
             theCanvas.Children.Add(TrailPoly);
 
-            if (circleList.circleList.Count > 0) DrawTrailCursor(circleList.circleList.Last().tip);
-            else DrawTrailCursor(new Point(0, 0));
+            if (circleList.circleList.Count > 0) DrawTrailPen(circleList.circleList.Last().tip);
+            else DrawTrailPen(new Point(0, 0));
         }
 
         private void ExitButtonClicked(object sender, RoutedEventArgs e)
@@ -238,42 +240,44 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             ++progressBar.Value;
 
-            foreach (var circle in DrawnCircles)
-                theCanvas.Children.Remove(circle);
-
-            foreach (var line in DrawnLines)
-                theCanvas.Children.Remove(line);
+            ClearCirclesAndLines();
 
             Circle lastCircle = null;
             foreach (Circle c in circleList.circleList)
             {
                 if (lastCircle != null) c.center = lastCircle.tip;
-                
-                c.Rotate(tickCount);
-                lastCircle = c;
 
+                c.Rotate(tickCount);
                 DrawCircle(c);
                 DrawLine(c);
+
+                lastCircle = c;
             }
 
-            DrawTrailCursor(lastCircle.tip);
-            DrawPolyTrail(lastCircle);
+            DrawTrailPen(lastCircle.tip);
+            DrawPolyTrail(lastCircle.tip);
 
             //DrawPlotTrail(lastCircle);
         }
 
-        
-        
-        public void DrawPolyTrail(Circle c)
+        private void ClearCirclesAndLines()
         {
-            TrailPoints.Add(c.tip);
+            foreach (var circle in DrawnCircles)
+                theCanvas.Children.Remove(circle);
+
+            foreach (var line in DrawnLines)
+                theCanvas.Children.Remove(line);
+        }
+
+        public void DrawPolyTrail(Point penPos)
+        {
+            TrailPoints.Add(penPos);
             TrailPoly.Points = TrailPoints;
         }
 
-        public void DrawTrailCursor(Point cursorPos)
+        public void DrawTrailPen(Point penPos)
         {
             Ellipse Circle = new Ellipse();
-            //myEllipse.Cursor = Cursors.Hand;
             Circle.Stroke = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             Circle.Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             Circle.Width = 4;
@@ -281,15 +285,16 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             DrawnCircles.Add(Circle);
 
-            Canvas.SetLeft(Circle, CanvasCenter.X + cursorPos.X - 2);
-            Canvas.SetTop(Circle, CanvasCenter.Y + cursorPos.Y - 2);
+            Canvas.SetLeft(Circle, CanvasCenter.X + penPos.X - 2);
+            Canvas.SetTop(Circle, CanvasCenter.Y + penPos.Y - 2);
             theCanvas.Children.Add(Circle);
         }
         
         public void DrawCircle(Circle c)
         {
+            if (!DrawCircles) return;
+            
             Ellipse Circle = new Ellipse();
-            //myEllipse.Cursor = Cursors.Hand;
             Circle.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
             Circle.Width = 2 * c.radius;
             Circle.Height = 2 * c.radius;
@@ -320,7 +325,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         public void DrawPlotTrail(Circle c)
         {
             Ellipse trailEllipse = new Ellipse();
-            //myEllipse.Cursor = Cursors.Hand;
             TrailPoly.Stroke = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
             trailEllipse.Width = 3;
             trailEllipse.Height = 3;
@@ -347,11 +351,31 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         {
             if (e.Key == Key.Delete) InitializePlot();
         }
+
+        private void Circles_OnChecked(object sender, RoutedEventArgs e)
+        {
+            DrawCircles = true;
+            foreach(var circle in DrawnCircles)
+                circle.Visibility = Visibility.Visible;
+
+        }
+
+        private void Circles_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            DrawCircles = false;
+            foreach(var circle in DrawnCircles)
+                circle.Visibility = Visibility.Hidden;
+            DrawnCircles.Last().Visibility = Visibility.Visible;
+        }
+
+        private void Lines_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Lines_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
-
-
-
-
-
-
 }
