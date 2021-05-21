@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<CircleList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <circles>
+    <Circle>
+      <radius>40</radius>
+      <frequency>10</frequency>
+    </Circle>
+    <Circle>
+      <radius>120</radius>
+      <frequency>-3</frequency>
+    </Circle>
+    <Circle>
+      <radius>40</radius>
+      <frequency>7</frequency>
+    </Circle>
+    <Circle>
+      <radius>70</radius>
+      <frequency>5</frequency>
+    </Circle>
+  </circles>
+</CircleList>
