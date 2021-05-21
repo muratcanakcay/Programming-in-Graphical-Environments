@@ -292,12 +292,11 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         
         public void DrawCircle(Circle c)
         {
-            if (!DrawCircles) return;
-            
             Ellipse Circle = new Ellipse();
             Circle.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
             Circle.Width = 2 * c.radius;
             Circle.Height = 2 * c.radius;
+            if (!DrawCircles) Circle.Visibility = Visibility.Hidden;
 
             DrawnCircles.Add(Circle);
 
@@ -314,6 +313,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Line.Y1 = c.center.Y;
             Line.X2 = c.tip.X;
             Line.Y2 = c.tip.Y;
+            if (!DrawLines) Line.Visibility = Visibility.Hidden;
 
             DrawnLines.Add(Line);
 
@@ -355,14 +355,15 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void Circles_OnChecked(object sender, RoutedEventArgs e)
         {
             DrawCircles = true;
+            
             foreach(var circle in DrawnCircles)
                 circle.Visibility = Visibility.Visible;
-
         }
 
         private void Circles_OnUnchecked(object sender, RoutedEventArgs e)
         {
             DrawCircles = false;
+
             foreach(var circle in DrawnCircles)
                 circle.Visibility = Visibility.Hidden;
             DrawnCircles.Last().Visibility = Visibility.Visible;
@@ -370,12 +371,18 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         private void Lines_OnChecked(object sender, RoutedEventArgs e)
         {
-
+            DrawLines = true;
+            
+            foreach(var line in DrawnLines)
+                line.Visibility = Visibility.Visible;
         }
 
         private void Lines_OnUnchecked(object sender, RoutedEventArgs e)
         {
-
+            DrawLines = false;
+             
+            foreach(var line in DrawnLines)
+                line.Visibility = Visibility.Hidden;
         }
     }
 }
