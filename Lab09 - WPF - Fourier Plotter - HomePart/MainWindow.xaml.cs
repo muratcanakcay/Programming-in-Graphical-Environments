@@ -151,6 +151,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         public class CircleList
         {
             public ObservableCollection<Circle> circles;
+
+            public void Reset()
+            {
+                circles.Clear();
+            }
+
         }
 
         public class Circle : INotifyPropertyChanged
@@ -360,6 +366,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
              
             foreach(var line in DrawnLines)
                 line.Visibility = Visibility.Hidden;
+        }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            circleList.Reset();
+            InitializePlot();
         }
     }
 }
