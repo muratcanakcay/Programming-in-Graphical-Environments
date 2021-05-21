@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab09___WPF___Fourier_Plotter___HomePart"
         mc:Ignorable="d"
-        Title="Fourier Plotter" Height="600" Width="800" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="Fourier Plotter" 
+        Height="600" 
+        Width="800" 
+        ResizeMode="NoResize" 
+        Loaded="Window_Loaded" 
+        WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized"
+        WindowStyle="None"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,17 +23,17 @@
         
         <Grid Grid.Row="0">
             <Menu>
-                <MenuItem Header = "File">
-                    <MenuItem Header = "New" />
-                    <MenuItem Header = "Open"/>
-                    <MenuItem Header = "Save"/>
+                <MenuItem Header = "_File" InputGestureText="Alt+F">
+                    <MenuItem Header = "_New" InputGestureText="Alt+N" />
+                    <MenuItem Header = "_Open" InputGestureText="Alt+O"/>
+                    <MenuItem Header = "_Save" InputGestureText="Alt+S"/>
                 </MenuItem>
-                <MenuItem Header = "Exit" Click="ExitButtonClicked"/>
-                <MenuItem Header="Options" >
-                    <MenuItem Header="Draw Circles" IsCheckable="True" IsChecked="True" Checked="DrawCircles_OnChecked" Unchecked="DrawCircles_OnUnchecked">
+                <MenuItem Header = "E_xit" Click="ExitButtonClicked" InputGestureText="Alt+E"/>
+                <MenuItem Header="_Options" InputGestureText="Alt+O" >
+                    <MenuItem Header="Draw _Circles" InputGestureText="Alt+C" IsCheckable="True" IsChecked="True" Checked="DrawCircles_OnChecked" Unchecked="DrawCircles_OnUnchecked">
 
                     </MenuItem>
-                    <MenuItem Header="Draw Lines" IsCheckable="True" IsChecked="True" Checked="DrawLines_OnChecked" Unchecked="DrawLines_OnUnchecked">
+                    <MenuItem Header="Draw _Lines" InputGestureText="Alt+L" IsCheckable="True" IsChecked="True" Checked="DrawLines_OnChecked" Unchecked="DrawLines_OnUnchecked">
 
                     </MenuItem>
 
@@ -64,8 +72,8 @@
 
                               >
                         <DataGrid.Columns >
-                            <DataGridTextColumn Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" Width="*"/>
+                            <DataGridTextColumn Header="Radius" Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50"/>
+                            <DataGridTextColumn Header="Radius" Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50"/>
                             <DataGridTextColumn Binding="{Binding col3, Mode=TwoWay}" Width="3*"/>
                         </DataGrid.Columns>
                     </DataGrid>

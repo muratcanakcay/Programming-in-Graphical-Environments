@@ -258,7 +258,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         public void DrawTrail()
         {
             if (circleList.circles.Count > 0) TrailPoints.Add(circleList.circles.Last().tip);
-            //TrailPoly.Points = TrailPoints;
         }
 
         public void DrawTrailPen()
