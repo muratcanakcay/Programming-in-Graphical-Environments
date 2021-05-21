@@ -55,24 +55,37 @@
                 </Grid.ColumnDefinitions>
 
                 <GroupBox Header="Plotter">
-                    <Canvas x:Name="theCanvas" Grid.Column="0" Background="White"/>
+                    <Canvas x:Name="theCanvas"
+                            Grid.Column="0" 
+                            Background="White"/>
 
                 </GroupBox>
 
-                <GroupBox Grid.Column="1" Header="Circles">
+                <GroupBox Grid.Column="1" 
+                          Header="Circles">
                     <DataGrid Name="dataGrid"
-                              ItemsSource="{Binding }" 
-                              AutoGenerateColumns="False" 
-                              
+                              ItemsSource="{Binding}" 
+                              AutoGenerateColumns="False"
                               Height="Auto" 
                               VerticalAlignment="Top" 
                               Width="Auto"
                               KeyUp="DataGrid_KeyUp"
-                              Binding.SourceUpdated="Circles_Modified"
-                              >
+                              Binding.SourceUpdated="Circles_Modified">
                         <DataGrid.Columns >
-                            <DataGridTextColumn Header="Radius" Binding="{Binding radius, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged, NotifyOnSourceUpdated=True}" MinWidth="50" Width="*"/>
-                            <DataGridTextColumn Header="Frequency" Binding="{Binding frequency, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged, NotifyOnSourceUpdated=True}" MinWidth="50" Width="*"/>
+                            <DataGridTextColumn Header="Radius" 
+                                                Binding="{Binding radius, 
+                                                        Mode=TwoWay, 
+                                                        UpdateSourceTrigger = PropertyChanged, 
+                                                        NotifyOnSourceUpdated=True}" 
+                                                MinWidth="50" 
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Frequency" 
+                                                Binding="{Binding frequency, 
+                                                        Mode=TwoWay, 
+                                                        UpdateSourceTrigger = PropertyChanged, 
+                                                        NotifyOnSourceUpdated=True}" 
+                                                MinWidth="50" 
+                                                Width="*"/>
                             <DataGridTextColumn Width="2*" IsReadOnly="true"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -88,7 +101,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
-
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="95*"/>
@@ -101,8 +114,10 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <ProgressBar x:Name="progressBar" Grid.Row="1" Grid.Column="1" Maximum="10000"/>
-
+                    <ProgressBar x:Name="progressBar" 
+                                 Grid.Row="1" 
+                                 Grid.Column="1" 
+                                 Maximum="10000"/>
                 </Grid>
 
                 <GroupBox Grid.Column="1" Header="Actions">
@@ -117,9 +132,11 @@
                         <Button Grid.Row="0" Click="StartButton_Click">
                             <TextBlock Text="Start"/>
                         </Button>
+                        
                         <Button Grid.Row="1"  Click="PauseButton_Click">
                             <TextBlock Text="Pause"/>
                         </Button>
+                        
                         <Button Grid.Row="2" Click="ResetButton_Click">
                             <TextBlock Text="Reset" />
                         </Button>

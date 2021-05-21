@@ -60,16 +60,15 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         private void OnPropertyRaised(string propertyname)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
         }
+
         public void Rotate(long tickCount)
         {
-            tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 1000);
-            tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 1000);
+            tip.X = center.X + radius * Math.Cos(tickCount * frequency * 2 * Math.PI / 10000);
+            tip.Y = center.Y + radius * Math.Sin(tickCount * frequency * 2 * Math.PI / 10000);
         }
+
         public void Reset()
         {
             center = StartingCenter;

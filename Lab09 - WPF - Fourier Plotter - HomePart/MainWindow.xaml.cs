@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+﻿
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
+
 using System.Xml.Serialization;
 
 namespace Lab09___WPF___Fourier_Plotter___HomePart
@@ -20,18 +20,16 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
     public partial class MainWindow : Window
     {
         private long tickCount = 0;
+        private bool drawLines = true;
+        private bool drawCircles = true;
         private Point CanvasCenter = new Point();
-        private CircleList circleList = new CircleList();
+        private Stopwatch Stopwatch = new Stopwatch();
+        private CircleList CircleList = new CircleList();
         private readonly Polyline TrailPoly = new Polyline();
         private readonly PointCollection TrailPoints = new PointCollection();
-        private readonly DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Render);
-        private readonly ObservableCollection<UIElement> DrawnCircles = new ObservableCollection<UIElement>();
+        private readonly DispatcherTimer Timer = new DispatcherTimer(DispatcherPriority.Render);
         private readonly ObservableCollection<UIElement> DrawnLines = new ObservableCollection<UIElement>();
-        
-        private bool DrawCircles = true;
-        private bool DrawLines = true;
-
-        private Stopwatch stopwatch = new Stopwatch();
+        private readonly ObservableCollection<UIElement> DrawnCircles = new ObservableCollection<UIElement>();
         
         //-----------------
         
@@ -43,18 +41,18 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
-            timer.Interval = TimeSpan.FromMilliseconds(10);
-            timer.Tick += new EventHandler(Tick);
+            Timer.Interval = TimeSpan.FromMilliseconds(10);
+            Timer.Tick += new EventHandler(Tick);
 
-            DataContext = circleList.circles;
-            InitializePlot();
+            DataContext = CircleList.circles;
+            InitializePlotter();
         }
 
-        private void InitializePlot()
+        private void InitializePlotter()
         {
-            timer.Stop();
-            stopwatch.Stop();
-            stopwatch.Reset();
+            Timer.Stop();
+            Stopwatch.Stop();
+            Stopwatch.Reset();
             tickCount = 0;
             progressBar.Value = 0;
             
@@ -64,15 +62,15 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
         private void CalculateTipsAndCenters()
         {
-            if (circleList.circles.Count == 0) return;
+            if (CircleList.circles.Count == 0) return;
             
-            circleList.circles[0].StartingCenter = new Point(0, 0);
-            circleList.circles[0].tip = new Point(circleList.circles[0].radius, 0);
+            CircleList.circles[0].StartingCenter = new Point(0, 0);
+            CircleList.circles[0].tip = new Point(CircleList.circles[0].radius, 0);
 
-            for (int i = 1; i < circleList.circles.Count; i++)
+            for (int i = 1; i < CircleList.circles.Count; i++)
             {
-                circleList.circles[i].StartingCenter = circleList.circles[i - 1].tip;
-                circleList.circles[i].tip = new Point(circleList.circles[i].StartingCenter.X + circleList.circles[i].radius, circleList.circles[i].StartingCenter.Y);
+                CircleList.circles[i].StartingCenter = CircleList.circles[i - 1].tip;
+                CircleList.circles[i].tip = new Point(CircleList.circles[i].StartingCenter.X + CircleList.circles[i].radius, CircleList.circles[i].StartingCenter.Y);
             }
         }
         private void InitializeCirclesAndLines()
@@ -81,7 +79,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             DrawnCircles.Clear();
             DrawnLines.Clear();
             
-            foreach (var c in circleList.circles)
+            foreach (var c in CircleList.circles)
             {
                 c.Reset();
                 DrawCircle(c);
@@ -97,8 +95,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             TrailPoly.StrokeThickness = 1;
 
             Point tipPoint;
-            if (circleList.circles.Count == 0) tipPoint = CanvasCenter; 
-            else tipPoint = circleList.circles.Last().tip;
+            if (CircleList.circles.Count == 0) tipPoint = CanvasCenter; 
+            else tipPoint = CircleList.circles.Last().tip;
 
             TrailPoints.Add(tipPoint);
             TrailPoly.Points = TrailPoints;
@@ -112,22 +110,22 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         private void Tick(object sender, EventArgs e)
         {
-            long elapsed = stopwatch.ElapsedMilliseconds;
+            long elapsedTime = Stopwatch.ElapsedMilliseconds;
             
-            if (elapsed > 9999) elapsed = 10000;
+            if (elapsedTime > 9999) elapsedTime = 10000;
             
-            tickCount = elapsed;
-            progressBar.Value = elapsed;
+            tickCount = elapsedTime;
+            progressBar.Value = elapsedTime;
                 
             ClearCirclesAndLines(); // also clears the TrailPen
             DrawCirclesAndLines();
             DrawTrailPen();
             DrawTrail();
 
-            if(elapsed == 10000)
+            if(elapsedTime == 10000)
             {
-                timer.Stop();
-                stopwatch.Stop();
+                Timer.Stop();
+                Stopwatch.Stop();
                 return;
             }
         }
@@ -143,7 +141,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void DrawCirclesAndLines()
         {
             Circle lastCircle = null;
-            foreach (Circle c in circleList.circles)
+            foreach (Circle c in CircleList.circles)
             {
                 if (lastCircle != null) c.center = lastCircle.tip;
 
@@ -160,7 +158,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Circle.Stroke = new SolidColorBrush(Colors.Black);
             Circle.Width = 2 * c.radius;
             Circle.Height = 2 * c.radius;
-            if (!DrawCircles) Circle.Visibility = Visibility.Hidden;
+            if (!drawCircles) Circle.Visibility = Visibility.Hidden;
 
             DrawnCircles.Add(Circle);
 
@@ -176,7 +174,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Line.Y1 = c.center.Y;
             Line.X2 = c.tip.X;
             Line.Y2 = c.tip.Y;
-            if (!DrawLines) Line.Visibility = Visibility.Hidden;
+            if (!drawLines) Line.Visibility = Visibility.Hidden;
 
             DrawnLines.Add(Line);
 
@@ -195,7 +193,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             DrawnCircles.Add(Pen);
 
             Point penPos;
-            if (circleList.circles.Count > 0) penPos = circleList.circles.Last().tip;
+            if (CircleList.circles.Count > 0) penPos = CircleList.circles.Last().tip;
             else penPos = new Point(0, 0);
 
             Canvas.SetLeft(Pen, CanvasCenter.X + penPos.X - 2);
@@ -204,15 +202,15 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
         private void DrawTrail()
         {
-            if (circleList.circles.Count > 0) TrailPoints.Add(circleList.circles.Last().tip);
+            if (CircleList.circles.Count > 0) TrailPoints.Add(CircleList.circles.Last().tip);
         }
         
         // ----------
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            circleList.Reset();
-            InitializePlot();
+            CircleList.Reset();
+            InitializePlotter();
         }
         private void OpenButon_Click(object sender, RoutedEventArgs e)
         {
@@ -225,7 +223,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             try
             {
                 XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
-                circleList = (CircleList)deserializer.Deserialize(fileStream);
+                CircleList = (CircleList)deserializer.Deserialize(fileStream);
             }
             catch (Exception)
             {
@@ -233,8 +231,8 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 return;
             }
 
-            DataContext = circleList.circles;
-            InitializePlot();
+            DataContext = CircleList.circles;
+            InitializePlotter();
         }
         private void SaveButon_Click(object sender, RoutedEventArgs e)
         {
@@ -245,7 +243,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
             using var fileStream = new FileStream($"{saveFileDialog.FileName}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             XmlSerializer serializer = new XmlSerializer(typeof(CircleList));
-            serializer.Serialize(fileStream, circleList);
+            serializer.Serialize(fileStream, CircleList);
         }
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
@@ -254,29 +252,29 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            timer.Start();
-            stopwatch.Start();
+            Timer.Start();
+            Stopwatch.Start();
         }
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
-            stopwatch.Stop();;
+            Timer.Stop();
+            Stopwatch.Stop();;
         }
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            InitializePlot();
+            InitializePlotter();
         }
         
         private void DrawCircles_OnChecked(object sender, RoutedEventArgs e)
         {
-            DrawCircles = true;
+            drawCircles = true;
             
             foreach(var circle in DrawnCircles)
                 circle.Visibility = Visibility.Visible;
         }
         private void DrawCircles_OnUnchecked(object sender, RoutedEventArgs e)
         {
-            DrawCircles = false;
+            drawCircles = false;
 
             foreach(var circle in DrawnCircles)
                 circle.Visibility = Visibility.Hidden;
@@ -284,14 +282,14 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         }
         private void DrawLines_OnChecked(object sender, RoutedEventArgs e)
         {
-            DrawLines = true;
+            drawLines = true;
             
             foreach(var line in DrawnLines)
                 line.Visibility = Visibility.Visible;
         }
         private void DrawLines_OnUnchecked(object sender, RoutedEventArgs e)
         {
-            DrawLines = false;
+            drawLines = false;
              
             foreach(var line in DrawnLines)
                 line.Visibility = Visibility.Hidden;
@@ -299,12 +297,12 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         
         private void DataGrid_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete) InitializePlot();
+            if (e.Key == Key.Delete) InitializePlotter();
         }
 
         private void Circles_Modified(object sender, System.Windows.Data.DataTransferEventArgs e)
         {
-            InitializePlot();
+            InitializePlotter();
         }
     }
 }
