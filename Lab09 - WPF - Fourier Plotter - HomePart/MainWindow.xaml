@@ -22,10 +22,10 @@
                 </MenuItem>
                 <MenuItem Header = "Exit" Click="ExitButtonClicked"/>
                 <MenuItem Header="Options" >
-                    <MenuItem Header="Draw Circles" IsCheckable="True" IsChecked="True" Checked="Circles_OnChecked" Unchecked="Circles_OnUnchecked">
+                    <MenuItem Header="Draw Circles" IsCheckable="True" IsChecked="True" Checked="DrawCircles_OnChecked" Unchecked="DrawCircles_OnUnchecked">
 
                     </MenuItem>
-                    <MenuItem Header="Draw Lines" IsCheckable="True" IsChecked="True" Checked="Lines_OnChecked" Unchecked="Lines_OnUnchecked">
+                    <MenuItem Header="Draw Lines" IsCheckable="True" IsChecked="True" Checked="DrawLines_OnChecked" Unchecked="DrawLines_OnUnchecked">
 
                     </MenuItem>
 
