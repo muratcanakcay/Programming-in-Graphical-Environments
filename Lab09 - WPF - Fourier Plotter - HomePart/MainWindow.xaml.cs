@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -69,10 +70,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
                 Debug.WriteLine($"{c.radius}, {c.frequency}");
             }
 
-            CalculateTipsAndCenters();
-            InitializeCirclesAndLines();
-            InitializeTrailAndPen();
-
+            InitializePlot();
             DataContext = circleList.circles;
 
 
@@ -373,5 +371,29 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             circleList.Reset();
             InitializePlot();
         }
+
+        private void OpenButon_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML Save File|*.xml";
+
+            if (openFileDialog.ShowDialog() != true || openFileDialog.FileName.Equals("")) return;
+                
+            XmlSerializer deserializer = new XmlSerializer(typeof(CircleList));
+            TextReader reader = new StreamReader(openFileDialog.FileName);
+
+            try
+            {
+                circleList = (CircleList)deserializer.Deserialize(reader);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error in file!", "Error!");
+                return;
+            }
+
+            InitializePlot();
+        }
+        
     }
 }
