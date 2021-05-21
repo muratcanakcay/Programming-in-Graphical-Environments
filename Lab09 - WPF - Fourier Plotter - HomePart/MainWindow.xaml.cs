@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int tickCount = 0;
+        private long tickCount = 0;
         private Point CanvasCenter = new Point();
         private CircleList circleList = new CircleList();
         private readonly Polyline TrailPoly = new Polyline();
@@ -44,7 +43,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CanvasCenter = new Point(theCanvas.ActualWidth / 2, theCanvas.ActualHeight / 2);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 3);
+            timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += new EventHandler(Tick);
 
             DataContext = circleList.circles;
@@ -113,21 +112,23 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
 
         private void Tick(object sender, EventArgs e)
         {
-            if (stopwatch.ElapsedMilliseconds > 10000)
+            long elapsed = stopwatch.ElapsedMilliseconds;
+            
+            if (elapsed > 9999) elapsed = 10000;
+            
+            tickCount = elapsed;
+            progressBar.Value = elapsed;
+                
+            ClearCirclesAndLines(); // also clears the TrailPen
+            DrawCirclesAndLines();
+            DrawTrailPen();
+            DrawTrail();
+
+            if(elapsed == 10000)
             {
                 timer.Stop();
                 stopwatch.Stop();
                 return;
-            }
-            else if (stopwatch.ElapsedMilliseconds % 10 == 0)
-            {            
-                ++tickCount;
-                progressBar.Value = stopwatch.ElapsedMilliseconds / 10;
-
-                ClearCirclesAndLines(); // also clears the TrailPen
-                DrawCirclesAndLines();
-                DrawTrailPen();
-                DrawTrail();
             }
         }
 
