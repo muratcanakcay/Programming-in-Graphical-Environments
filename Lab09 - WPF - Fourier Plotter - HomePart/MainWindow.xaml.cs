@@ -229,17 +229,7 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             Circle lastCircle = (Circle)null;
             foreach (Circle c in circleList.circleList)
             {
-                if (lastCircle == null)
-                {
-                    c.Rotate(tickCount);
-                    lastCircle = c;
-
-                    DrawCircle(c);
-                    DrawLine(c);
-
-                    continue;
-                }
-                c.center = lastCircle.tip;
+                if (lastCircle != null) c.center = lastCircle.tip;
                 c.Rotate(tickCount);
                 lastCircle = c;
 
@@ -281,21 +271,6 @@ namespace Lab09___WPF___Fourier_Plotter___HomePart
             
             Canvas.SetLeft(TrailPoly, CanvasCenter.X);
             Canvas.SetTop(TrailPoly, CanvasCenter.Y);
-            theCanvas.Children.Add(TrailPoly);
-        }
-
-        public void ResetTrail()
-        {
-            TrailPoints.Clear();
-            TrailPoly.Points.Clear();
-            
-            Point tipPoint;
-            if (circleList.circleList.Count == 0) tipPoint = CanvasCenter; 
-            else tipPoint = circleList.circleList.Last().tip;
-
-            TrailPoints.Add(tipPoint);
-            TrailPoly.Points = TrailPoints;
-
             theCanvas.Children.Add(TrailPoly);
         }
 
