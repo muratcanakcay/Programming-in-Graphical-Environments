@@ -1,0 +1,80 @@
+<html>
+    <title>Windows Presentation Foundation - Lab 14</title>
+</html>
+<body>
+    <h2>Fourier Plotter</h2>
+    <h4>Lab Part</h4>
+    <ul>
+        <li><a href="WPF14_Lab.exe">Example application</a></li>
+        <li>
+            Task description:
+            <ul>
+                <li>Layout: <strong>(4.0p)</strong>
+                    <ul>
+                        <li>Fixed size of the window, chosen by student. User cannot resize it or minimize it. <strong>(1.0p)</strong></li>
+                        <li>Menu bar with two main items: <strong>(1.0p)</strong></li>
+                          <ul>
+                            <li>File button with: New, Open and Save buttons.</li>
+                            <li>An Exit button closing an application.</li>
+                          </ul>
+                        <li>Window divided in four main parts <strong>(2.0p)</strong>:</li>
+                          <ul>
+                            <li>Two columns with width ratio: 80% / 20%.</li>
+                            <li>Two rows with height ratio: 85% / 15%.</li>
+                            <li>First cell in first row contains an image with proper label.</li>
+                            <li>Second cell in first row contains labeled Datagrid bound to items collection.</li>
+                            <li>First cell in second row contains progressbar.</li>
+                            <li>Second cell in second row contains labeled buttons.</li>
+                          </ul>
+                    </ul>
+                </li>
+
+                <li>Binding: <strong>(1.0p)</strong>
+                    <ul>
+                        <li>Datagrid connected to any data collection chosen by student (Binding is required).</li>
+                    </ul>
+                </li>
+
+                <li>Progressbar: <strong>(2.0p)</strong>
+                    <ul>
+                        <li>In first cell in second row there is a progressbar that can be filled.</li>
+                    </ul>
+                </li>
+
+                <li>Buttons: <strong>(2.0p)</strong>
+                    <ul>
+                        <li>Start button starts 10 second interval in which progressbar should by linearly filled.</li>
+                        <li>Pause button pauses whole procedure, without stopping it permanently.</li>
+                        <li>Reset button resets timer, stops counting, resets progressbar and clears image.</li>
+                    </ul>
+                </li>
+
+                <li>Drawing: <strong>(3.0p)</strong>
+                    <ul>
+                        <li>After loading of the progressbar, circle should appear in the middle of an image , with radius of the first element in the collection.</li>
+                        <li>After loading of the progressbar, size of the circle should be changeable.</li>
+                        <li>Reset button resets timer, stops counting, resets progressbar and clears image.</li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+
+        <li>
+            Remarks:
+            <ul>
+                <li>It is not possible to obtain points for incomplete functionality</li>
+                <li>In all doubtful and untold aspects application should behave like an example app</li>
+            </ul>
+        </li>
+
+        <li>
+            Tips:
+            <ul>
+                <li>DispatcherTimer, Stopwatch, DispatcherTimer.Tick, DispatcherPriority</li>
+                <li>Graphics.DrawEllipse, Graphics.Clear, DispatcherTimer.Tick</li>
+                <li>ProgressBar.Value</li>
+            </ul>
+        </li>
+    </ul>
+</body>
