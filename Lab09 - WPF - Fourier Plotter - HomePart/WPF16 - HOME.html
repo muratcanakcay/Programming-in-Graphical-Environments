@@ -1,0 +1,99 @@
+<html>
+    <title>Windows Presentation Foundation - Lab 14</title>
+</html>
+<body>
+    <h2>Fourier Plotter</h2>
+    <h4>Home Part</h4>
+    <ul>
+        <li><a href="WPF14_Lab.exe">Example application</a></li>
+        <li> Task description:
+            <p>The purpose of the task is to create a desktop application containing 2D Plotter based on the idea of the Fourier Series. </p>
+            <p>User can define list of circles with radiuses, and frequencies connected to each circle.
+            First circle is anchored in the middle of plotter workspace.</p>
+            <p>Each next circle center is anchored on previous one.
+            After creating a list of circles user can start 10s procedure, in which each radius of each circle makes n rotations described by frequency field.</p>
+            For example:
+            <ul>
+                <li>Circle 200, 1: a circle with a radius of 200 units, making one full clockwise rotation in 10 seconds</li>
+                <li>Circle 80, -3: a circle with a radius of 80 units, making three full counter-clockwise rotations in 10 seconds</li>
+            </ul>
+            <p>In the time of the procedure each radius of each circle is rotating from zero position proper number of times. Positions of circles have to be calculated dynamically for each step of the procedure.
+            Radius of the last circle is ended with drawing pen, wchich draws curve of our final shape.</p>
+
+            </li>
+            <li>Task requirements:
+
+            <ul>
+                <li> All Lab requirements have to be fulfilled!! </li>
+                <li>Layout: <strong>(1.0p)</strong>
+                    <ul>
+                        <li>Window starts maximized. User cannot resize it or minimize it. <strong>(1.0p)</strong></li>
+                    </ul>
+                </li>
+
+                <li>Datagrid: <strong>(2.0p)</strong>
+                    <ul>
+                      <li>User can add or delete any number of circles.</li>
+                      <li>When "Draw circles" option is turned on, added circles should appear on the screen</li>
+                    </ul>
+                </li>
+
+                <li>Buttons: <strong>(1.0p)</strong>
+                    <ul>
+                        <li>All menu files should be controllable by ALT+Key shortcuts.</li>
+                        <li>File button: </li>
+                          <ul>
+                              <li>New: Clears list, clears image and stops procedure.</li>
+                              <li>Open: Opens .xml serialized file with circles.</li>
+                              <li>Save: Saves .xml serialized file with circles.</li>
+                            </ul>
+                        <li>Exit: opens dialog with possible exit procedure.</li>
+                        <li>Options button: </li>
+                          <ul>
+                            <li>Draw circles: Toggles drawing of helper circles.</li>
+                            <li>Draw lines: Toggles drawing of helper lines.</li>
+                          </ul>
+                    </ul>
+                </li>
+
+                <li>Drawing: <strong>(5.0p)</strong>
+                    <ul>
+                      <li>Drawing shape defined by movinf pen. <strong>(2.0p)</strong></li>
+                      <li>Drawing and animating circles defined by circle datagrid. <strong>(1.0p)</strong></li>
+                      <li>Drawing and animating radii <strong>(1.0p)</strong></li>
+                      <li>Drawing and animating red dot representing Pen on the end of the last radius. <strong>(1.0p)</strong></li>
+                    </ul>
+                </li>
+
+                <li>Serialization: <strong>(3.0p)</strong>
+                    <ul>
+                      <li>User can serialize and deserialize list of all circles with radii and frequencies.</li>
+                      <li>Opening .xml file should be protected against erroneous files.</li>
+                    </ul>
+                </li>
+
+
+
+            </ul>
+        </li>
+
+        <li>
+            Remarks:
+            <ul>
+                <li>It is not possible to obtain points for incomplete functionality</li>
+                <li>In all doubtful and untold aspects application should behave like an example app</li>
+            </ul>
+        </li>
+
+        <li>
+            Tips:
+            <ul>
+                <li>DispatcherTimer, Stopwatch, DispatcherTimer.Tick, DispatcherPriority</li>
+                <li>System.Windows.Point, Windows.Shapes.Ellipse, Windows.Shapes.Line, DispatcherTimer.Tick</li>
+                <li>ProgressBar.Value</li>
+                <li>MessageBoxResult, OpenFileDialog, XmlSerializer</li>
+
+            </ul>
+        </li>
+    </ul>
+</body>
