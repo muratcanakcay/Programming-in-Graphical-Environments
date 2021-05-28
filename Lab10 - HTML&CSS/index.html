@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width-device-width , initial-scale=1.0" />
+    <title>Barbecue survey</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body >
+    <div class="body">
+        <fieldset>
+            <legend>Post-lockdown barbecue survey</legend>
+                <form  id="form" action="#" method="get">        
+                    <label class="question" for="name">What is your name?</label>
+                    <input type="text" id="name" name="name" pattern="[A-Za-z0-9]+" oninvalid="this.setCustomValidity('Please provide your name without any special characters')" placeholder="Please provide your name" required="required" />
+            
+                
+                    <label class="question" for="immunity">What is your immunity status? (select multiple options with CTRL)</label>
+                    <select id="immunity" size="9" multiple="multiple">
+                        <optgroup label="Not vaccinated">
+                        <option value="0">Not vaccinated and not planning to do so</option>
+                        <option value="1">Not vaccinated, but planning to do so</option>
+                        </optgroup>
+
+                        <optgroup label="After infection">
+                        <option value="2">After infection, but no antibodies</option>
+                        <option value="3">After infection, with antibodies</option>
+                        </optgroup>
+
+                        <optgroup label="Vaccinated">
+                        <option value="4">After a single dose of vaccine</option>
+                        <option value="5">After the second dose of vaccine (or a single dose vaccine)</option>
+                        </optgroup>
+                    </select>
+                
+                    <label class="question" for="bring">What are you planning to bring?</label>
+                    <div id="bring" class="options">
+                        
+                        <div class="opts">
+                            <div class="checkbox">
+                                <input type="checkbox" id="somepastry"  >
+                                <label for="somepastry">Some pastry</label>
+                            </div>
+        
+                            <div class="checkbox">
+                                <input type="checkbox" id="softdrink"  >
+                                <label for="softdrink">Soft drinks</label>
+                            </div>
+        
+                        </div>
+                        
+                        <div class="opts">
+                            <div class="checkbox">
+                                <input type="checkbox" id="disinfenctant"  >
+                                <label for="disinfenctant">Disinfectant(based on C<sub>2</sub>H<sub>5</sub>OH)</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="bacon"  >
+                                <label for="bacon">Baocn</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="veganburger"  >
+                                <label for="veganburger">Vegan brger</label>
+                            </div>
+                        </div>
+                        
+                        <div class="opts">
+                            <div class="checkbox">
+                                <input type="checkbox" id="mustards"  >
+                                <label for="mustards">Varerty of mustards</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="other"  >
+                                <label for="other">Other</label>
+                                <input type="text" placeholder="Please specify" >
+                            </div>
+                        </div>
+
+                    </div>
+            
+                <input id="button" type="submit" value="I really want to come!">
+            </form>
+
+        </fieldset>
+    </div>
+
+</body>
+
+</html>

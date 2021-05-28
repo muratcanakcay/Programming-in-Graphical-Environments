@@ -1,0 +1,56 @@
+Website content:
+------------------------------------------------------
+Post-lockdown barbecue survey
+What is your name?
+[Please provide your name]
+What is your immunity status? (select multiple options with CTRL)
+
+[[Not vaccinated]]
+ [Not vaccinated and not planning to do so]
+ [Not vaccinated, but planning to do so]
+[[After infection]]
+ [After infection, but no antibodies]
+ [After infection, with antibodies]
+[[Vaccinated]]
+ [After a single dose of vaccine]
+ [After the second dose of vaccine (or a single dose vaccine)]
+
+What are you planning to bring?
+[ ]Some pastry
+[ ]Soft drinks
+[ ]Disinfectant (based on C2H5OH)
+[ ]Bacon
+[ ]Vegan burger
+[ ]Variety of mustards
+[ ]Other [Please specify]
+
+[I really want to come!]
+------------------------------------------------------
+
+Create a website similar to the one provided in screenshots:
+ * 1pt. Create a form consisting of an input for the name, list of options about immunity status, some options of food to be brought and a submit button
+ * 1pt. Labels describing the checkbox inputs are properly linked to them
+ * 1pt. The options on the list are grouped, all of the options on the list are visible and multiselect is available.
+ * 1pt. The options on the list are numbered encoded ("opt. 1" = 0, "opt. 2" = 1 etc.)
+ * 1pt. The text inputs display a hint helping to fill them in
+ * 1pt. The name input is obligatory, it allows only for latin alphabet letter and when wrong data are inserted the message: "Please provide your name without any special characters" is shown by the browser
+ * 1pt. On a computer screen the form is displayed in a two column format
+ * 1pt. Checkbox options are spread across the available space
+ * 1pt. On a smartphone the form is displayed in a single column format
+ * 1pt. In a smartphone mode each question has a lightblue background which extends 0.5em over and below the text
+* 2 pt. The website validates correctly at https://validator.w3.org/
+------------------------------------------------------
+
+ Proszę stworzyć stronę podobną do tej z dołączonych zrzutów ekranu:
+  * 1pt. Proszę stworzyć formularz zawierający miejsce na wprowadzenie imienia, listę opcji związanych ze statusem odporności, listę rzeczy do przyniesienia oraz przycisk przesłania danych
+ * 1pt. Etykiety opisujące checkboxy są do nich poprawnie przypisane
+ * 1pt. Opcje na liście odporności są zgrupowane, wszystkie opcje są widoczne oraz można wybrać wiele możliwości jednocześnie
+ * 1pt. Wartości dla poszczególnych opcji są kolejnymi liczbami
+ * 1pt. Pola tekstowe mają dodane podpowiedzi pomagające je wypełnić
+ * 1pt. Pole z imieniem jest obowiązkowe, dopuszcza wyłącznie litery alfabetu łacińskiego i w pzypadku wpisania niezgodnych danych wyświetla z poziomu przeglądarki komunikat: "Please provide your name without any special characters"
+ * 1pt. Na ekranie komputera formularz wyświetla się w widoku 2-kolumnowym
+ * 1pt. Lista wyboru (checkboxy) są automatycznie rozstrzelone w dostępnej przestrzeni
+ * 1pt. Na ekranie telefonu formularz wyświetla się w widoku 1-kolumnowym
+ * 1pt. Na ekranie telefonu poszczególne pytania mają tło w kolorze lighblue które wystaje w górę i w dół o 0.5em poza tekst.
+  * 2 pt. Strona przechodzi bezbłędnie walidację na https://validator.w3.org/
+ 
